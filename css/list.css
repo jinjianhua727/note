@@ -1,0 +1,89 @@
+@charset "utf-8";
+/*文章排序*/
+.note-select-wrap{
+	padding-top: 20px;
+	margin-bottom: 20px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #ddd;
+}
+.select-btn{
+	display: inline-block;
+	padding: 4px;
+	margin-right: 10px;
+	font-size: 16px;
+	cursor: pointer;
+}
+/*文章列表*/
+.note-list-wrap{
+	float: left;
+	width: 880px;
+	margin-right: 20px;
+}
+.note-list>li{
+	border-bottom: 1px solid #ddd;
+	padding: 10px 20px;
+}
+.container{
+	width: 1180px;
+	margin: auto;
+}
+.note-title,.note-title>a{
+	font-size: 1.43em;
+	color: #000;
+	font-weight: 500;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.note-description,.note-description>p{
+	text-indent: 2em;
+	color: #999;
+}
+[data-hide="true"],[data-type-hide="true"],[data-tag-hide="true"]{
+	display: none !important;
+}
+[data-show="true"],[data-type-show="true"],[data-tag-show="true"]{
+	display: block !important;
+}
+/*侧边栏*/
+.note-list-aside{
+	overflow: hidden;
+	padding: 20px;
+	background-color: #DEEBF7;
+	position: relative;
+}
+.note-types{
+	margin-bottom: 10px;
+}
+.note-tags{
+	margin-bottom: 10px;
+}
+.aside-title{
+	font-size: 16px;
+	font-weight: 600;
+	padding-bottom: 6px;
+	border-bottom: 1px solid #ddd;
+}
+.aside-tab{
+	display: inline-block;
+	margin: 4px;
+	outline: none;
+	color: #4d555d;
+	background-color: #f3f5f7;
+	padding: 2px 12px;
+	cursor: pointer;
+	border-radius: 4px;
+}
+.aside-tab.active{
+	background-color: #5cb85c;
+	color: #fff;
+}
+.show-all-btn{
+	position: absolute;
+	right: 20px;
+	top: 20px;
+	text-decoration: underline;
+	cursor: pointer;
+	display: inline-block;
+	color: #999;
+}
