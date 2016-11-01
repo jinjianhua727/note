@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>翻页</title>
+	<script src="http://cdn.staticfile.org/jquery/1.11.2/jquery.min.js"></script>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: "微软雅黑"
+		}
+		.page-turning-wrap{
+			text-align: center;
+		}
+		.page-turning-wrap a{
+			display: inline-block;
+			height: 30px;
+			line-height: 28px;
+			background-color: #fff;
+			border:1px solid #39b245;
+			cursor: pointer;
+			color: #39b245;
+			font-size: 14px;
+			margin-right: 6px;
+			text-decoration: none;
+		}
+		.page-turning-wrap a:hover,.page-turning-index a.active{
+			background-color: #39b245;
+			color: #fff;
+		}
+		.page-turning-pre a,.page-turning-next a{
+			width: 60px;
+		}
+		.page-turning-next a:last-child{
+			margin-right: 0;
+		}
+		.page-turning-index a{
+			width: 30px;
+		}
+	</style>
+</body>
+</head>
+<body>
+	<div class="page-turning-wrap">
+		<span class="page-turning-pre">
+			<a data-page-turning="first">首页</a>
+			<a data-page-turning="pre">上一页</a>
+		</span>
+		<span class="page-turning-index">
+			<a>1</a>
+			<a>2</a>
+			<a>3</a>
+			<a>4</a>
+			<a>5</a>
+			<a>6</a>
+			<a>7</a>
+			<a>8</a>
+			<a>9</a>
+			<a>10</a>
+		</span>
+		<span class="page-turning-next">
+			<a data-page-turning="next">下一页</a>
+			<a data-page-turning="last">尾页</a>
+		</span>
+	</div>
+	<script type="text/javascript">
+		var firstPageId;
+		var pageId
+		var total = 9 + "";
+		var showTotal = 10
+		var jqueryMap = {
+			pageIndex : $(".page-turning-index a")
+		}
+		pageTurning()
+
+		// 事件
+		$("[data-page-turning]").click(function(){
+			var data_page_turning = $(this).attr("data-page-turning");
+			var page_turning;
+			if ($(this).parent().hasClass("page-turning-index")) {
+				page_turning = data_page_turning;
+			}else{
+				switch(data_page_turning)
+				{
+				case "first":
+				  page_turning = "1";
+				  break;
+				case "pre":
+				  if ($(".page-turning-wrap a.active").prev().length>0) {
+				  	page_turning = $(".page-turning-wrap a.active").prev().attr("data-page-turning")
+				  }else{
+				  	console.log("没有上一页")
+				  }
+				  break;
+				case "last":
+				  page_turning = total;
+				  break;
+				case "next":
+				  if ($(".page-turning-wrap a.active").next().length>0) {
+				  	page_turning = $(".page-turning-wrap a.active").next().attr("data-page-turning")
+				  }else{
+				  	console.log("没有下一页")
+				  }
+				  break;
+				default:
+				  console.log("未知错误")
+				}
+			}
+			if (page_turning) {
+				pageId = page_turning;
+			}
+			pageTurning()
+
+		})
+
+		// 跳页
+		function pageTurning(){
+			if (total<10) {
+				if(!pageId){
+					pageId = 1;
+				}
+				firstPageId = 1;
+				jqueryMap["pageIndex"].each(function(index){
+					if (index>=total) {
+						$(this.remove())
+					}
+				})
+				jqueryMap["pageIndex"] = $(".page-turning-index a");
+				jqueryMap["pageIndex"].each(function(index){
+					$(this).text(parseInt(firstPageId)+index)
+					$(this).attr("data-page-turning",$(this).text())
+				})
+				$('[data-page-turning="'+ pageId +'"]').addClass("active").siblings().removeClass("active");
+				return
+			}
+
+			if(!pageId){
+				pageId = 1;
+				firstPageId = 1;
+			}
+			else if (pageId<=showTotal/2+1) {
+				firstPageId = 1;
+			}else if (pageId>total-showTotal/2 -1) {
+				firstPageId = total-showTotal +1;
+			}
+			else{
+				firstPageId = pageId-showTotal/2;
+			}
+
+			jqueryMap["pageIndex"].each(function(index){
+				$(this).text(parseInt(firstPageId)+index)
+				$(this).attr("data-page-turning",$(this).text())
+			})
+			$('[data-page-turning="'+ pageId +'"]').addClass("active").siblings().removeClass("active");
+		}
+	</script>
+</html>

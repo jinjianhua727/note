@@ -19,8 +19,13 @@
 		jqueryMap.articalContent.html("<div id='loadTip'>正在加载...</div>")
 								.load(noteHtmlUrl,function(){
 									$("#loadTip").remove();
-									jqueryMap.articalContent.find("img",function(){
+									// 替换图片链接
+									jqueryMap.articalContent.find("img").each(function(){
 										$(this).attr("src",notePath + nid + $(this).attr("src"))
+									})
+									// 初始化demo
+									jqueryMap.articalContent.find(".demo").each(function(index){
+										createDemo($(this),index)
 									})
 								})
 	},function(xhr,text,error){
@@ -46,5 +51,11 @@
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
         var r = window.location.search.substr(1).match(reg);  //匹配目标参数
         if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+    function createDemo($demo,index){
+    	if($demo.hasClass("code-demo"))return false;
+    	$demo.wrap('<div class="demo-wrap js-demo-wrap"></div>');
+    	$demo.parent().append('<h4>效果</h4><iframe class="show-demo" name="win'+index+'"></iframe>')
+    	$('[name="win'+index+'"]').prop('contentWindow').document.write($demo.val())
     }
 })(jQuery)
