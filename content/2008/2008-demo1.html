@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>翻转效果</title>
+	<style>
+		.flip{
+			width: 100%;
+			height: 100%;
+			position: relative;
+			/*子元素保留3d空间*/
+			transform-style: preserve-3d;
+			/*正面和反面的容器旋转0度*/
+			transform: rotateY(0deg);
+			transition: all 0.5s;
+		}
+		.flip-wrap{
+			width: 250px;
+			height: 300px;
+			/*父元素设置透视*/
+			perspective: 800px;
+		}
+		/*使用.flip-wrap:hover可以消除抖动*/
+		.flip-wrap:hover .flip,.flip-active{
+			/*正面和反面的容器旋转-180度*/
+			transform: rotateY(-180deg);
+		}
+		.flip-content{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			left: 0;
+			top: 0;
+			/*设置反面不可见*/
+			backface-visibility: hidden;
+		}
+		.flip-front{
+			/*正面翻转0度*/
+			transform: rotateY(0deg);
+			/*正面背景颜色为红色*/
+			background-color: red;
+		}
+		.flip-back{
+			/*反面翻转180度*/
+			transform: rotateY(180deg);
+			/*反面背景颜色为绿色*/
+			background-color: green;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="flip-wrap">
+			<div class="flip" id="filp1">
+				<div class="flip-content flip-front">
+					<h1>我是正面内容</h1>
+				</div>
+				<div class="flip-content flip-back">
+					<h1>我是反面面内容</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+	<button type="button" id="btn">js控制翻转</button>
+	<!-- 使用js控制 -->
+	<script>
+		var btn = document.getElementById("btn");
+		var flip1 = document.getElementById("filp1");
+		btn.onclick = function(){
+			var className = flip1.className;
+			if (className.indexOf("flip-active") == -1) {
+				className += " flip-active"
+			}else{
+				className = className.replace("flip-active","")
+			}
+			flip1.className = className;
+		}
+	</script>
+</body>
+</html>

@@ -1,10 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>一个电商页选择栏效果</title>
-	<script src="http://cdn.staticfile.org/jquery/1.11.2/jquery.min.js"></script>
-	<style type="text/css">
+<h4>需求</h4>
+<p>实现一个有职业方向、价格的菜单栏。</p>
+<p>职业方向菜单栏有二级导航。</p>
+<h4>需求分析</h4>
+<p>简单通过removeClass和addClass实现</p>
+<textarea class="demo">
+	&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+	&lt;meta charset=&quot;UTF-8&quot;&gt;
+	&lt;title&gt;一个电商页选择栏效果&lt;/title&gt;
+	&lt;style type=&quot;text/css&quot;&gt;
 		*{
 			margin:0;
 			padding:0;
@@ -55,7 +60,7 @@
 		.card-toggle:before {
 		    position: absolute;
 		    height: 0;
-		    content: "";
+		    content: &quot;&quot;;
 		    display: block;
 		    top: 0px;
 		    border-left: 5px solid transparent;
@@ -66,7 +71,7 @@
 		.card-toggle:after {
 		    position: absolute;
 		    height: 0;
-		    content: "";
+		    content: &quot;&quot;;
 		    display: block;
 		    top: 2px;
 		    border-left: 5px solid transparent;
@@ -92,187 +97,141 @@
 			margin-top: 14px;
 			display: none;
 		}
-	</style>
-	<script type="text/javascript">	
-		$(function(){
-			// 职业方向课程的配置
-			var courseDetail = {
-				bigDate : [
-					{
-						name : "Hadoop",
-						isAll: false
-					},
-					{
-						name : "Storm",
-						isAll: true
-					},
-					{
-						name : "Spark",
-						isAll: true
-					},
-					{
-						name : "Docker",
-						isAll: true
-					},
-					{
-						name : "Linux",
-						isAll: true
-					},
-					{
-						name : "Scala",
-						isAll: true
-					}
-				],
-				webQianduan:[
-					{
-						name : "HTML5/CSS3",
-						isAll: true
-					},
-					{
-						name : "JavaScript",
-						isAll: true
-					},
-					{
-						name : "jQuery",
-						isAll: true
-					},
-					{
-						name : "AngularJS",
-						isAll: true
-					}
-				],
-				webDevelopment:[
-					{
-						name : "PHP",
-						isAll: true
-					},
-					{
-						name : "Java",
-						isAll: true
-					},
-					{
-						name : "Python",
-						isAll: true
-					},
-					{
-						name : "MySQL",
-						isAll: true
-					},
-					{
-						name : "MongoDB",
-						isAll: true
-					}
-				],
-				workSkill:[
-					{
-						name : "数据结构与算法",
-						isAll: true
-					},
-					{
-						name : "Office",
-						isAll: true
-					},
-					{
-						name : "求职面试",
-						isAll: true
-					}
-				]
-			}
-			var state = {
-				career : ""
-			}
-
-			// 事件
-			$(".select-nav-row-right,.select-detail-wrap").on("click","a",function(){
-				// 点击的是职业方向的按钮
-				if ($(this).attr("data-detail")) {
-					var detail = $(this).attr("data-detail");
-					var html = "";
-					var left;
-					if (state["career"] == detail) {return}
-
-					// courseDetail中的isAll决定是否展示在all中
-					if (detail=="all") {
-						$.each(courseDetail,function(idx,value){
-							$.each(value,function(idx2,value2){
-								if (value2["isAll"]) {
-									html += '<a>' + value2["name"] + '</a>'
-								}
-							})
-						})
-					}else{
-						$.each(courseDetail[detail],function(idx, value){
-							html += '<a>' + value["name"] + '</a>'
-						})
-					}
-					
-					state["state"] = detail;
-					left = $(this).offset().left - $(this).parent().offset().left +
-							$(".select-nav-row-left").width() + $(this).width()/2 + 20
-					cardLeft(left)
-					$(".select-detail-navs").empty().append(html);
-					$(".select-detail-wrap").show();
-				}
-				// 样式的变化
-				$(this).addClass("active").siblings().removeClass("active")
-			})
-
-			// 方法
-			function cardLeft(left){
-				$('.card-toggle').css("left",left+"px")
-			}
-		})
-	</script>
-</head>
-<body>
-	<div class="select-nav-wrap">
-		<div class="select-nav-row">
-			<div class="select-nav-row-left select-nav-row-title">
+	&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;div class=&quot;select-nav-wrap&quot;&gt;
+		&lt;div class=&quot;select-nav-row&quot;&gt;
+			&lt;div class=&quot;select-nav-row-left select-nav-row-title&quot;&gt;
 				职业方向
-			</div>
-			<div class="select-nav-row-right">
-				<div class="select-navs">
-					<a data-detail="all">全部</a>
-					<a data-detail="bigDate">大数据&云计算</a>
-					<a data-detail="webQianduan">大前端</a>
-					<a data-detail="webDevelopment">Web开发</a>
-					<a data-detail="workSkill">职场软技能</a>
-				</div>
-			</div>
-			<div class="select-navs select-detail-wrap">
-				<div class="card-toggle"></div>
-				<div class="select-detail-navs">
+			&lt;/div&gt;
+			&lt;div class=&quot;select-nav-row-right&quot;&gt;
+				&lt;div class=&quot;select-navs&quot;&gt;
+					&lt;a data-detail=&quot;all&quot;&gt;全部&lt;/a&gt;
+					&lt;a data-detail=&quot;bigDate&quot;&gt;大数据&lt;/a&gt;
+					&lt;a data-detail=&quot;webQianduan&quot;&gt;前端&lt;/a&gt;
+					&lt;a data-detail=&quot;webDevelopment&quot;&gt;后端&lt;/a&gt;
+					&lt;a data-detail=&quot;workSkill&quot;&gt;职场技能&lt;/a&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+			&lt;div class=&quot;select-navs select-detail-wrap&quot;&gt;
+				&lt;div class=&quot;card-toggle&quot;&gt;&lt;/div&gt;
+				&lt;div class=&quot;select-detail-navs&quot;&gt;
 					
-				</div>
-			</div>
-		</div>
+				&lt;/div&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
 
-		<div class="select-nav-row">
-			<div class="select-nav-row-left select-nav-row-title">
-				课程类型
-			</div>
-			<div class="select-nav-row-right">
-				<div class="select-navs">
-					<a>全部</a>
-					<a>就业课</a>
-					<a>专题课</a>
-				</div>
-			</div>
-		</div>
-
-		<div class="select-nav-row">
-			<div class="select-nav-row-left select-nav-row-title">
+		&lt;div class=&quot;select-nav-row&quot;&gt;
+			&lt;div class=&quot;select-nav-row-left select-nav-row-title&quot;&gt;
 				价格
-			</div>
-			<div class="select-nav-row-right">
-				<div class="select-navs">
-					<a>全部</a>
-					<a>免费</a>
-					<a>1000以下</a>
-					<a>1000元以上</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</body>
-</html>
+			&lt;/div&gt;
+			&lt;div class=&quot;select-nav-row-right&quot;&gt;
+				&lt;div class=&quot;select-navs&quot;&gt;
+					&lt;a&gt;全部&lt;/a&gt;
+					&lt;a&gt;免费&lt;/a&gt;
+					&lt;a&gt;100元以下&lt;/a&gt;
+					&lt;a&gt;100元以上&lt;/a&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;script src=&quot;js/jquery.js&quot;&gt;&lt;/script&gt;
+	&lt;script type=&quot;text/javascript&quot;&gt;	
+		// 职业方向课程的配置
+		// courseDetail中的bigDate等键与html中的data-detail属性值耦合
+		// name : &quot;Hadoop&quot;,为二级tab栏中的文本
+		// isAll: false，为是否显示在全部二级tab栏，false为不显示
+		var courseDetail = {
+			bigDate : [
+				{
+					name : &quot;Hadoop&quot;,
+					isAll: false
+				},
+				{
+					name : &quot;Storm&quot;,
+					isAll: true
+				}
+			],
+			webQianduan:[
+				{
+					name : &quot;nodeJS&quot;,
+					isAll: true
+				},
+				{
+					name : &quot;jQuery&quot;,
+					isAll: true
+				},
+				{
+					name : &quot;AngularJS&quot;,
+					isAll: true
+				}
+			],
+			webDevelopment:[
+				{
+					name : &quot;PHP&quot;,
+					isAll: true
+				},
+				{
+					name : &quot;MongoDB&quot;,
+					isAll: true
+				}
+			],
+			workSkill:[
+				{
+					name : &quot;Office&quot;,
+					isAll: true
+				},
+				{
+					name : &quot;求职面试&quot;,
+					isAll: true
+				}
+			]
+		}
+		var state = {
+			career : &quot;&quot;
+		}
+
+		// 事件
+		$(&quot;.select-nav-row-right,.select-detail-wrap&quot;).on(&quot;click&quot;,&quot;a&quot;,function(){
+			// 点击的是职业方向的按钮
+			if ($(this).attr(&quot;data-detail&quot;)) {
+				var detail = $(this).attr(&quot;data-detail&quot;);
+				var html = &quot;&quot;;
+				var left;
+				if (state[&quot;career&quot;] == detail) {return}
+
+				// courseDetail中的isAll决定是否展示在all中
+				if (detail==&quot;all&quot;) {
+					$.each(courseDetail,function(idx,value){
+						$.each(value,function(idx2,value2){
+							if (value2[&quot;isAll&quot;]) {
+								html += &#x27;&lt;a&gt;&#x27; + value2[&quot;name&quot;] + &#x27;&lt;/a&gt;&#x27;
+							}
+						})
+					})
+				}else{
+					$.each(courseDetail[detail],function(idx, value){
+						html += &#x27;&lt;a&gt;&#x27; + value[&quot;name&quot;] + &#x27;&lt;/a&gt;&#x27;
+					})
+				}
+				
+				state[&quot;state&quot;] = detail;
+				left = $(this).offset().left - $(this).parent().offset().left +
+						$(&quot;.select-nav-row-left&quot;).width() + $(this).width()/2 + 20
+				cardLeft(left)
+				$(&quot;.select-detail-navs&quot;).empty().append(html);
+				$(&quot;.select-detail-wrap&quot;).show();
+			}
+			// 样式的变化
+			$(this).addClass(&quot;active&quot;).siblings().removeClass(&quot;active&quot;)
+		})
+
+		// 方法
+		function cardLeft(left){
+			$(&#x27;.card-toggle&#x27;).css(&quot;left&quot;,left+&quot;px&quot;)
+		}
+	&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</textarea>

@@ -1,15 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>翻页</title>
-	<script src="http://cdn.staticfile.org/jquery/1.11.2/jquery.min.js"></script>
-	<style type="text/css">
+<h4>需求</h4>
+<p>实现一个翻页效果，页面会刷新。（如果不刷新用本文的demo结合ajax修修改改也可以实现）。</p>
+<p>当总共20页，当前页>=6且<= 14时，中间的当前页索引在中间，这个需求很难用语言描述清楚，看下面的示例。</p>
+<h4>需求分析</h4>
+<p>localStorage存储刷新页面后要加载的当前页面索引id。</p>
+<p>根据当前页面的索引id，确定数据按钮第一个显示哪个数字。</p>
+<textarea class="demo">
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+	&lt;meta charset=&quot;UTF-8&quot;&gt;
+	&lt;title&gt;翻页&lt;/title&gt;
+	&lt;style type=&quot;text/css&quot;&gt;
 		*{
 			margin: 0;
 			padding: 0;
 			box-sizing: border-box;
-			font-family: "微软雅黑"
+			font-family: &quot;微软雅黑&quot;
 		}
 		.page-turning-wrap{
 			text-align: center;
@@ -39,83 +45,84 @@
 		.page-turning-index a{
 			width: 30px;
 		}
-	</style>
-</body>
-</head>
-<body>
-	<div class="page-turning-wrap">
-		<span class="page-turning-pre">
-			<a data-page-turning="first">首页</a>
-			<a data-page-turning="pre">上一页</a>
-		</span>
-		<span class="page-turning-index">
-			<a>1</a>
-			<a>2</a>
-			<a>3</a>
-			<a>4</a>
-			<a>5</a>
-			<a>6</a>
-			<a>7</a>
-			<a>8</a>
-			<a>9</a>
-			<a>10</a>
-		</span>
-		<span class="page-turning-next">
-			<a data-page-turning="next">下一页</a>
-			<a data-page-turning="last">尾页</a>
-		</span>
-	</div>
-	<script type="text/javascript">
+	&lt;/style&gt;
+&lt;/body&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;div class=&quot;page-turning-wrap&quot;&gt;
+		&lt;span class=&quot;page-turning-pre&quot;&gt;
+			&lt;a data-page-turning=&quot;first&quot;&gt;首页&lt;/a&gt;
+			&lt;a data-page-turning=&quot;pre&quot;&gt;上一页&lt;/a&gt;
+		&lt;/span&gt;
+		&lt;span class=&quot;page-turning-index&quot;&gt;
+			&lt;a&gt;1&lt;/a&gt;
+			&lt;a&gt;2&lt;/a&gt;
+			&lt;a&gt;3&lt;/a&gt;
+			&lt;a&gt;4&lt;/a&gt;
+			&lt;a&gt;5&lt;/a&gt;
+			&lt;a&gt;6&lt;/a&gt;
+			&lt;a&gt;7&lt;/a&gt;
+			&lt;a&gt;8&lt;/a&gt;
+			&lt;a&gt;9&lt;/a&gt;
+			&lt;a&gt;10&lt;/a&gt;
+		&lt;/span&gt;
+		&lt;span class=&quot;page-turning-next&quot;&gt;
+			&lt;a data-page-turning=&quot;next&quot;&gt;下一页&lt;/a&gt;
+			&lt;a data-page-turning=&quot;last&quot;&gt;尾页&lt;/a&gt;
+		&lt;/span&gt;
+	&lt;/div&gt;
+	&lt;script src=&quot;js/jquery.js&quot;&gt;&lt;/script&gt;
+	&lt;script type=&quot;text/javascript&quot;&gt;
 		var firstPageId; // 第一个数字按钮
-		var total = 20 + ""; // 总共多少页
+		var total = 20 + &quot;&quot;; // 总共多少页
 		var showTotal = 10;  // 展示多少个数字按钮
 		// jquery对象集合
 		var jqueryMap = {
-			pageIndex : $(".page-turning-index a")
+			pageIndex : $(&quot;.page-turning-index a&quot;)
 		}
 		// 模拟页面刷新
-		$(".page-turning-wrap a").attr("href","");
+		$(&quot;.page-turning-wrap a&quot;).attr(&quot;href&quot;,&quot;&quot;);
 		// 初始化
 		pageTurning()
 
 
 		// 事件 判断点击的是哪种类型的按钮，然后根据当前是第几页，把下一次该打开的页数存入浏览器
-		$("[data-page-turning]").click(function(){
+		$(&quot;[data-page-turning]&quot;).click(function(){
 			// 根据data-page-turning获取点击的是哪种类型按钮
-			var data_page_turning = $(this).attr("data-page-turning"); 
+			var data_page_turning = $(this).attr(&quot;data-page-turning&quot;); 
 			// 存入浏览器下一次打开页数的localStorage 中的值，根据按钮不同，赋值方式不同
 			var page_turning; 
-			if ($(this).parent().hasClass("page-turning-index")) {
+			if ($(this).parent().hasClass(&quot;page-turning-index&quot;)) {
 				page_turning = data_page_turning;
 			}else{
 				switch(data_page_turning)
 				{
-				case "first":
-				  page_turning = "1";
+				case &quot;first&quot;:
+				  page_turning = &quot;1&quot;;
 				  break;
-				case "pre":
-				  if ($(".page-turning-wrap a.active").prev().length>0) {
-				  	page_turning = $(".page-turning-wrap a.active").prev().attr("data-page-turning")
+				case &quot;pre&quot;:
+				  if ($(&quot;.page-turning-wrap a.active&quot;).prev().length&gt;0) {
+				  	page_turning = $(&quot;.page-turning-wrap a.active&quot;).prev().attr(&quot;data-page-turning&quot;)
 				  }else{
-				  	alert("没有上一页")
+				  	alert(&quot;没有上一页&quot;)
 				  }
 				  break;
-				case "last":
+				case &quot;last&quot;:
 				  page_turning = total;
 				  break;
-				case "next":
-				  if ($(".page-turning-wrap a.active").next().length>0) {
-				  	page_turning = $(".page-turning-wrap a.active").next().attr("data-page-turning")
+				case &quot;next&quot;:
+				  if ($(&quot;.page-turning-wrap a.active&quot;).next().length&gt;0) {
+				  	page_turning = $(&quot;.page-turning-wrap a.active&quot;).next().attr(&quot;data-page-turning&quot;)
 				  }else{
-				  	alert("没有下一页")
+				  	alert(&quot;没有下一页&quot;)
 				  }
 				  break;
 				default:
-				  alert("存在未知错误")
+				  alert(&quot;存在未知错误&quot;)
 				}
 			}
 			if (page_turning) {
-				setLocalStorage("page_turning",page_turning)
+				setLocalStorage(&quot;page_turning&quot;,page_turning)
 			}
 
 		})
@@ -123,18 +130,18 @@
 		// 初始化函数
 		function pageTurning(){
 			if (!localStorage) {
-				alert("请更换浏览器")
+				alert(&quot;请更换浏览器&quot;)
 			}
 			// 获取存储的页数
-			var pageId = getLocalStorage("page_turning");
-			// 示例，展示10个数字，如果pageId<=6 ,或者不存在（第一次打开）
+			var pageId = getLocalStorage(&quot;page_turning&quot;);
+			// 示例，展示10个数字，如果pageId&lt;=6 ,或者不存在（第一次打开）
 			// 展示的第一个数字按钮为1
 			// 这个if语句是为了实现一个效果，可运行代码查看家
 			if (!pageId) {pageId=1;}
-			if (!pageId || pageId<=showTotal/2 +1) {
+			if (!pageId || pageId&lt;=showTotal/2 +1) {
 				firstPageId = 1;
-			// 示例：展示10个数字按钮，总共20页，pageId>14时，第一个数字按钮是1
-			}else if (pageId>total-showTotal/2 -1) {
+			// 示例：展示10个数字按钮，总共20页，pageId&gt;14时，第一个数字按钮是1
+			}else if (pageId&gt;total-showTotal/2 -1) {
 				firstPageId = total-showTotal +1;
 			}
 			// 示例：展示10个数字，总共20页，第一个数字是pageId-5
@@ -143,14 +150,14 @@
 			}
 
 			// 根据firstPageId配置数字按钮的文本和属性
-			jqueryMap["pageIndex"].each(function(index){
+			jqueryMap[&quot;pageIndex&quot;].each(function(index){
 				$(this).text(parseInt(firstPageId)+index)
-				$(this).attr("data-page-turning",$(this).text())
+				$(this).attr(&quot;data-page-turning&quot;,$(this).text())
 			})
 			// 为pageId的数字按钮添加样式
-			$('[data-page-turning="'+ pageId +'"]').addClass("active").siblings().removeClass("active");
+			$(&#x27;[data-page-turning=&quot;&#x27;+ pageId +&#x27;&quot;]&#x27;).addClass(&quot;active&quot;).siblings().removeClass(&quot;active&quot;);
 			// 从后台加载pageId页
-			alert("应该从后台加载第" + pageId +"页" )
+			alert(&quot;应该从后台加载第&quot; + pageId +&quot;页&quot; )
 		}
 		// 设置本地存储的方法
 		function setLocalStorage(key,value){
@@ -160,5 +167,6 @@
 		function getLocalStorage(key){
 			return localStorage.getItem(key)
 		}
-	</script>
-</html>
+	&lt;/script&gt;
+&lt;/html&gt;
+</textarea>

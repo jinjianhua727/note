@@ -18,12 +18,22 @@
 
 	// 事件处理
 	jqueryMap.typeList.on("click",".js-tab",function(){
+		if ($(this).hasClass("active")) {
+			return
+		}
 		var type = $(this).attr("data-type");
+		jqueryMap.typeList.find("a").removeClass("active");
+		jqueryMap.tagList.find("a").removeClass("active")
 		toggleClass($(this),"active");
 		filterNote("type",type);
 	});
 	jqueryMap.tagList.on("click",".js-tab",function(){
+		if ($(this).hasClass("active")) {
+			return
+		}
 		var tag = $(this).attr("data-tag");
+		jqueryMap.typeList.find("a").removeClass("active");
+		jqueryMap.tagList.find("a").removeClass("active")
 		toggleClass($(this),"active");
 		filterNote("tags",tag);
 	});

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>css3+jquery实现全屏滚动</title>
+	<style>
+		body{
+			overflow: hidden;
+		}
+		/*假设.body为视口*/
+		.body{
+			width: 200px;
+			height: 280px;
+		}
+		/*全屏滚动容器*/
+		.full-wrap{
+			position: relative;
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div class="body">
+		<div class="full-wrap">
+			<div class="full-item">
+				<div class="full-item-fix"></div>
+				<div class="full-item-content">
+					<h1>标题</h1>
+					<p>内容啊</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="http://cdn.staticfile.org/jquery/1.11.2/jquery.min.js"></script>
+	<script>
+		
+	</script>
+</body>
+</html>

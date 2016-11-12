@@ -31,11 +31,7 @@
 	},function(xhr,text,error){
 		console.log(text); // 输出错误信息
 	})
-
-	$("#backList").on("click",function(){
-		history.go(-1);
-	})
-
+	
 	// jquery ajax方法
 	function ajax(url,type,callback1,callback2){
 		$.ajax({
@@ -55,7 +51,9 @@
     function createDemo($demo,index){
     	if($demo.hasClass("code-demo"))return false;
     	$demo.wrap('<div class="demo-wrap js-demo-wrap"></div>');
-    	$demo.parent().append('<h4>效果</h4><iframe class="show-demo" name="win'+index+'"></iframe>')
-    	$('[name="win'+index+'"]').prop('contentWindow').document.write($demo.val())
+    	$demo.parent().append('<h4>效果</h4><iframe class="show-demo" name="win'+index+'"></iframe>');
+    	var newwin = window.open("",("win"+index));
+	    newwin.opener = null;
+	    newwin.document.write($demo.val());
     }
 })(jQuery)

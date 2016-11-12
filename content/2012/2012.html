@@ -1,0 +1,76 @@
+
+	<p>一个域名的组成包括</p>
+	<p>协议：http://</p>
+	<p>子域名：www</p>
+	<p>主域名：baidu.com</p>
+	<p>端口号：8080</p>
+	<p>请求资源地址：js/jquery.js</p>
+	<p>当协议、子域名、主域名、端口号任一不同时，都算不同域，不同域之间请求资源就算跨域。</p>
+	<p>js出于安全方面的考虑，不允许跨域调用其它页面的对象。</p>
+	<h4>解决跨域的方案</h4>
+	<p>1.代理，通过在同域名的web服务器端传建一个代理</p>
+	<p>2.JSONP，可以解决主流浏览器跨域GET请求。</p>
+	<p>JSONP实现思路是利用script的特性，</p>
+	<p>在a域下</p>
+	<pre>&lt;script&gt;
+	function jsonp(json){
+		alert(json[&quot;name&quot;])
+	}
+	alert()
+&lt;/script&gt;
+&lt;script src=&quot;http://www.bbb.con/jsonp.js&quot;&gt;&lt;/script&gt;</pre>
+	<p>在b域下</p>
+	<p>jsonp({"name":"xiaojin"})</p>
+	<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+	&lt;meta charset=&quot;UTF-8&quot;&gt;
+	&lt;title&gt;a域取得b域的json&lt;/title&gt;
+	&lt;script src=&quot;http://cdn.staticfile.org/jquery/1.11.2/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;h1&gt;********* 同域ajax **********&lt;/h1&gt;
+	&lt;button id=&quot;btn&quot;&gt;跨域获取&lt;/button&gt;
+	&lt;h1 id=&quot;h1&quot;&gt;获取的内容是：&lt;/h1&gt;
+	&lt;script&gt;
+		$(&quot;#btn&quot;).click(function(){
+			$.ajax({
+				type:&quot;get&quot;,
+				url:&quot;http://localhost:5432/github/note/content/2012/demo1.json&quot;,
+				dataType:&quot;json&quot;,
+				success:function(data){
+					$(&quot;#h1&quot;).text(data.name);
+				},
+				error:function(){
+					$(&quot;#h1&quot;).text(&quot;发生错误&quot;)
+				}
+			})
+		})
+	&lt;/script&gt;
+	&lt;h1&gt;******** 跨域jsonp ********&lt;/h1&gt;
+	&lt;button id=&quot;btn2&quot;&gt;跨域获取&lt;/button&gt;
+	&lt;h1 id=&quot;h2&quot;&gt;获取的内容是：&lt;/h1&gt;
+	&lt;script&gt;
+		$(&quot;#btn2&quot;).click(function(){
+			$.ajax({
+				type:&quot;get&quot;,
+				url:&quot;http://192.168.1.103:5432/github/note/content/2012/demo1.php&quot;,
+				dataType:&quot;jsonp&quot;,
+				jsonp:&quot;callback&quot;,
+				success:function(data){
+					$(&quot;#h2&quot;).text(data.name);
+				},
+				error:function(deta){
+					$(&quot;#h2&quot;).text(&quot;发生错误&quot;)
+				}
+			})
+		})
+	&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+	<p>3.xhr2</p>
+	<p>ie10以下的都不支持这个属性，试用时客户端不用改造，只需要在服务器端做些小小改动即可：</p>
+	<p>header('Access-Control-Allow-Origin':*);</p>
+	<p>header('Access-Control-Allow-Methods':POST,GET);</p>
+</body>
+</html>
