@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="http://cdn.staticfile.org/jquery/1.11.2/jquery.min.js"></script>
+	<style>
+		#test{
+			padding: 10px;
+			border:1px solid red;
+		}
+	</style>
+</head>
+<body>
+	<p><input type="file" id="input"></p>
+	<p><button id="btn">初始化</button></p>
+	<div id="test">
+		
+	</div>
+	<script>
+		// $("#input").on("change",handleFiles)
+		$("#btn").on("click",function(){
+			var fileList = $('#input').get(0).files; 
+			var file = fileList[0]
+		  	var img = document.createElement("img");
+
+	        img.src = window.URL.createObjectURL(file);
+	        img.onload = function(e) {
+	          window.URL.revokeObjectURL(this.src);
+	        }
+	        $("#test").append(img)
+	        
+	        var info = document.createElement("span");
+	        info.innerHTML = file.name + "： " + file.size + " bytes";
+	        $("#test").append(info);
+		})
+		function handleFiles() {
+		  var fileList = this.files; 
+		  var file = fileList[0]
+		  
+		  // console.log(fileList.length)
+		  // console.log(file.name)
+		  // console.log(file.size)
+		  // console.log(file.type)
+
+
+		  	var img = document.createElement("img");
+	        img.src = window.URL.createObjectURL(file);
+	        img.height = 60;
+	        img.onload = function(e) {
+	          window.URL.revokeObjectURL(this.src);
+	        }
+	        document.body.appendChild(img);
+	        
+	        var info = document.createElement("span");
+	        info.innerHTML = files[i].name + "： " + files[i].size + " bytes";
+	        li.appendChild(info);
+		}
+
+	</script>
+</body>
+</html>
