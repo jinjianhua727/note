@@ -116,4 +116,6 @@ var notes = [
 		"time":"2016-1-17" ,
 		"tags":"jquery"
 	}
-]
+].sort(function (a,b) {
+	return parseInt(b.id) - parseInt(a.id);
+})
