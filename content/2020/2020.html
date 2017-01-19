@@ -1,0 +1,55 @@
+每个函数都包含两个非继承而来的方法：apply()和call()。
+它们的作用都是相同的，都是为了改变某个函数运行时的context即上下文而存在的，换句话说，就是为了改变函数体内部 this 的指向。区别仅在接收参数的方式不同。如：
+func1.call(this, arg1, arg2); 
+func1.apply(this, [arg1, arg2]); 
+其中 this 是你想指定的上下文，他可以任何一个 JavaScript 对象；arg1, arg2是参数列表。ok，接下来通过代码让你彻底明白call和apply如何使用。
+<h4>apply与call作用</h4>
+<p>假如现有两个对象cat和dog如下，区别是cat有eat方法，dog没有eat方法。现在dog也想eat而且不想给自已定义一个eat方法。这时可以应用call和apply。</p>
+<pre>&lt;script&gt;
+    var cat = {
+        food : &quot;fish&quot;,
+        eat : function () {
+            console.log(&quot;i eat &quot; + this.food)
+        }
+    }
+    var dog = {
+        food : &quot;bone&quot;
+    }
+    cat.eat()
+    cat.eat.call(dog)
+    cat.eat.apply(dog)
+&lt;/script&gt;</pre>
+<h4>apply与call的区别</h4>
+<p>我们为cat增加一个like方法，接受两个参数，通过apply与call实现dog调用like方法。</p>
+<pre>&lt;script&gt;
+     var cat = {
+        food : &quot;fish&quot;,
+        eat : function () {
+            console.log(&quot;i eat &quot; + this.food)
+        },
+        like : function (like1,like2) {
+            console.log(&quot;i like &quot; + like1 + &quot; and &quot; + like2)
+        }
+    }
+    var dog = {
+        food : &quot;bone&quot;
+    }
+    cat.like(&quot;eat&quot;,&quot;jump&quot;)
+    cat.like.call(dog,&quot;eat&quot;,&quot;jump&quot;)
+    cat.like.apply(dog,[&quot;eat&quot;,&quot;jump&quot;])
+&lt;/script&gt;</pre>
+
+<h4>实战</h4>
+<p>在项目开发中我们经常用到Math.min方法求数值的最小值，也知道结合apply方法求出数组元素的最小值。如下：</p>
+<pre>&lt;script&gt;
+    var min = Math.min(1,2,3,4,5)
+    console.log(min)
+
+    var arr = [1,2,3,4,5]
+    var arrMin = Math.min.apply(Math,arr);
+    console.log(arrMin)
+&lt;/script&gt;</pre>
+
+<p>实现的原理很简单，Math.min接受数值作为它的参数，返回这些数值的最小值。Math.min.apply(Math,arr)使用Math对象（或者其他任意存在的对象，如Window）调用Math.min的方法，参数是arr里面的数组元素。</p>
+<h4>总结</h4>
+<p>apply()和call()可实现继承。</p>

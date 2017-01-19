@@ -1,0 +1,39 @@
+<h4>简介</h4>
+<p>利用http-server创建零配置简单的HTTP服务器</p>
+<p>http-server是一个简单的零配置命令行HTTP 服务器。它很强大足够产品应用，而且简单可控足够测试、本地开发环境和学习。</p>
+<p>http-server基于nodejs。</p>
+<h4>安装nodejs</h4>
+<p>进入nodejs官网下载适合你的版本即可。</p>
+<h4>安装http-server</h4>
+<p>通过npm安装</p>
+<p>npm install http-server -g</p>
+<p>安装在全局是为了在命令行中使用。</p>
+<h4>使用</h4>
+<p>http-server [path] [options]</p>
+<p>比如我们要在E:web-text/d3/demo项目下启动一个http服务：</p>
+<p>http-server E:web-text/d3/demo</p>
+<p>或者进入项目启动服务</p>
+<p>cd E:web-text/d3/demo</p>
+<p>http-server</p>
+<p>现在你就可以通过http://localhost:8080访问你的项目了。</p>
+<h4>参数</h4>
+<p>-p 端口号 (默认 8080)</p>
+<p>-a IP 地址 (默认 0.0.0.0)</p>
+<p>-d 显示目录列表 (默认 'True')</p>
+<p>-i 显示 autoIndex (默认 'True')</p>
+<p>-e or --ext 如果没有提供默认的文件扩展名(默认 'html')</p>
+<p>-s or --silent 禁止日志信息输出</p>
+<p>--cors 启用 CORS via the Access-Control-Allow-Origin header</p>
+<p>-o 在开始服务后打开浏览器</p>
+<p>-c 为 cache-control max-age header 设置Cache time(秒) , e.g. -c10 for 10 seconds (defaults to '3600'). 禁用 caching, 则使用 -c-1.</p>
+<p>-U 或 --utc 使用UTC time 格式化log消息</p>
+<p>-P or --proxy 代理的所有请求不能进行本地解析给定的url。如。:- p http://someurl.com</p>
+<p>-S or --ssl 启用 https</p>
+<p>-C or --cert ssl cert 文件路径 (default: cert.pem)</p>
+<p>-K or --key Path to ssl key file (default: key.pem).</p>
+<p>-r or --robots 提供一个 /robots.txt (其内容默认为 'User-agent: *\nDisallow: /')</p>
+<p>-h or --help 打印以上列表并退出 </p>
+<p>示例：在E:web-text/d3/demo启动服务指定在8000端口打开，启动成功打开浏览器</p>
+<p>http-server E:web-text/d3/demo -p 8080 -o</p>
+
+
