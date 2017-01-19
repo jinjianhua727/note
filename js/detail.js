@@ -21,7 +21,7 @@
 									$("#loadTip").remove();
 									// 替换图片链接
 									jqueryMap.articalContent.find("img").each(function(){
-										$(this).attr("src",notePath + nid + $(this).attr("src"))
+										$(this).attr("src",notePath + $(this).attr("src"))
 									})
 									// 初始化demo
 									jqueryMap.articalContent.find(".demo").each(function(index){
