@@ -1,8 +1,8 @@
-每个函数都包含两个非继承而来的方法：apply()和call()。
-它们的作用都是相同的，都是为了改变某个函数运行时的context即上下文而存在的，换句话说，就是为了改变函数体内部 this 的指向。区别仅在接收参数的方式不同。如：
-func1.call(this, arg1, arg2); 
-func1.apply(this, [arg1, arg2]); 
-其中 this 是你想指定的上下文，他可以任何一个 JavaScript 对象；arg1, arg2是参数列表。ok，接下来通过代码让你彻底明白call和apply如何使用。
+<p>每个函数都包含两个非继承而来的方法：apply()和call()。</p>
+<p>它们的作用都是相同的，都是为了改变某个函数运行时的context即上下文而存在的，换句话说，就是为了改变函数体内部 this 的指向。区别仅在接收参数的方式不同。如：</p>
+<pre>func1.call(this, arg1, arg2); 
+func1.apply(this, [arg1, arg2]); </pre>
+<p>其中 this 是你想指定的上下文，他可以任何一个 JavaScript 对象；arg1, arg2是参数列表。ok，接下来通过代码让你彻底明白call和apply如何使用。</p>
 <h4>apply与call作用</h4>
 <p>假如现有两个对象cat和dog如下，区别是cat有eat方法，dog没有eat方法。现在dog也想eat而且不想给自已定义一个eat方法。这时可以应用call和apply。</p>
 <pre>&lt;script&gt;

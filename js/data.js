@@ -115,6 +115,42 @@ var notes = [
 		"description":"点击为确认评分，鼠标hover和click有样式变化",
 		"time":"2016-1-17" ,
 		"tags":"jquery"
+	},
+	{
+		"name":"js 字符串",
+		"id" : "2023",
+		"type":"js",
+		"origin" :"工作需求",
+		"description":"介绍基本包装类型、常用操作、自定义操作",
+		"time":"2017-2-6" ,
+		"tags":"js"
+	},
+	{
+		"name":"js 数组",
+		"id" : "2024",
+		"type":"js",
+		"origin" :"工作需求",
+		"description":"创建数组、数组属性方法、检测数组、自定义操作",
+		"time":"2017-2-7" ,
+		"tags":"js"
+	},
+	{
+		"name":"jQuery 鼠标事件与键盘事件 ",
+		"id" : "2025",
+		"type":"介绍鼠标事件、鼠标滚轮事件、键盘事件，以及注意点",
+		"origin" :"工作需求",
+		"description":"创建数组、数组属性方法、检测数组、自定义操作",
+		"time":"2017-2-8" ,
+		"tags":"jQuery"
+	},
+	{
+		"name":"jQuery 实现拖拽",
+		"id" : "2027",
+		"type":"jQuery",
+		"origin" :"工作需求",
+		"description":"实现拖拽的分析及代码",
+		"time":"2017-2-8" ,
+		"tags":"jQuery"
 	}
 ].sort(function (a,b) {
 	return parseInt(b.id) - parseInt(a.id);

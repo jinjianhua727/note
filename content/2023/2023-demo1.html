@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>string</title>
+</head>
+<body>
+<script>
+var str1 = 'abc'
+var str2 = new String('abc')
+console.log(typeof str1) // string
+console.log(typeof str2) // object
+</script>
+<script>
+var str = 'abc'
+console.log(str.length) // 3
+</script>
+<script>
+var str = 'abc'
+var str1 = str.charAt(1)
+console.log(str1) // b
+</script>
+<script>
+var str = 'abcabc'
+var index1 = str.indexOf('a')
+console.log(index1) // 0
+var index2 = str.indexOf('a',2)
+console.log(index2) // 3
+</script>
+<script>
+var str = 'abc123'
+var index1 = str.search(/\d/)
+console.log(index1) // 3
+</script>
+<script>
+var str = 'abc123'
+var arr = str.match(/\d/g)
+console.log(arr) // ['1','2','3']
+</script>
+<script>
+var str = 'abc123'
+var str1 = str.replace(/\d/g,function (d) {
+	return parseInt(d) + 1
+})
+console.log(str1) // 'abc234'
+</script>
+<script>
+var str = 'abc123'
+var str1 = str.substring(3,5)
+console.log(str1) // '12'
+</script>
+<script>
+var str = 'abc123'
+var str1 = str.slice(-3,-1)
+console.log(str1) // '12'
+</script>
+<script>
+var str = 'abc123'
+var str1 = str.substr(3,2)
+console.log(str1) // '12'
+</script>
+<script>
+var str = 'abc:123'
+var arr = str.split(':')
+console.log(arr) // ['abc','123']
+</script>
+<script>
+var str = 'Abc'
+var str1 = str.toLowerCase()
+var str2 = str.toUpperCase()
+console.log(str1) // abc
+console.log(str2) // ABC
+</script>
+<script>
+var str1 = 'abc'
+var str2 = '123'
+var str3 = str1.concat(str2)
+var str4 = str1 + str2
+console.log(str3) // 'abc123'
+console.log(str4) // 'abc123'
+</script>
+<script>
+var str = '    123   '
+console.log(str.length) // 10
+
+String.prototype.trim = function(){
+    return this.replace(/^\s*|\s*$/g, '');
+}
+console.log(str.trim().length) // 3
+</script>
+</body>
+</html>
