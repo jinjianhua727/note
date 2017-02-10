@@ -137,9 +137,9 @@ var notes = [
 	{
 		"name":"jQuery 鼠标事件与键盘事件 ",
 		"id" : "2025",
-		"type":"介绍鼠标事件、鼠标滚轮事件、键盘事件，以及注意点",
+		"type":"jQuery",
 		"origin" :"工作需求",
-		"description":"创建数组、数组属性方法、检测数组、自定义操作",
+		"description":"介绍鼠标事件、鼠标滚轮事件、键盘事件，以及注意点",
 		"time":"2017-2-8" ,
 		"tags":"jQuery"
 	},
@@ -151,6 +151,33 @@ var notes = [
 		"description":"实现拖拽的分析及代码",
 		"time":"2017-2-8" ,
 		"tags":"jQuery"
+	},
+	{
+		"name":"Yeomen快速入门",
+		"id" : "2028",
+		"type":"nodejs",
+		"origin" :"工作需求",
+		"description":"Yeomen简介、安装、使用、可能出现的错误、总结",
+		"time":"2017-2-9" ,
+		"tags":"Yeomen nodejs"
+	},
+	{
+		"name":"一个简单的雪花飘落效果",
+		"id" : "2029",
+		"type":"jquery",
+		"origin" :"工作需求",
+		"description":"雪花飘落制作流程及demo",
+		"time":"2017-2-9" ,
+		"tags":"jquery"
+	},
+	{
+		"name":"Canvas 绘制动态钟表",
+		"id" : "2030",
+		"type":"html5",
+		"origin" :"工作需求",
+		"description":"canvas绘制钟表分析及代码",
+		"time":"2017-2-10" ,
+		"tags":"html5 canvas"
 	}
 ].sort(function (a,b) {
 	return parseInt(b.id) - parseInt(a.id);

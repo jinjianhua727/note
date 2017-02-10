@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>snow</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		body{
+			overflow: hidden;
+		}
+		.snow{
+			position: absolute;
+			background-color: red;
+			color: #fff;
+			text-align: center;
+			transition: 1s linear;
+		}
+	</style>
+</head>
+<body>
+	<script src="../../js/jquery.js"></script>
+	<script>
+		var $wrap = $('body'); // 雪花dom容器
+		var snows = []; // 雪花数组
+		var step = 100; // 滑动速度
+		var total = 0; // 雪花计数器
+
+		// 每隔1秒生成一个雪花，并删除滑出底部的雪花
+		var time = setInterval(function () {
+			new Snow()
+			$.each(snows,function (index,value){
+				if(!value){return false}
+				var maxTop = $(window).height() + parseInt(value.jqDom.css('height'));
+				// 如果滑出底部则从数组删除，否则向下滑动
+				if (parseInt(value.jqDom.css('top')) >= maxTop) {
+					value.jqDom.remove();
+					snows.splice(index,1);
+				}else{
+					value.animate(step)
+				}
+				
+			})
+			
+		},1000)
+		
+		// 雪花构造器
+		function Snow(width,height) {
+			this.width = this.height = RandomNumBoth(20,80);
+			this.id = ++total;
+			this.destory = false;
+			this.append();
+			this.setStyle();
+			// console.log(this)
+			snows.push(this)
+		};
+		// 设置雪花方法
+		Snow.prototype = {
+			constructor : Snow,
+			append : function() {
+				$wrap.append('<div class="snow" id="snow'+this.id+'">雪花</div>');
+				this.jqDom = $('#snow'+this.id);
+			},
+			setStyle : function() {
+				var leftMin = this.width;
+				var leftMax = $(document).width() -this.width;
+				this.jqDom.css({
+					'width' : this.width + 'px',
+					'height' : this.height + 'px',
+					'line-height':this.height + 'px',
+					'top' : -this.height + 'px',
+					'left' : RandomNumBoth(leftMin,leftMax) + 'px'
+				})
+			},
+			animate : function(step) {
+				var oldTop = parseInt(this.jqDom.css('top'));
+				this.jqDom.css('top', oldTop + step + 'px' )
+			}
+		}
+		// 生成随机数
+		function RandomNumBoth(Min,Max){
+	        var Range = Max - Min;
+	        var Rand = Math.random();
+	        var num = Min + Math.round(Rand * Range);
+	        return num;
+		}
+	</script>
+</body>
+</html>

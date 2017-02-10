@@ -4,7 +4,7 @@
 <p>拖拽无非就是元素位置的变化，我们只需求把位置处理好就行。</p>
 <p>1.拖拽开始时，我们可以获得元素据左边的位置，鼠标据左边的位置，差值x = 鼠标位置-元素left。</p>
 <p>2.拖拽过程中，我们可以获得鼠标据左边的位置，以及前面的差值，元素left = 鼠标位置 - 差值。</p>
-<textarea class="demo">
+<pre>
 &lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
@@ -14,8 +14,8 @@
 		.drag{
 			border:1px #999999 solid; 
 			position:absolute; 
-			width:400px; 
-			height:300px; 
+			width:40px; 
+			height:40px; 
 			background:red; 
 			padding:15px; 
 			top:100px; 
@@ -68,4 +68,5 @@
 	&lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</textarea>
+</pre>
+<a target="_blank" href="content/2027/2027-demo1.html">在线demo</a>
