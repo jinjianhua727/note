@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script src="http://cdn.staticfile.org/jquery/1.11.2/jquery.min.js"></script>
+    <script>
+        var ak = 'hNwsSIXFOPTIQQuze00VDuYydoIXgAFF';
+        var url = 'http://api.map.baidu.com/direction/v1?mode=driving&origin=清华大学&destination=北京大学&origin_region=北京&destination_region=北京&output=json&ak='+ak;    
+        $.getJSON(url + '&callback=?',function (res) {
+            if (res.status === 0) {
+                console.log(res)
+            }else{
+                alert('没有找到该地址信息')
+            }
+        })
+    </script>
+</body>
+</html>

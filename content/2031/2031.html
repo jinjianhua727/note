@@ -1,0 +1,172 @@
+<style>
+	h4,h5,p{
+		font-family: '微软雅黑';
+		line-height: 1.5;
+	}
+	h5,p{
+		font-size: 15px;
+	}
+	code{
+		background-color: #f1f1f1;
+		padding: 0 4px;
+		font-size: inherit;
+	}
+	a{
+		color: blue;
+		font-size: inherit;
+	}
+</style>
+<p>关于日期的操作有两种：操作日期时间，操作时间戳。下面是相关API</p>
+<p>时间戳，通常是一个字符序列，唯一地标识某一刻的时间，是指格林威治时间1970年01月01日00时00分00秒(北京时间1970年01月01日08时00分00秒)起至现在的总毫秒数。</p>
+<h4>创建Date()对象</h4>
+<pre>var date1 = new Date();
+// 参数是时间戳
+var date2 = new Date(1486915200000);
+// 参数是日期字符串
+var date3 = new Date('2017/2/13');
+// 参数是年、月、日...，其中年月日是必须的
+var date4 = new Date('2017', '2', '13');
+// Mon Feb 13 2017 18:09:31 GMT+0800 (中国标准时间)
+console.log(date1)
+// Mon Feb 13 2017 00:00:00 GMT+0800 (中国标准时间)
+console.log(date2)
+// Mon Feb 13 2017 00:00:00 GMT+0800 (中国标准时间)
+console.log(date3)
+// Mon Feb 13 2017 00:00:00 GMT+0800 (中国标准时间)
+console.log(date4)</pre>
+
+<h4>获取时间</h4>
+<h5>获取当前时间</h5>
+<p><b>1.Date() 或者new Date()</b></p>
+<pre>// Mon Feb 13 2017 15:46:34 GMT+0800 (中国标准时间)
+console.log(Date())
+// Mon Feb 13 2017 15:46:34 GMT+0800 (中国标准时间)
+console.log(new Date())</pre>
+<p><b>2.get系列方法，常用的是获取年/月/日/时/分/秒，获取当前时间要求日期对象为当前日期</b></p>
+<p>getDate() 从 Date 对象返回一个月中的某一天 (1 ~ 31)。</p>
+<p>getDay() 从 Date 对象返回一周中的某一天 (0 ~ 6)。</p>
+<p>getMonth() 从 Date 对象返回月份 (0 ~ 11)。</p>
+<p>getFullYear() 从 Date 对象以四位数字返回年份。注意不要使用getYear()。</p>
+<p>getHours() 返回 Date 对象的小时 (0 ~ 23)。</p>
+<p>getMinutes() 返回 Date 对象的分钟 (0 ~ 59)。</p>
+<p>getSeconds() 返回 Date 对象的秒数 (0 ~ 59)。</p>
+<p>getMilliseconds() 返回 Date 对象的毫秒(0 ~ 999)。</p>
+<pre>var date = new Date()
+var year = date.getFullYear()
+// 2017年
+console.log(year + '年')</pre>
+
+<h5>获取固定的时间</h5>
+<p><b>1.new Date("2012/12/12");</b></p>
+<p><b>2.set系列方法，常用的是设置年/月/日/时/分/秒</b></p>
+<p>setDate() 设置 Date 对象中月的某一天 (1 ~ 31)。</p>
+<p>setMonth() 设置 Date 对象中月份 (0 ~ 11)。</p>
+<p>setFullYear() 设置 Date 对象中的年份（四位数字）。注意不要使用setYear()方法。</p>
+<p>setHours() 设置 Date 对象中的小时 (0 ~ 23)。</p>
+<p>setMinutes() 设置 Date 对象中的分钟 (0 ~ 59)。</p>
+<p>setSeconds() 设置 Date 对象中的秒钟 (0 ~ 59)。</p>
+<p>setMilliseconds() 设置 Date 对象中的毫秒 (0 ~ 999)。</p>
+<pre>var date = new Date('2016/2/13')
+// Sat Feb 13 2016 00:00:00 GMT+0800 (中国标准时间)
+console.log(date)
+var date1 = new Date()
+date1.setFullYear('2016')
+// Sat Feb 13 2016 17:55:22 GMT+0800 (中国标准时间)
+console.log(date1)</pre>
+<p><b>3.通过固定的时间戳获取固定的时间</b></p>
+<p>setTime() 以毫秒设置 Date 对象。</p>
+<pre>var date1 = new Date()
+date1.setTime(1486915200000)
+// Mon Feb 13 2017 00:00:00 GMT+0800 (中国标准时间)
+console.log(date1)</pre>
+
+<h5>获取本地时间格式</h5>
+<p>toLocaleString() 根据本地时间格式，把 Date 对象转换为字符串。</p>
+<p>toLocaleTimeString() 根据本地时间格式，把 Date 对象的时间部分转换为字符串。</p>
+<p>toLocaleDateString() 根据本地时间格式，把 Date 对象的日期部分转换为字符串。</p>
+<pre>var date2 = new Date()
+// 2017/2/13 下午5:30:17
+console.log(date2.toLocaleString())
+// 下午5:30:17
+console.log(date2.toLocaleTimeString())
+// 2017/2/13
+console.log(date2.toLocaleDateString())</pre>
+
+<h4>获取时间戳</h4>
+<h5>获取当前时间戳</h5>
+<p><b>Date.now()、+ new Date()、Date.parse(new Date())、new Date().getTime()</b></p>
+<pre>var date1 = Date.now()
+var date2 = + new Date()
+var date3 = Date.parse(new Date())
+var date4 = new Date().getTime()
+// 1486977645739
+console.log(date1)
+// 1486977645739
+console.log(date2)
+// 1486977645000
+console.log(date3)
+// 1486977645739
+console.log(date4)</pre>
+<p>从上面输出结果可以看到Date.parse()与其他不同，有点奇葩</p>
+
+<h5>获取固定时间戳</h5>
+<p><b>Date.parse(new Date())、new Date().getTime()</b></p>
+<pre>var date2 = + new Date('2017/2/13')
+var date3 = Date.parse(new Date('2017/2/13'))
+var date4 = new Date('2017/2/13').getTime()
+// 1486915200000
+console.log(date2)
+// 1486915200000
+console.log(date3)
+// 1486915200000
+console.log(date4)</pre>
+
+<h4>开发应用场景</h4>
+<h5>自定义格式日期，如2015年3月19日 12:00:00这种格式</h5>
+<pre>var date = new Date();
+// 2017年02月13日 18:29:39
+console.log(formatDateTime(date))
+function formatDateTime(date) {  
+    var y = date.getFullYear();  
+    var m = date.getMonth() + 1;  
+    m = m < 10 ? ('0' + m) : m;  
+    var d = date.getDate();  
+    d = d < 10 ? ('0' + d) : d;  
+    var h = date.getHours();  
+    var minute = date.getMinutes();  
+    minute = minute < 10 ? ('0' + minute) : minute;  
+    var second = date.getSeconds();  
+    second = second < 10 ? ('0' + second) : second; 
+    return y + '年' + m + '月' + d+'日 '+h+':'+minute + ':' + second;  
+}; </pre>
+<h5>倒计时效果</h5>
+<pre>// 写文章时时间为为2017/2/13
+var endDate = new Date('2017/3/13')
+// 实现距离距离2017/2/13 00:00:00的倒计时效果
+var t = setInterval(function(){
+	var date = ShowCountDown(endDate,new Date());
+	console.log(date)
+}, 1000); 
+function ShowCountDown(endDate,nowDate) {
+	var date = ''
+	var leftTime=endDate.getTime()-nowDate.getTime(); 
+	if (leftTime >= 0) {
+		var leftsecond = parseInt(leftTime/1000);
+		var day1=Math.floor(leftsecond/(60*60*24)); 
+		var hour=Math.floor((leftsecond-day1*24*60*60)/3600); 
+		var minute=Math.floor((leftsecond-day1*24*60*60-hour*3600)/60); 
+		var second=Math.floor(leftsecond-day1*24*60*60-hour*3600-minute*60); 
+		day1 = day1 < 10 ? ('0' + day1) : day1; 
+		hour = hour < 10 ? ('0' + hour) : hour; 
+		minute = minute < 10 ? ('0' + minute) : minute; 
+		second = second < 10 ? ('0' + second) : second;  
+		date = "还剩："+day1+"天"+hour+"小时"+minute+"分"+second+"秒"; 
+	}else{
+		clearInterval(t)
+		date = "还剩：00天00小时00分00秒"; 
+	}
+	return date
+} </pre>
+
+
+

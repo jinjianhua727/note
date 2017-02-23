@@ -178,6 +178,60 @@ var notes = [
 		"description":"canvas绘制钟表分析及代码",
 		"time":"2017-2-10" ,
 		"tags":"html5 canvas"
+	},
+	{
+		"name":"js Date对象",
+		"id" : "2031",
+		"type":"js",
+		"origin" :"工作需求",
+		"description":"创建Date对象、Date对象常用API、Date对象开发应用场景",
+		"time":"2017-2-9" ,
+		"tags":"js"
+	},
+	{
+		"name":"js Math对象",
+		"id" : "2032",
+		"type":"js",
+		"origin" :"工作需求",
+		"description":"Math对象简介，常用属性与方法API及常用操作，包括：PI、三角函数、最值、舍入方法、随机数",
+		"time":"2017-2-9" ,
+		"tags":"js"
+	},
+	{
+		"name":"js RegExp对象",
+		"id" : "2033",
+		"type":"js",
+		"origin" :"工作需求",
+		"description":"创建正则表达式、全局标志、特殊字符、属性、方法、开发场景",
+		"time":"2017-2-10" ,
+		"tags":"js"
+	},
+	{
+		"name":"应用百度地图Web API开发小应用",
+		"id" : "2034",
+		"type":"可视化",
+		"origin" :"工作需求",
+		"description":"API简介、应用API开发应用",
+		"time":"2017-2-20" ,
+		"tags":"可视化"
+	},
+	{
+		"name":"react开发环境配置",
+		"id" : "2035",
+		"type":"react",
+		"origin" :"工作需求",
+		"description":"package.json创建及配置、添加项目文件、webpack安装及配置",
+		"time":"2017-2-21" ,
+		"tags":"react"
+	},
+	{
+		"name":"react组件嵌套",
+		"id" : "2036",
+		"type":"react",
+		"origin" :"工作需求",
+		"description":"添加三个子组件、嵌套使用组件",
+		"time":"2017-2-22" ,
+		"tags":"react"
 	}
 ].sort(function (a,b) {
 	return parseInt(b.id) - parseInt(a.id);

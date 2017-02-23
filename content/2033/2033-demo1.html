@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>RegExp</title>
+</head>
+<body>
+	<script>
+		var reg1 = new RegExp('x','g');
+		var reg2 = /x/g;
+		// true
+		console.log(reg1 instanceof RegExp)
+		// true
+		console.log(reg2 instanceof RegExp)
+	</script>
+	<script>
+		var reg1 = /\d/;
+ 		var reg2 = /\d/g;
+ 		var str = '123'
+ 		// ["1", index: 0, input: "123"]
+ 		console.log(str.match(reg1))
+ 		// ["1", "2", "3"]
+ 		console.log(str.match(reg2))
+	</script>
+	<script>
+		var reg1 = /a/;
+ 		var reg2 = /a/i;
+ 		var str = 'A'
+ 		// false
+ 		console.log(reg1.test(str))
+ 		// true
+ 		console.log(reg2.test(str))
+	</script>
+	<script>
+		var reg1 = /^x/;
+		var reg2 = /^x/m;
+		var str = 'yz\nxyz';
+		// null
+		console.log(str.match(reg1))
+		// ["x", index: 3, input: "yz↵xyz"]
+		console.log(str.match(reg2))
+	</script>
+	<script>
+		// true
+		console.log(/^x/.test('xyz'))
+		// true
+		console.log(/x$/.test('abcx'))
+		// true
+		console.log(/./.test('abcx'))
+		// true
+		console.log(/\d/.test('123'))
+		// true
+		console.log(/\D/.test('abc'))
+		// true
+		console.log(/\s/.test('abc xyz'))
+		// true
+		console.log(/\D/.test('a'))
+		// true
+		console.log(/\w/.test('123'))
+		// true
+		console.log(/\W/.test('。。。'))
+		// true
+		console.log(/\n/.test('123\nabc'))
+	</script>
+	<script>
+		// true
+		console.log(/[abc]/.test('apple'))
+		// true
+		console.log(/[3-6]/.test('123'))
+		// true
+		console.log(/[a-z]/.test('apple'))
+	</script>
+	<script>
+		var str = 'xxxxxxxx';
+		// ["xxxx", index: 0, input: "xxxxxxxx"]
+		console.log(str.match(/x{2,4}/))
+		// ["xx", index: 0, input: "xxxxxxxx"]
+		console.log(str.match(/x{2,4}?/))
+		// ["xxxxxxxx", index: 0, input: "xxxxxxxx"]
+		console.log(str.match(/x*/))
+		// ["", index: 0, input: "xxxxxxxx"]
+		console.log(str.match(/x*?/))
+		// ["xxxxxxxx", index: 0, input: "xxxxxxxx"]
+		console.log(str.match(/x+/))
+		// ["x", index: 0, input: "xxxxxxxx"]
+		console.log(str.match(/x+?/))
+		// true
+		console.log(/x?/.test('xabc'))
+		// true
+		console.log(/x?/.test('abc'))
+	</script>
+	<script>
+		var reg = /\.jpg|png/
+		// true
+		console.log(reg.test('logo.jpg'))
+		// true
+		console.log(reg.test('logo.png'))
+	</script>
+	<script>
+		var reg1 = /(\d)(2)3/;
+ 		var reg2 = /(?:\d)(2)3/;
+ 		var str = '123'
+ 		// ["123", "1", "2", index: 0, input: "123"]
+ 		console.log(str.match(reg1))
+ 		// ["123", "2", index: 0, input: "123"]
+ 		console.log(str.match(reg2))
+	</script>
+	<script>
+		var reg = /\d/g;
+		var str = '1abc';
+		// true，从0开始搜索
+		console.log(reg.test(str))
+		// false，从1开始搜索
+		console.log(reg.test(str))
+		reg.lastIndex= 0;
+		// true，设置lastIndex= 0，从0开始搜索
+		console.log(reg.test(str))
+		// \d
+		console.log(reg.source)
+		// true
+		console.log(reg.global)
+		// false
+		console.log(reg.ignoreCase)
+		// false
+		console.log(reg.multiline)
+	</script>
+	<script>
+		var reg = /\d(2)/;
+		var reg2 = /\d(2)/g;
+		// true
+		console.log(reg.test('123 123'))
+		// ["12", "2", index: 0, input: "123 123"]
+		console.log(reg.exec('123 123'))
+		// ["12", "2", index: 0, input: "123 123"]
+		console.log(reg.exec('123 123'))
+		// ["12", "2", index: 0, input: "123 123"]
+		console.log(reg2.exec('123 123'))
+		// ["12", "2", index: 4, input: "123 123"]
+		console.log(reg2.exec('123 123'))
+		// ["12", "12"]
+		console.log('123 123'.match(reg2))
+	</script>
+	<script>
+		// 验证账号规则：字母、数字、下划线组成，字母开头，4-16位
+		function checkUser(str){
+		    var re = /^[a-zA-z]\w{3,15}$/;
+		    if(re.test(str)){
+		        console.log("正确");
+		    }else{
+		        console.log("错误");
+		    }          
+		}
+		checkUser("hello_world"); // 正确
+
+		// 验证手机规则：11位数字，以1开头
+		function  checkMobile(str) {
+		    var re = /^1\d{10}$/
+		    if (re.test(str)) {
+		        console.log("正确");
+		    } else {
+		        console.log("错误");
+		    }
+		}
+		checkMobile('13800138000'); // 正确
+
+		// 验证邮箱规则：姑且把邮箱地址分成“第一部分@第二部分”这样
+		// 第一部分：由字母、数字、下划线、短线“-”、点号“.”组成，
+		// 第二部分：为一个域名，域名由字母、数字、短线“-”、域名后缀组成，
+		// 而域名后缀一般为.xxx或.xxx.xx，一区的域名后缀一般为2-4位，如cn,com,net，现在域名有的也会大于4位
+		function checkEmail(str){
+		    var re = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/
+		    if(re.test(str)){
+		        console.log("正确");
+		    }else{
+		        console.log("错误");
+		    }
+		}
+		checkEmail("13800138000@139.com"); // 正确
+
+
+	</script>
+</body>
+</html>
