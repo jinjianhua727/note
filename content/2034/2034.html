@@ -133,7 +133,7 @@ $.getJSON(url + '&callback=?',function (res) {
 <p>思路很简单</p>
 <p>1.获取当前城市根据，需要借助新浪api接口。当然也可以采用其他方法获取当前城市。</p>
 <p>2.根据输入的起点和终点，获取路程信息。</p>
-<pre>&lt;!DOCTYPE html&gt;
+<textarea class="demo">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
 	&lt;meta charset=&quot;UTF-8&quot;&gt;
@@ -247,7 +247,7 @@ $.getJSON(url + '&callback=?',function (res) {
 		} 
 	&lt;/script&gt;
 &lt;/body&gt;
-&lt;/html&gt;</pre>
+&lt;/html&gt;</textarea>
 <h4>总结</h4>
 <p>上面的例子很精简，很多地方需要优化。比如：</p>
 <p>我们获取到的检索信息都包含了的经纬度信息，我们可以根据经纬度把地点绘制在地图上（如echarts组件知道经纬度就能在地图中绘制出地点），在加上交互效果，就能开发出丰富多彩的地图服务应用。</p>

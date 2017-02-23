@@ -7,12 +7,12 @@
 <p>如果项目中使用es2015，安装一俩宝</p>
 <p><code>npm install --save babel-preset-es2015</code> </p>
 <p>此时package.json配置信息如下</p>
-<p><img src="1.png" alt=""></p>
+<p><img src="package.png" alt=""></p>
 <h4>添加项目文件</h4>
 <p>在项目中添加以下文件：index.html、src、src/js/index.js。如下图所示</p>
-<p><img src="2.png" alt=""></p>
+<p><img src="src.png" alt=""></p>
 <p>index.html代码：</p>
-<p><div id="example">123</div></p>
+<pre>div id=&quot;example&quot;&gt;123&lt;/div&gt;</pre>
 <p>index.js代码</p>
 <pre>var React = require(&#x27;react&#x27;)
 var ReactDom = require(&#x27;react-dom&#x27;)
@@ -29,7 +29,7 @@ ReactDom.render(
 <p>本地安装webpack和webpack-dev-server并添加到依赖项</p>
 <p><code>npm install webpack webpack-dev-server --save</code></p>
 <p>此时package.json文件</p>
-<p><img src="3.png" alt=""></p>
+<p><img src="webpack.png" alt=""></p>
 <p>在项目跟目录新建webpack.config.js文件，代码如下</p>
 <pre>var webpack = require('webpack');
 var path = require('path');
