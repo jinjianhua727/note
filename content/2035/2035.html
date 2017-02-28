@@ -9,7 +9,7 @@
 <p>此时package.json配置信息如下</p>
 <p><img src="package.png" alt=""></p>
 <h4>添加项目文件</h4>
-<p>在项目中添加以下文件：index.html、src、src/js/index.js。如下图所示</p>
+<p>在项目中添加以下文件：src、src/index.html、src/js/index.js。如下图所示</p>
 <p><img src="src.png" alt=""></p>
 <p>index.html代码：</p>
 <pre>div id=&quot;example&quot;&gt;123&lt;/div&gt;</pre>
@@ -59,8 +59,8 @@ module.exports = {
 <p>发现src下多了一个bundle.js，然后在index.html中引入这个js文件。打开此页面看到效果。</p>
 <p>执行<code>webpack --watch</code></p>
 <p>检测文件是否修改，如果修改将重新打包</p>
-<p>重新打开一个终端执行<code>webpack-dev-server</code></p>
-<p>打开http://localhost:8080/webpack-dev-server/，如果修改了文件，浏览器会实时刷新。</p>
+<p>执行<code>webpack-dev-server --content-base src --inline --hot</code></p>
+<p>打开http://localhost:8080，如果修改了文件，浏览器会实时刷新。</p>
 
 
 

@@ -1,0 +1,76 @@
+<p>如果开发环境没有搭建好，请参考react开发环境配置来搭建。</p>
+<p>目录解构如下：</p>
+<p><img src="mulu.png" alt=""></p>
+<h4>内联样式</h4>
+<pre>var React = require(&#x27;react&#x27;)
+var ReactDom = require(&#x27;react-dom&#x27;)
+
+export default class ComponentBody extends React.Component {
+  render() {
+  	var style = {
+  		bodyStyle : {
+  			backgroundColor : &#x27;#333&#x27;,
+  			color : &#x27;#fff&#x27;
+  		}
+  	}
+    return (
+    	&lt;div style={style.bodyStyle}&gt;这是body&lt;/div&gt;
+    	);
+  }
+}</pre>
+<p>这里style可以是很多样式对象的集合，也可以是一个样式对象，如果是一个样式对象直接用style即可。</p>
+<h4>外部样式</h4>
+<p>新建src/css/style.css，代码如下</p>
+<pre>.title{
+	font-size: 24px;
+	font-weight:bold;
+}</pre>
+<p>然后在index.html中引入这个样式文件，在组件中为需要的元素加上<code>className="title"</code>，class是关键字所以需要这样，类似的还有for等。也可以通过安装依赖插件解决这个问题。</p>
+<h4>样式组件化</h4>
+<p>样式组件化是只在一个组件的样式有效，非常适合多人开发，内联样式可以解决组件样式，但是不推荐。推荐使用css-loader和style-loader。</p>
+<p>安装依赖项<code>cnpm install --save css-loader style-loader</code></p>
+<p>确认安装好依赖项后，修改webpack.config.js文件，代码如下</p>
+<pre>var webpack = require(&#x27;webpack&#x27;);
+var path = require(&#x27;path&#x27;);
+
+module.exports = {
+	context: __dirname + &#x27;/src&#x27;,
+	entry: &quot;./js/index.js&quot;,
+	module: {
+		loaders: [
+			{
+				test: /\.js?$/,
+				exclude: /(node_modules)/,
+				loader: &#x27;babel-loader&#x27;,
+				query: {
+				  presets: [&#x27;react&#x27;, &#x27;es2015&#x27;]
+				}
+			},
+			// 新加的css-loader和style-loader
+			{
+				test: /\.css$/,
+				loader:&#x27;style-loader!css-loader?modules&amp;importLoaders=1&amp;localIdentName=[name]__[local]__[hash:base64:5]&#x27;	
+			}
+		]
+	},
+	output: {
+		path: __dirname + &#x27;/src/&#x27;,
+		filename: &quot;bundle.js&quot;
+	}
+}</pre>
+<p>首先去掉index.html中style.css的引用，然后在footer中引入css文件，通过表达式的引入样式。代码如下</p>
+<pre>var React = require(&#x27;react&#x27;)
+var ReactDom = require(&#x27;react-dom&#x27;)
+// 引入样式
+var style = require(&#x27;../../css/style.css&#x27;)
+
+export default class ComponentFooter extends React.Component {
+  render() {
+    return (
+    	/* 通过表达式添加类名 */
+    	&lt;footer className={style.title}&gt;这是footer&lt;/footer&gt;
+    	);
+  }
+}</pre>
+<p>在浏览器中看下类名</p>
+<p><img src="1.png" alt=""></p>

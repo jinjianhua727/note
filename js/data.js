@@ -232,6 +232,15 @@ var notes = [
 		"description":"添加三个子组件、嵌套使用组件",
 		"time":"2017-2-22" ,
 		"tags":"react"
+	},
+	{
+		"name":"react 样式",
+		"id" : "2038",
+		"type":"react",
+		"origin" :"工作需求",
+		"description":"内联样式、外部样式文件、样式组件化",
+		"time":"2017-2-27" ,
+		"tags":"react"
 	}
 ].sort(function (a,b) {
 	return parseInt(b.id) - parseInt(a.id);
