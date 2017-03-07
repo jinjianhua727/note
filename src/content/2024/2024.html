@@ -1,0 +1,133 @@
+<style>
+	h4,h5,p{
+		font-family: '微软雅黑';
+		line-height: 1.5;
+	}
+	h5{
+		font-size: 14px;
+	}
+</style>
+<h4>创建数组</h4>
+<p>1.数组字面量</p>
+<p>2.Array构造函数，参数为数组元素，坑点是参数为数值且只有一个参数，该数值为数组的长度而不是数组元素</p>
+<pre>var arr = [1,'a',false]
+var arr1 = new Array('aaa',new Date())</pre>
+<h4>索引与长度</h4>
+<p>数组是对象，索引可以看作为属性的键值，可以通过下面方法获取数组长度</p>
+<pre>var arr = [1,2,3,4,5]
+console.log(arr.length) // 5</pre>
+<h4>数组常用操作</h4>
+<h5>1. arr.indexOf(element[,beginIndex]) </h5>
+<p>参数：数组元素、从何处开始的索引（可选）。</p>
+<p>功能：返回element在数组中的索引位置。</p>
+<pre>var arr = [1,2,3,4,5]
+var index = arr.indexOf(4)
+console.log(index) // 3</pre>
+<h5>2. arr.forEach(callback) </h5>
+<p>参数：遍历每个数组元素时所执行的函数。</p>
+<p>功能：遍历数组，并为每个遍历到的数组元素执行function(value,index) {}，value为数组元素，index为该元素的索引。</p>
+<pre>var arr = [1,2,3,4,5]
+var str = ''
+arr.forEach(function(value,index) {
+	str += value
+})
+console.log(str) // '12345'</pre>
+<h5>3. arr.reverse() </h5>
+功能：反转数组
+<pre>var arr = [1,2,3,4,5]
+arr.reverse()
+console.log(arr) // [5,4,3,2,1]</pre>
+<h5>4. arr.sort([function]) </h5>
+<p>参数：排序数组时的回调函数（可选）。</p>
+<p>功能：排序数组，默认以字符串形式排序。</p>
+<pre>var arr = [5,27,13]
+arr.sort()
+console.log(arr) // [13,27,5]
+
+arr.sort(function (a,b) {
+	// 从小到大排序，return b - a为从大到小排序
+	return a - b 
+})
+console.log(arr) // [5,13,27]</pre>
+<h5>5. arr.push(ele1,ele2…)与arr.unshift(ele1,ele2…) </h5>
+<p>参数：向数组中添加的元素。</p>
+<p>功能：向数组结尾和开始添加元素。</p>
+<pre>var arr = [2,3]
+arr.push(4,5) 
+console.log(arr) // [2,3,4,5]
+
+arr.unshift(1)
+console.log(arr) // [1,2,3,4,5]</pre>
+<h5>6. arr.pop()与arr.shift() </h5>
+<p>功能：从数组的结尾和开始删除一个元素，并返回该数组元素。</p>
+<pre>var arr = [1,2,3,4,5]
+var num1 = arr.pop() 
+console.log(arr) // [1,2,3,4]
+console.log(num1) // 5
+
+var num2 = arr.shift()
+console.log(arr) // [2,3,4]
+console.log(num2) // 1</pre>
+<h5>7. arr.splice(index,howMany[,ele1…]) </h5>
+<p>参数：要删除的数组元素索引位置、删除多少个数组元素、添加的数组元素（可选）。</p>
+<p>功能：删除、添加、替换数组元素。</p>
+<pre>var arr = [1,2,3]
+arr.splice(1,0,'a','b')
+console.log(arr) // [1,'a','b',2,3]
+
+arr.splice(3,2)
+console.log(arr) // [1,'a','b']
+
+arr.splice(0,1,'c')
+console.log(arr) // ['c','b','a']</pre>
+<h5>8. arr.slice(begin,end) </h5>
+<p>参数：子数组在源数组中的开始索引、结束索引。</p>
+<p>功能：切割数组，返回切割后的数组，源数组不变，参数索引是左闭右开的。</p>
+<pre>var arr = [1,2,3,4,5]
+var arr1 = arr.slice(1,3)
+console.log(arr1) // [2,3]</pre>
+9.arr.concat(value1,value2…)
+<p>参数：合并数组的元素。</p>
+<p>功能：合并数组，并返回合并后的数组，源数组不变。</p>
+<pre>var arr = [1,2]
+var arr1 = arr.concat([3,4],5)
+console.log(arr1) // [1,2,3,4,5]</pre>
+<h5>10. arr.join([separator]) </h5>
+<p>参数：分隔符字符串（可选）。</p>
+<p>功能：根据参数把数组连接成字符串，省略参数默认以“,”连接。</p>
+<pre>var arr = [1,2,3]
+var str = arr.join("-")
+console.log(str) // 1-2-3</pre>
+<h5>11. arr.map(callback) </h5>
+<p>参数：遍历每个数组元素时所执行的函数。</p>
+<p>功能：遍历数组，回调函数function(value) {}中value为数组元素，返回遍历后的数组，源数组不变。</p>
+<pre>var arr = [1,2,3,4,5]
+var arr1 = arr.map(function(value) {
+	return value + 1
+})
+console.log(arr1) // [2,3,4,5,6]</pre>
+<h5>12. arr.reduce(callback[,initialValue]) </h5>
+<p>参数：迭代每个数组元素时所执行的函数、迭代的初始值（可选）。</p>
+<p>功能：迭代数组，迭代的回调函数function(preResult,value,index,array) {}中preResult为上一次值，value为本次的数组元素，index为本次的数组元素索引，array为当前数组。并返回最终值。</p>
+<pre>var arr = [1,2,3,4,5]
+var arr1 = arr.reduce(function(preResult,value,index,array) {
+	return preResult + value
+},100)
+console.log(arr1) // 115</pre>
+<h4>检测数组</h4>
+<p>typeof arr 返回'object'，可以用下面方法检测变量是不是数组</p>
+<p>1. instanceof操作符</p>
+<p>2. 对象的constructor属性</p>
+<p>3. 当存在多个frame，由于每个iframe都有一套自己的执行环境，跨frame实例化的对象彼此是不共享原型链的，可以用Object.prototype.toString方法检测</p>
+<pre>var arr = [1,2,3,4,5]
+console.log(arr instanceof Array) // true
+console.log(arr.constructor === Array) // true
+console.log(Object.prototype.toString.call(arr) === '[object Array]') // true</pre>
+
+<h4>自定义操作</h4>
+<p>可以为Array.prototype添加自定义方法方便我们操作，如求数组的最大值</p>
+<pre>var arr = [1,2,3,4,5]
+Array.prototype.max = function () {
+	return Math.max.apply(Math,this)
+}
+console.log(arr.max()) // 5</pre>

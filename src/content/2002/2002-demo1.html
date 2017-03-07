@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>翻页</title>
+	<script src="http://cdn.staticfile.org/jquery/1.11.2/jquery.min.js"></script>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: "微软雅黑"
+		}
+		.page-turning-wrap{
+			text-align: center;
+		}
+		.page-turning-wrap a{
+			display: inline-block;
+			height: 30px;
+			line-height: 28px;
+			background-color: #fff;
+			border:1px solid #39b245;
+			cursor: pointer;
+			color: #39b245;
+			font-size: 14px;
+			margin-right: 6px;
+			text-decoration: none;
+		}
+		.page-turning-wrap a:hover,.page-turning-index a.active{
+			background-color: #39b245;
+			color: #fff;
+		}
+		.page-turning-pre a,.page-turning-next a{
+			width: 60px;
+		}
+		.page-turning-next a:last-child{
+			margin-right: 0;
+		}
+		.page-turning-index a{
+			width: 30px;
+		}
+	</style>
+</body>
+</head>
+<body>
+	<div class="page-turning-wrap">
+		<span class="page-turning-pre">
+			<a data-page-turning="first">首页</a>
+			<a data-page-turning="pre">上一页</a>
+		</span>
+		<span class="page-turning-index">
+			<a>1</a>
+			<a>2</a>
+			<a>3</a>
+			<a>4</a>
+			<a>5</a>
+			<a>6</a>
+			<a>7</a>
+			<a>8</a>
+			<a>9</a>
+			<a>10</a>
+		</span>
+		<span class="page-turning-next">
+			<a data-page-turning="next">下一页</a>
+			<a data-page-turning="last">尾页</a>
+		</span>
+	</div>
+	<script type="text/javascript">
+		var firstPageId; // 第一个数字按钮
+		var total = 20 + ""; // 总共多少页
+		var showTotal = 10;  // 展示多少个数字按钮
+		// jquery对象集合
+		var jqueryMap = {
+			pageIndex : $(".page-turning-index a")
+		}
+		// 模拟页面刷新
+		$(".page-turning-wrap a").attr("href","");
+		// 初始化
+		pageTurning()
+
+
+		// 事件 判断点击的是哪种类型的按钮，然后根据当前是第几页，把下一次该打开的页数存入浏览器
+		$("[data-page-turning]").click(function(){
+			// 根据data-page-turning获取点击的是哪种类型按钮
+			var data_page_turning = $(this).attr("data-page-turning"); 
+			// 存入浏览器下一次打开页数的localStorage 中的值，根据按钮不同，赋值方式不同
+			var page_turning; 
+			if ($(this).parent().hasClass("page-turning-index")) {
+				page_turning = data_page_turning;
+			}else{
+				switch(data_page_turning)
+				{
+				case "first":
+				  page_turning = "1";
+				  break;
+				case "pre":
+				  if ($(".page-turning-wrap a.active").prev().length>0) {
+				  	page_turning = $(".page-turning-wrap a.active").prev().attr("data-page-turning")
+				  }else{
+				  	alert("没有上一页")
+				  }
+				  break;
+				case "last":
+				  page_turning = total;
+				  break;
+				case "next":
+				  if ($(".page-turning-wrap a.active").next().length>0) {
+				  	page_turning = $(".page-turning-wrap a.active").next().attr("data-page-turning")
+				  }else{
+				  	alert("没有下一页")
+				  }
+				  break;
+				default:
+				  alert("存在未知错误")
+				}
+			}
+			if (page_turning) {
+				setLocalStorage("page_turning",page_turning)
+			}
+
+		})
+
+		// 初始化函数
+		function pageTurning(){
+			if (!localStorage) {
+				alert("请更换浏览器")
+			}
+			// 获取存储的页数
+			var pageId = getLocalStorage("page_turning");
+			// 示例，展示10个数字，如果pageId<=6 ,或者不存在（第一次打开）
+			// 展示的第一个数字按钮为1
+			// 这个if语句是为了实现一个效果，可运行代码查看家
+			if (!pageId) {pageId=1;}
+			if (!pageId || pageId<=showTotal/2 +1) {
+				firstPageId = 1;
+			// 示例：展示10个数字按钮，总共20页，pageId>14时，第一个数字按钮是1
+			}else if (pageId>total-showTotal/2 -1) {
+				firstPageId = total-showTotal +1;
+			}
+			// 示例：展示10个数字，总共20页，第一个数字是pageId-5
+			else{
+				firstPageId = pageId-showTotal/2;
+			}
+
+			// 根据firstPageId配置数字按钮的文本和属性
+			jqueryMap["pageIndex"].each(function(index){
+				$(this).text(parseInt(firstPageId)+index)
+				$(this).attr("data-page-turning",$(this).text())
+			})
+			// 为pageId的数字按钮添加样式
+			$('[data-page-turning="'+ pageId +'"]').addClass("active").siblings().removeClass("active");
+			// 从后台加载pageId页
+			alert("应该从后台加载第" + pageId +"页" )
+		}
+		// 设置本地存储的方法
+		function setLocalStorage(key,value){
+			return localStorage.setItem(key,value)
+		}
+		// 获取本地存储的方法
+		function getLocalStorage(key){
+			return localStorage.getItem(key)
+		}
+	</script>
+</html>

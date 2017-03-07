@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>css3+jquery实现全屏滚动</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		body{
+			overflow: hidden;
+		}
+		/*假设.body为视口*/
+		.body{
+			width: 200px;
+			height: 280px;
+			background-color: #ddd;
+			overflow: hidden;
+		}
+		/*全屏滚动容器*/
+		.full-wrap{
+			position: relative;
+			width: 100%;
+			height: 100%;
+			/*滚动的过度动画*/
+			transition: all 1s;
+		}
+		.full-item{
+			position: relative;
+			width: 100%;
+			height: 100%;
+		}
+		.full-item-content{
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			left: 0;
+			right: 0;
+			text-align: center;
+		}
+		/*跳页按钮*/
+		.p-button{
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+			bottom: 20px;
+			margin: auto;
+		}
+	</style>
+</head>
+<body>
+	<div class="body">
+		<div id="js-wrap" class="full-wrap js-wrap">
+			<div class="full-item js-p1">
+				<div class="full-item-content">
+					<h1>第一屏</h1>
+					<p>第一屏内容</p>
+				</div>
+				<div class="p-button">
+					<button type="button" class="js-next-btn ">下一页</button>
+				</div>
+				
+			</div>
+			<div class="full-item js-p1">
+				<div class="full-item-content">
+					<h1>第二屏</h1>
+					<p>第二屏内容</p>
+				</div>
+				<div class="p-button">
+					<button type="button" class="js-pre-btn ">上一页</button>
+					<button type="button" class="js-next-btn ">下一页</button>
+				</div>
+			</div>
+			<div class="full-item js-p1">
+				<div class="full-item-content">
+					<h1>第三屏</h1>
+					<p>第三屏内容</p>
+				</div>
+				<div class="p-button">
+					<button type="button" class="js-pre-btn ">上一页</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="http://cdn.staticfile.org/jquery/1.11.2/jquery.min.js"></script>
+	<script>
+		;(function(){
+			var index = 0;
+			var docHeight = $(".body").height();
+			var $wrap = $("#js-wrap");
+
+			$(".js-next-btn").click(next);
+			$(".js-pre-btn").click(pre);
+
+			function next(){
+				index++;
+				var transY = - index*docHeight + "px";
+				$wrap.css({
+					"transform":"translateY("+transY+")"
+				})
+			};
+			function pre(){
+				index--;
+				var transY = - index*docHeight + "px";
+				$wrap.css({
+					"transform":"translateY("+transY+")"
+				})
+			};
+		})();
+	</script>
+</body>
+</html>

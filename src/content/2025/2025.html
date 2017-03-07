@@ -1,0 +1,105 @@
+<style>
+	h4,h5,p{
+		font-family: '微软雅黑';
+		line-height: 1.5;
+	}
+	h5{
+		font-size: 14px;
+	}
+</style>
+<h4>鼠标事件</h4>
+<h5>1. click：点击</h5>
+<p>敲击鼠标左键，并在相同元素上松开左键时触发</p>
+<pre>$('div').on('click',function () {
+	console.log('click')
+})</pre>
+<h5>2.mousedown：按下鼠标</h5>
+<p>鼠标按下事件，敲击鼠标时触发。拖拽时会用到按下与松开事件。</p>
+<pre>$('div').on('mousedown',function () {
+	console.log('mousedown')
+})</pre>
+<h5>3.mouseup：松开鼠标</h5>
+<p>松开鼠标按键时触发，如果按下与松开在同一元素上触发，则在触发mouseup后会触发click</p>
+<pre>$('div').on('mouseup',function () {
+	console.log('mouseup')
+})</pre>
+<h5>4.mouseenter：进入元素</h5>
+<p>鼠标进入元素时触发</p>
+<pre>$('div').on('mouseenter',function () {
+	console.log('mouseenter')
+})</pre>
+<h5>5.mouseleaver：离开元素</h5>
+<p>鼠标离开元素时触发</p>
+<pre>$('div').on('mouseleave',function () {
+	console.log('mouseleave')
+})</pre>
+<h5>6.hover：进入离开</h5>
+<p>接受两个function作为参数，一个function为mouseenter时触发，第二个为mouseleaver时触发</p>
+<pre>$('div').hover(function () {
+	console.log('mouseenter')
+},function () {
+	console.log('mouseleave')
+})</pre>
+<h5>7.mousewheel与DOMMouseScroll：鼠标滚轮滚动</h5>
+<p>该事件jquery没有做封装，我们可以通过以下代码实现</p>
+<pre>//WebKit内核，Trident内核 => mousewheel
+//Gecko内核 => DOMMouseScroll
+$(document).on('mousewheel DOMMouseScroll', function (e) {
+    //e.originalEvent.wheelDelta => 120(up) or -120(down) 谷歌IE内核
+    //e.originalEvent.detail => -3(up) or 3(down) 火狐内核
+    //value<0：向下滚动，value>0：向上滚动
+    var value = e.originalEvent.wheelDelta || -e.originalEvent.detail;
+    console.log(value < 0 ? 'mouse scroll down' : 'mouse scroll up');
+});</pre>
+<h5>不常用鼠标事件</h5>
+<p>dbclick：双击，迅速完成两次点击触发</p>
+<p>mouseover：进入元素，功能同mouseenter，但是会冒泡，有些情况会造成不好的体验</p>
+<p>mouseout：离开元素，功能同mouseleaver，但是会冒泡，有些情况会造成不好的体验</p>
+
+<h4>键盘事件</h4>
+<h5>1、keydown()：按下键盘按键</h5>
+<p>在键盘按下时触发，可以通过事件对象的keyCode属性获取按下的是哪个键。通常在此阶段阻止按键默认行为，如阻止f5刷新，阻止tab切换焦点等。</p>
+<pre>$(document).on('keydown',function(e){ 
+    if (e.keyCode == 38){ 
+     	console.log('up')
+     } 
+     else if (e.keyCode == 40){ 
+     	console.log('bottom')
+     }
+     else if (e.keyCode == 13){ 
+     	console.log('enter')
+     } 
+     else if (e.keyCode == 9){ 
+     	console.log('tab')
+     } 
+	// console.log(e.keyCode); 
+	return false;
+}); </pre>
+<h5>2、keyup()：松开键盘按键</h5>
+<p>在按键释放时触发，可以通过事件对象的keyCode属性获取按下的是哪个键。在keyup触发时无法组织按键默认行为，如果要阻止按键默认行为在keydown上阻止。</p>
+<pre>$(document).on('keyup',function(e){ 
+    if (e.keyCode == 38){ 
+     	console.log('up')
+     } 
+     else if (e.keyCode == 40){ 
+     	console.log('bottom')
+     }
+     else if (e.keyCode == 13){ 
+     	console.log('enter')
+     } 
+     else if (e.keyCode == 9){ 
+     	console.log('tab')
+     } 
+	// console.log(e.keyCode); 
+}); </pre>
+<h5>3、keypress()：按下键盘按键</h5>
+<p>与keydown事件类似，但keypress着重的是按下该键输入了哪个字符(只有能够打印字符的键才会触发keypress，如数字键)，keydown着重的是按下了哪个键(按下任何键都可触发keydown)。对于诸如Ctrl、Alt、Shift、Delete、Esc等修饰性和非打印键，请监听keydown事件。</p>
+<pre>$(document).on('keypress',function(e){ 
+    if (e.keyCode == 97){ 
+     	console.log('a')
+     }
+	// console.log(e.keyCode); 
+	return false;
+}); </pre>
+
+

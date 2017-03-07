@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>放大</title>
+	<style>
+		.list-poster-wrap{
+			margin: 0;
+			border: 1px solid green;
+			display: inline-block;
+			overflow: hidden;
+			width: 250px;
+			height: 150px;
+		}
+		.list-poster{
+			display: block;
+			cursor: pointer;
+			transition: 2s;
+		}
+		.list-poster:hover{
+			transform: scale(1.2)
+		}
+	</style>
+</head>
+<body>
+	<div class="list">
+		<div class="list-poster-wrap">
+			<img class="list-poster" src="web.jpg" width="250" height="150">
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>一个电商页选择栏效果</title>
+	<script src="http://cdn.staticfile.org/jquery/1.11.2/jquery.min.js"></script>
+	<style type="text/css">
+		*{
+			margin:0;
+			padding:0;
+			box-sizing: border-box;
+		}
+		.select-nav-row{
+			padding: 20px 0;
+			border-bottom: 1px solid #ddd;
+			clear: both;
+		}
+		.select-nav-row:first-child{
+			padding-top: 0px;
+		}
+		.select-nav-row:last-child{
+			border-bottom: none;
+		}
+		.select-nav-row-left{
+			float: left;
+			width: 100px;
+		}
+		.select-nav-row-right{
+			overflow: hidden;
+		}
+		.select-nav-row-title{
+			color: #61b13b;
+			line-height: 30px;
+		}
+		.select-navs a{
+			text-decoration: none;
+			color: #333;
+			font-size: 14px;
+			display: inline-block;
+			line-height: 30px;
+			text-align: center;
+			padding: 0 14px;
+			border-radius: 4px;
+			cursor: pointer;
+			margin-right: 4px;
+		}
+		.select-navs a:hover,.select-navs a.active{
+			background-color: #61b13b;
+			color: #fff;
+		}
+		.select-detail-navs a:hover,.select-detail-navs a.active{
+			color:#61b13b;
+			background-color: inherit;
+		}
+		.card-toggle:before {
+		    position: absolute;
+		    height: 0;
+		    content: "";
+		    display: block;
+		    top: 0px;
+		    border-left: 5px solid transparent;
+		    border-right: 5px solid transparent;
+		    border-bottom: 12px #ddd solid;
+		    border-top: 0;
+		}
+		.card-toggle:after {
+		    position: absolute;
+		    height: 0;
+		    content: "";
+		    display: block;
+		    top: 2px;
+		    border-left: 5px solid transparent;
+		    border-right: 5px solid transparent;
+		    border-bottom: 12px #fff solid;
+		    border-top: 0;
+		}
+		.card-toggle{
+			position: absolute;
+			top: -12px;
+		    width: 8px;
+		    height: 12px;
+		    cursor: pointer;
+		    font-weight: bold;
+		    font-size: 18px;
+		    color: #fff;
+		}
+		.select-detail-wrap{
+			position: relative;
+			padding-left: 100px;
+			padding-top: 14px;
+			border-top: 1px solid #ddd;
+			margin-top: 14px;
+			display: none;
+		}
+	</style>
+	<script type="text/javascript">	
+		var jQuery = window.parent.jQuery;
+		$(function(){
+			// 职业方向课程的配置
+			// courseDetail中的bigDate等键与html中的data-detail属性值耦合
+			// name : "Hadoop",为二级tab栏中的文本
+			// isAll: false，为是否显示在全部二级tab栏，false为不显示
+			var courseDetail = {
+				bigDate : [
+					{
+						name : "Hadoop",
+						isAll: false
+					},
+					{
+						name : "Storm",
+						isAll: true
+					}
+				],
+				webQianduan:[
+					{
+						name : "nodeJS",
+						isAll: true
+					},
+					{
+						name : "jQuery",
+						isAll: true
+					},
+					{
+						name : "AngularJS",
+						isAll: true
+					}
+				],
+				webDevelopment:[
+					{
+						name : "PHP",
+						isAll: true
+					},
+					{
+						name : "MongoDB",
+						isAll: true
+					}
+				],
+				workSkill:[
+					{
+						name : "Office",
+						isAll: true
+					},
+					{
+						name : "求职面试",
+						isAll: true
+					}
+				]
+			}
+			var state = {
+				career : ""
+			}
+
+			// 事件
+			$(".select-nav-row-right,.select-detail-wrap").on("click","a",function(){
+				// 点击的是职业方向的按钮
+				if ($(this).attr("data-detail")) {
+					var detail = $(this).attr("data-detail");
+					var html = "";
+					var left;
+					if (state["career"] == detail) {return}
+
+					// courseDetail中的isAll决定是否展示在all中
+					if (detail=="all") {
+						$.each(courseDetail,function(idx,value){
+							$.each(value,function(idx2,value2){
+								if (value2["isAll"]) {
+									html += '<a>' + value2["name"] + '</a>'
+								}
+							})
+						})
+					}else{
+						$.each(courseDetail[detail],function(idx, value){
+							html += '<a>' + value["name"] + '</a>'
+						})
+					}
+					
+					state["state"] = detail;
+					left = $(this).offset().left - $(this).parent().offset().left +
+							$(".select-nav-row-left").width() + $(this).width()/2 + 20
+					cardLeft(left)
+					$(".select-detail-navs").empty().append(html);
+					$(".select-detail-wrap").show();
+				}
+				// 样式的变化
+				$(this).addClass("active").siblings().removeClass("active")
+			})
+
+			// 方法
+			function cardLeft(left){
+				$('.card-toggle').css("left",left+"px")
+			}
+		})
+	</script>
+</head>
+<body>
+	<div class="select-nav-wrap">
+		<div class="select-nav-row">
+			<div class="select-nav-row-left select-nav-row-title">
+				职业方向
+			</div>
+			<div class="select-nav-row-right">
+				<div class="select-navs">
+					<a data-detail="all">全部</a>
+					<a data-detail="bigDate">大数据</a>
+					<a data-detail="webQianduan">前端</a>
+					<a data-detail="webDevelopment">后端</a>
+					<a data-detail="workSkill">职场技能</a>
+				</div>
+			</div>
+			<div class="select-navs select-detail-wrap">
+				<div class="card-toggle"></div>
+				<div class="select-detail-navs">
+					
+				</div>
+			</div>
+		</div>
+
+		<div class="select-nav-row">
+			<div class="select-nav-row-left select-nav-row-title">
+				价格
+			</div>
+			<div class="select-nav-row-right">
+				<div class="select-navs">
+					<a>全部</a>
+					<a>免费</a>
+					<a>100元以下</a>
+					<a>100元以上</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -4,9 +4,23 @@ export default class CommonType extends React.Component{
 	constructor(){
 		super()
 		this.state = {
-			activeId : 0
+			activeId : 0,
+			types : []
 		}
 		
+	}
+	componentDidMount(){
+		// console.log(this.props.types)
+		// setTimeout(()=>{
+		// 	console.log(this.props.types)
+		// },3000)
+		
+	}
+	getTypes(types){
+		console.log('getTypes')
+		this.setState({
+			types : types
+		})
 	}
 	changeType(e){
 		var id = e.target.getAttribute('data-type-id')
@@ -19,7 +33,7 @@ export default class CommonType extends React.Component{
 		
 	}
 	render(){
-		let types = ['js','h5','react']
+		let types = this.state.types
 		let showType = types.length>0
 		?
 		types.map(function (value,index) {
@@ -27,7 +41,7 @@ export default class CommonType extends React.Component{
 			return <button onClick={this.changeType.bind(this)} data-type-id={index} className={className}>{value}</button>
 		}.bind(this))
 		:
-		'没有加载到数据'
+		'正在加载中'
 		return (
 			<div className='type-wrap'>
 				{showType}

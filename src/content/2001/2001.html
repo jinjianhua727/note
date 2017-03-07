@@ -1,0 +1,51 @@
+<h4>需求</h4>
+<p>尽可能获取网站注册用户来源，如来自百度搜索，或者来自其他站点链接。</p>
+<h4>需求分析</h4>
+<p>1. 利用document的referer可以获取上一个页面，难点是页面的上一个页面可能是从本站的其他页面。</p>
+<p>2. indexOf上一个页面的url如果不包含域名，则将这个url的域名存储在浏览器中。此处采用sessionStorage，存储的数据会在回话结束时删除</p>
+<p>3. 注册成功时获取这个值并保存在数据库中。</p>
+<p>缺点是referer本身的缺点，以及兼容性问题</p>
+<h4>示例</h4>
+<textarea class="demo">
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+	&lt;meta charset=&quot;UTF-8&quot;&gt;
+	&lt;title&gt;获取网站注册用户来源&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;button type="button"&gt;假如点击此按钮注册成功&lt;/button&gt;
+	&lt;script src=&quot;js/jquery.js&quot;&gt;&lt;/script&gt;
+	&lt;script&gt;
+		var source = document.referrer;
+		var hostname = window.location.hostname;
+		var flag = window.sessionStorage;
+		var sourceHost = parseURL(source); // 上一个页面的域名
+
+		// 存在上一个页面，并且不是本域的，设置本地存储
+		if (source &amp;&amp; hostname != sourceHost) {
+			setSessionStorage(&quot;source&quot;,sourceHost)
+		}
+		$("button").click(function(){
+			alert(getSessionStorage(&quot;source&quot;))
+		})
+		// 设置本地存储的方法
+		function setSessionStorage(key,value){
+			if (!flag) {return}
+			sessionStorage.setItem(key,value)
+		}
+		// 获取本地存储的方法
+		function getSessionStorage(key){
+			if (!flag) {return}
+			return sessionStorage.getItem(key) || &quot;unknown&quot;
+		}
+		// 获取url的域名的方法
+		function parseURL(url) {  
+			 var a =  document.createElement(&#x27;a&#x27;);  
+			 a.href = url;  
+			 return a.hostname;
+		}
+	&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</textarea>

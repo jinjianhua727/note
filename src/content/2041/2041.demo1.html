@@ -1,0 +1,38 @@
+<!-- 实现动态为按钮添加active -->
+<pre>var React = require(&#x27;react&#x27;)
+
+export default class CommonType extends React.Component{
+	constructor(){
+		super()
+		this.state = {
+			activeId : 0
+		}
+		
+	}
+	changeType(e){
+		var id = e.target.getAttribute(&#x27;data-type-id&#x27;)
+		if(id != this.state.activeId){
+			this.setState({
+				activeId : id
+			})
+			this.render()
+		}
+		
+	}
+	render(){
+		let types = [&#x27;js&#x27;,&#x27;h5&#x27;,&#x27;react&#x27;]
+		let showType = types.length&gt;0
+		?
+		types.map(function (value,index) {
+			let className = this.state.activeId == index ? &#x27;active&#x27; :&#x27;&#x27;
+			return &lt;button onClick={this.changeType.bind(this)} data-type-id={index} className={className}&gt;{value}&lt;/button&gt;
+		}.bind(this))
+		:
+		&#x27;没有加载到数据&#x27;
+		return (
+			&lt;div className=&#x27;type-wrap&#x27;&gt;
+				{showType}
+			&lt;/div&gt;
+		)
+	}
+}</pre>

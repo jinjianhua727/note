@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>拖拽</title>
+	<style>
+		.drag{
+			border:1px #999999 solid; 
+			position:absolute; 
+			width:400px; 
+			height:300px; 
+			background:red; 
+			padding:15px; 
+			top:100px; 
+			left:200px; 
+			cursor:move; 
+			z-index:1000;
+		}
+	</style>
+</head>
+<body>
+	<div class="drag"></div>
+	<script src="http://cdn.staticfile.org/jquery/1.11.2/jquery.min.js"></script>
+	<script>
+		$(function(){
+			// 是否处于拖拽状态，鼠标按下拖拽元素时true，鼠标松开时false
+			var _move=false;
+			// 拖拽元素的坐标位置，即据左边位置，具右边位置
+			var _x,_y;
+			// 当前拖拽的元素
+			var t;
+			// 拖拽元素拖拽时的z-index
+			var newz=1;
+			// 拖拽元素拖拽前和拖拽完成的z-index
+			var oldz=1;
+
+			// 开始拖拽
+		    $("div.drag").mousedown(function(e){
+		        _move=true;
+				newz = parseInt($(this).css("z-index"))
+				$(this).css({"z-index":newz+oldz});
+				t = $(this);
+		        _x=e.pageX-parseInt($(this).css("left"));
+		        _y=e.pageY-parseInt($(this).css("top"));
+		        $(this).fadeTo(20, 0.5);
+		    });
+		    // 拖拽过程和拖拽完成
+		    $(document).mousemove(function(e){
+		        if(_move){
+		        	console.log(e.pageX)
+		            var x=e.pageX-_x;
+		            var y=e.pageY-_y;
+		            t.css({top:y,left:x});
+		        }
+		    }).mouseup(function(){
+				_move=false;
+				t.fadeTo("fast", 1);//松开鼠标后停止移动并恢复成不透明
+				oldz = parseInt(t.css("z-index"));//获得最后激活层的z-index
+		  });
+		});
+	</script>
+
+	<div class="test" style="height:0;overflow: hidden;">
+		<p>123</p>
+		<p>123</p>
+		<p>123</p>
+		<p>123</p>
+		<p>123</p>
+		<p>123</p>
+		<p>123</p>
+		<p>123</p>
+		<p>123</p>
+		<p>123</p>
+	</div>
+	<script>
+		setTimeout(function(){
+			var el = $('.test'),
+			    curHeight = el.height(),
+			    autoHeight = el.css('height', 'auto').height();
+			el.height(curHeight).animate({height: autoHeight}, 1000);
+		},3000)
+	</script>
+</body>
+</html>

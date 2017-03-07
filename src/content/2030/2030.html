@@ -1,0 +1,148 @@
+
+<h4>分析</h4>
+<p>如效果图所示，暂且把钟表分成5部分</p>
+<p><img src="1.png" alt=""></p>
+<p>1.背景部分：外圆、数字、外圆与数字之间的点</p>
+<p>2.时针</p>
+<p>3.分针</p>
+<p>4.秒针</p>
+<p>5.中心的圆点，这个店之所以没有放在背景部分，是因为绘制完前面所有才绘制这个点，否则会被覆盖</p>
+<h4>难点</h4>
+<p>1.弧度，绘制时会用到弧度，如绘制圆、时针转动等。一个圆形的弧度为2 * Math.PI，然后根据这个弧度来获得所需的弧度。</p>
+<p>2.坐标系，坐标原点在canvas左上角，我们可以通过translate（平移）、rotate（旋转）来移动坐标系。</p>
+<p>3.状态的保存与恢复，我们可以通过rotate旋转坐标系，以方便我们绘制时针等。在绘制前我们需要通过save()保存当前状态，绘制完成后通过restore()恢复之前的状态，好方便我们接下来的操作。</p>
+<h4>思路</h4>
+<p>分别绘制5个部分。绘制外圆、点、时分秒针时会需要获取相应的弧度。圆弧度可以通过获得2 * Math.PI，时针弧度2 * Math.PI/12 * hour</p>
+<p>知道弧度与半径就可以知道圆上的点的坐标，通过Math.cos()和Math.sin()获得。</p>
+<p>通过Data()和定时器绘制动态的时钟。</p>
+<h4>代码</h4>
+<textarea class="demo">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+	&lt;meta charset=&quot;UTF-8&quot;&gt;
+	&lt;title&gt;canvas 时钟&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;canvas id=&quot;canvas&quot; width=&quot;200&quot; height=&quot;200&quot;&gt;&lt;/canvas&gt;
+	&lt;script&gt;
+		var canvas = document.getElementById(&#x27;canvas&#x27;);
+		var height = canvas.height;
+		var width = canvas.width;
+		var r = width/2; // 钟表半径
+		var rem = width/200; // 重设canvas宽高时，与200的比率
+		var ctx = canvas.getContext(&#x27;2d&#x27;);
+
+		// 绘制钟表背景
+		function drawBg() {
+			ctx.save()
+			// 绘制外圆
+			ctx.lineWidth = 10 *rem;
+			ctx.strokeStyle= &#x27;#000&#x27;;
+			ctx.translate(r,r)
+			ctx.beginPath()
+			ctx.arc(0,0,r - ctx.lineWidth/2,0,2*Math.PI,false)
+			ctx.stroke()
+
+			// 绘制数字
+			var hours = [3,4,5,6,7,8,9,10,11,12,1,2];
+			ctx.font = 18 * rem + &#x27;px Arial&#x27;;
+			ctx.textAlign = &#x27;center&#x27;;
+			ctx.textBaseline = &#x27;middle&#x27;;
+			hours.forEach(function(value,index){
+				var rad = 2*Math.PI/12*index;
+				var x = Math.cos(rad) * (r - 30 * rem);
+				var y = Math.sin(rad) * (r - 30 * rem);
+				ctx.fillText(value,x,y)
+			})
+
+			// 绘制外圆与数字之间的60个点，12小时对应的点高亮
+			for (var i = 0; i &lt; 60; i++) {
+				var rad = 2 * Math.PI / 60 * i;
+				var x = Math.cos(rad) * (r - 18 * rem);
+				var y = Math.sin(rad) * (r - 18 * rem);
+				ctx.beginPath();
+				if (i % 5 === 0) {
+					ctx.fillStyle = &#x27;#000&#x27;;
+				}else {
+					ctx.fillStyle = &#x27;#ccc&#x27;;
+				}
+				ctx.arc(x,y,2*rem,0,2*Math.PI,false)
+				ctx.fill()
+			}
+		}
+		// 绘制中心的点
+		function drawCenter() {
+			ctx.beginPath();
+			ctx.fillStyle = &#x27;#ffffff&#x27;;
+			ctx.arc(0,0,3*rem,0,2*Math.PI,false)
+			ctx.fill();
+		}
+		// 绘制时针
+		// 实际是绘制指向12点（0点）的线，然后根据小时和分钟旋转
+		function drawHour(hour,minute) {
+			ctx.save()
+			var rad = 2 * Math.PI / 12 * hour;
+			var minRad = 2 * Math.PI / 12 / 60 * minute;
+			ctx.rotate(rad + minRad)
+			ctx.beginPath()
+			ctx.lineWidth = 6 * rem;
+			ctx.strokeStyle = &#x27;#000&#x27;
+			ctx.lineCap = &#x27;round&#x27;
+			ctx.moveTo(0,10 * rem)
+			ctx.lineTo(0, -r/2)
+			ctx.stroke()
+			ctx.restore()
+		}
+		// 绘制分针
+		// 实际是绘制指向12点（0点）的线，然后根据分钟旋转
+		function drawMinute(minute) {
+			ctx.save()
+			var rad = 2 * Math.PI / 60 * minute;
+			ctx.rotate(rad)
+			ctx.beginPath()
+			ctx.lineWidth = 3 * rem;
+			ctx.strokeStyle = &#x27;#000&#x27;
+			ctx.lineCap = &#x27;round&#x27;
+			ctx.moveTo(0,15)
+			ctx.lineTo(0, -r + 30 * rem)
+			ctx.stroke()
+			ctx.restore()
+		}
+
+		// 绘制秒针，思路与分针相似，只不过形状不同
+		function drawSecond(second) {
+			ctx.save()
+			var rad = 2 * Math.PI / 60 * second;
+			ctx.rotate(rad)
+			ctx.beginPath()
+			ctx.fillStyle = &#x27;#ff0000&#x27;
+			ctx.moveTo(-2,20)
+			ctx.lineTo(2, 20)
+			ctx.lineTo(1, -r + 18*rem)
+			ctx.lineTo(-1, -r + 18*rem)
+			ctx.fill()
+			ctx.restore()
+		}
+
+		// 绘制钟表
+		function draw() {
+			ctx.clearRect(0, 0, width, height);
+			var now = new Date();
+			var hour = now.getHours();
+			var minute = now.getMinutes();
+			var second = now.getSeconds();
+			drawBg()
+			drawHour(hour,minute)
+			drawMinute(minute)
+			drawSecond(second)
+			drawCenter()
+			ctx.restore()
+		}
+		draw()
+		setInterval(draw, 1000); //每秒执行一次
+		
+	&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</textarea>
+
+

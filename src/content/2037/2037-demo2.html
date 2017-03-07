@@ -1,0 +1,19 @@
+<!-- const -->
+一旦声明不能更改
+一旦声明需要立即初始化，不初始化会报错
+在声明的块级作用域内有效
+暂时性死区
+不能重复声明
+<script>
+	const PI = 3.14
+	// Uncaught TypeError: Assignment to constant variable.
+	PI = 3.1415
+</script>
+声明符合类型时，变量不可重新赋值，但是符合对象本身是可变的。及指向地址不变，但是该地址内的数据可变。
+<script>
+	const obj = {}
+	// 可执行
+	obj.name = 'cat'
+	// Uncaught TypeError: Assignment to constant variable.
+	obj = new Date()
+</script>

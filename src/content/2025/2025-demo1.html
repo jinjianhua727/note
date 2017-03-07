@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+</head>
+<body>
+	<div style="width: 100px;height: 100px;background-color: red;"></div>
+	<input type="text"><input type="text"><input type="text"><input type="text">
+	<script src="http://cdn.staticfile.org/jquery/1.11.2/jquery.min.js"></script>
+	<script>
+		$('div').on('click',function () {
+			console.log('click')
+		})
+		$('div').on('mousedown',function () {
+			console.log('mousedown')
+		})
+		$('div').on('mouseup',function () {
+			console.log('mouseup')
+		})
+		$('div').on('mouseenter',function () {
+			console.log('mouseenter')
+		})
+		$('div').on('mouseleave',function () {
+			console.log('mouseleave')
+		})
+		$('div').hover(function () {
+			console.log('mouseenter')
+		},function () {
+			console.log('mouseleave')
+		})
+		//WebKit内核，Trident内核 => mousewheel
+		//Gecko内核 => DOMMouseScroll
+		$(document).on('mousewheel DOMMouseScroll', function (e) {
+		    //e.originalEvent.wheelDelta => 120(up) or -120(down) 谷歌IE内核
+		    //e.originalEvent.detail => -3(up) or 3(down) 火狐内核
+		    //value<0：向下滚动，value>0：向上滚动
+		    var value = e.originalEvent.wheelDelta || -e.originalEvent.detail;
+		    console.log(value < 0 ? 'mouse scroll down' : 'mouse scroll up');
+		});
+		$(document).on('keypress',function(e){ 
+			 if (e.keyCode == 97){ 
+		     	console.log('a')
+		     }
+			console.log(e.keyCode); 
+			return false;
+		}); 
+		$(document).on('keydown',function(e){ 
+			 if (e.keyCode == 97){ 
+		     	console.log('a')
+		     }
+			console.log(e.keyCode); 
+			return false;
+		}); 
+	</script>
+</body>
+</html>

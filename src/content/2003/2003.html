@@ -1,0 +1,67 @@
+
+<p>在看node教程，老师介绍promise时，用seTtimeout实现了一个动画效果，用requestAnimationFrame练练手</p>
+<textarea class="demo">
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+	&lt;meta charset=&quot;UTF-8&quot;&gt;
+	&lt;title&gt;应用requestAnimationFrame做一个动画效果&lt;/title&gt;
+	&lt;style type=&quot;text/css&quot;&gt;
+		.ball{
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+		}
+		.red{
+			background-color: red;
+		}
+		.green{
+			background-color: green;
+		}
+		.blue{
+			background-color: blue;
+		}
+	&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;p&gt;在看node教程，老师介绍promise时，用seTtimeout实现了一个动画效果，用requestAnimationFrame练练手&lt;/p&gt;
+	&lt;div&gt;
+		&lt;p class=&quot;ball red&quot; style=&quot;margin-left:0px;&quot;&gt;&lt;/p&gt;
+		&lt;p class=&quot;ball green&quot; style=&quot;margin-left:0px;&quot;&gt;&lt;/p&gt;
+		&lt;p class=&quot;ball blue&quot; style=&quot;margin-left:0px;&quot;&gt;&lt;/p&gt;
+	&lt;/div&gt;
+	&lt;script type=&quot;text/javascript&quot;&gt;
+		var red = document.querySelector(&quot;.red&quot;);
+		var green = document.querySelector(&quot;.green&quot;);
+		var blue = document.querySelector(&quot;.blue&quot;);
+		window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+		ani(red,100,function(){
+			ani(green,200,function(){
+				ani(blue,150,function(){
+					ani(red,150);
+					ani(green,150)
+				})
+			})
+		})
+		function ani(node,to,callback){
+			var marginLeft = parseInt(node.style.marginLeft);
+			requestAnimationFrame(function(){
+				if (marginLeft == to) {
+					callback &amp;&amp; callback()
+				}else{
+					if (marginLeft &lt; to) {
+						marginLeft++
+					}else if(marginLeft&gt;to){
+						marginLeft--
+					}
+					node.style.marginLeft = marginLeft + &quot;px&quot;;
+					ani(node,to,callback)
+				}
+			})	
+		}
+	&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</textarea>
+		

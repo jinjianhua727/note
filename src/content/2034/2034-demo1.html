@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title>小应用</title>
+</head>
+<body>
+	<div id="container">
+		<h3>当前城市：<span id="city"></span></h3>
+		<p>
+			起点：
+			<select id="srcCity">
+				<option value="北京" checked>北京</option>
+				<option value="廊坊">廊坊</option>
+				<option value="沧州">沧州</option>
+				<option value="天津">天津</option>
+			</select>
+			<input type="text" id="src" value="清华大学">
+		</p>
+		<p>
+			终点：
+			<select id="desCity">
+				<option value="北京" checked>北京</option>
+				<option value="廊坊">廊坊</option>
+				<option value="沧州">沧州</option>
+				<option value="天津">天津</option>
+			</select>
+			<input type="text" id="des" value="北京大学">
+		</p>
+		<p><button type="button" id="search">查询</button></p>
+	</div>
+	
+	<div id="result"></div>
+	<script src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js"></script>
+	<script src="http://cdn.staticfile.org/jquery/1.11.2/jquery.min.js"></script>
+	<script>
+		var $search = $("#search");
+		var $src = $("#src");
+		var $des = $("#des");
+		var $srcCity = $("#srcCity");
+		var $desCity = $("#desCity");
+		var $result = $("#result")
+		var ak = 'hNwsSIXFOPTIQQuze00VDuYydoIXgAFF';
+		var city = remote_ip_info['city'];
+		$('#city').html(city);
+
+		$search.on('click',function(){
+			var srcVal = $src.val();
+			var desVal = $des.val();
+			var srcCityVal = $srcCity.val();
+			var desCityVal = $desCity.val();
+			if (!srcVal || !desVal || !srcCityVal || !desCityVal) {
+				return false
+			}
+			getRoute(srcVal,desVal,srcCityVal,desCityVal,function () {
+				$result.empty()
+			})
+		})
+		// 获取路程信息
+		function getRoute(begin,end,beginCity,endCity,cb) {
+			var url = 'http://api.map.baidu.com/direction/v1?mode=driving&origin='+begin+'&destination='+end+'&origin_region='+beginCity+'&destination_region='+endCity+'&output=json&ak='+ak;    
+	        $.getJSON(url + '&callback=?')
+	        .done(function (res) {
+	            if (res.status === 0) {
+	            	cb && cb()
+	                // console.log(res)
+	                var html = '<p id="search">从<b>'+res.result.origin.cname+' ' +res.result.origin.wd+'</b>';
+	                html += '到'+res.result.destination.cname+' ' +res.result.destination.wd+'</b></p>';
+
+	                html += '<p id="distance">距离：'+getKM(res.result.routes[0].distance)+'</p>'
+	                html += '<p id="duration">耗时：'+formatSeconds(res.result.routes[0].duration)+'</p>'
+	                html += '<ul id="steps">'
+	                $.each(res.result.routes[0].steps,function (index,value) {
+	                	html += '<li id="step'+index+'"><p>'+(index+1)+':'+value.instructions+'。</p><p>路段长度：'+getKM(value.distance)+'。耗时:'+formatSeconds(value.duration)+'</p></li>'
+	                })
+	                html += '</ul>'
+	                $result.append(html)
+
+	            }else{
+	                alert('没有找到该地址信息')
+	            }
+	        })
+		}
+		// 米转千米
+		function getKM(m) {
+			return m/1000 + '千米'
+		}
+		// 秒转时分秒
+		function formatSeconds(value) { 
+			var theTime = parseInt(value);// 秒 
+			var theTime1 = 0;// 分 
+			var theTime2 = 0;// 小时 
+			// alert(theTime); 
+			if(theTime > 60) { 
+				theTime1 = parseInt(theTime/60); 
+				theTime = parseInt(theTime%60); 
+				// alert(theTime1+"-"+theTime); 
+				if(theTime1 > 60) { 
+					theTime2 = parseInt(theTime1/60); 
+					theTime1 = parseInt(theTime1%60); 
+				} 
+			} 
+			var result = ""+parseInt(theTime)+"秒"; 
+			if(theTime1 > 0) { 
+				result = ""+parseInt(theTime1)+"分"+result; 
+			} 
+			if(theTime2 > 0) { 
+				result = ""+parseInt(theTime2)+"小时"+result; 
+			} 
+			return result; 
+		} 
+	</script>
+</body>
+</html>

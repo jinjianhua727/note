@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		var str = "matrix(1, 0, 0, 1, 0, -280)";
+		var patton = /matrix\(\d+, \d+, \d+, \d+, \d+, ([-]{0,1}\d+)\)/;
+		document.write(str.match(patton));
+	</script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<style>
+	h4,h5,p{
+		font-family: '微软雅黑';
+		line-height: 1.5;
+	}
+	h5{
+		font-size: 14px;
+	}
+</style>
+<h4>基本包装类型</h4>
+<p>字符串是基本类型（undefined null boolean number 和 string）是没有属性和方法的，而引用类型（Object Array Function RegExp Date等）是有属性和方法的，其实还有三种特殊的引用类型 String Number 和 Boolean，我们称之为基本包装类型。</p>
+<p>字符串对应的基本包装类型是String，在执行str.length时，要经过下面三个步骤：</p>
+<p>1.创建String类型的一个实例。</p>
+<p>2.在实例上调用指定的方法。</p>
+<p>3.销毁这个实例。</p>
+<h4>类型检测</h4>
+<pre>var str1 = 'abc'
+var str2 = new String('abc')
+console.log(typeof str1) // string
+console.log(typeof str2) // object</pre>
+<h4>常用操作</h4>
+<h5>1. str.length</h5>
+<p>功能：返回字符串的长度</p>
+<pre>var str = 'abc'
+console.log(str.length) // 3</pre>
+
+<h5>2. str.charAt(index)</h5>
+<p>参数：索引位置</p>
+<p>功能：返回指定索引位置的字符串</p>
+<pre>var str = 'abc'
+var str1 = str.charAt(1)
+console.log(str1) // b</pre>
+
+<h5>3. str.indexOf(searchValue[,index])</h5>
+<p>参数：子字符串、从何处开始搜索的索引（可选）</p>
+<p>功能：返回searchValue在str中的索引位置</p>
+<pre>var str = 'abcabc'
+var index1 = str.indexOf('a')
+console.log(index1) // 0
+var index2 = str.indexOf('a',2)
+console.log(index2) // 3</pre>
+
+<h5>4. str.search(regexp)</h5>
+<p>参数：正则表达式</p>
+<p>功能：返回符合正则表达式的索引位置</p>
+<pre>var str = 'abc123'
+var index1 = str.search(/\d/)
+console.log(index1) // 3</pre>
+
+<h5>5. str.match(regexp)</h5>
+<p>参数：正则表达式</p>
+<p>功能：返回符合正则表达式的子字符串的数组，返回所有符合值需要为正则加g，没有返回null</p>
+<pre>var str = 'abc123'
+var arr = str.match(/\d/g)
+console.log(arr) // ['1','2','3']</pre>
+
+<h5>6. str.replace(regexp|substr,newSubstr|function)</h5>
+<p>参数：旧值（正则或字符串）、新值（字符串或函数）</p>
+<p>功能：新值替换旧值，替换所有旧值需要为正则加g，返回替换后的值</p>
+<pre>var str = 'abc123'
+var str1 = str.replace(/\d/g,function (d) {
+	return parseInt(d) + 1
+})
+console.log(str1) // 'abc234'</pre>
+
+<h5>7. str.substring(beginIndex[,endIndex])</h5>
+<p>参数：开始索引、结束索引（可选）</p>
+<p>功能：返回开始索引的字符到结束索引前面一个字符之间的字符串，如果省略结束索引，默认为str.length</p>
+<pre>var str = 'abc123'
+var str1 = str.substring(3,5)
+console.log(str1) // '12'</pre>
+
+<h5>8. str.slice(beginSlice[,endSlice])</h5>
+<p>参数：开始索引、结束索引（可选）</p>
+<p>功能：同substring，区别是开始索引与结束索引可以为负数，负数是从结尾前开始计数</p>
+<pre>var str = 'abc123'
+var str1 = str.slice(-3,-1)
+console.log(str1) // '12'</pre>
+
+<h5>9. str.substr(beginIndex[,length])</h5>
+<p>参数：开始索引、子字符串长度（可选）</p>
+<p>功能：同substring，区别是第二个参数为长度</p>
+<pre>var str = 'abc123'
+var str1 = str.substr(3,2)
+console.log(str1) // '12'</pre>
+
+<h5>10. str.split(separator[,limit])</h5>
+<p>参数：分隔符字符串、生成的数组包含几个元素（可选）</p>
+<p>功能：返回根据分隔符把字符串转成的数组</p>
+<pre>var str = 'abc:123'
+var arr = str.split(':')
+console.log(arr) // ['abc','123']</pre>
+
+<h5>11. str.toLowerCase()与str.toUpperCase()</h5>
+<p>功能：返回把字符串中的英文转成大写或者小写的字符串</p>
+<pre>var str = 'Abc'
+var str1 = str.toLowerCase()
+var str2 = str.toUpperCase()
+console.log(str1) // abc
+console.log(str2) // ABC</pre>
+
+<h5>12. str.concat(str1[,str2...])</h5>
+<p>参数：要拼接的子字符串</p>
+<p>功能：返回拼接后的字符串，拼接字符串还可以用+运算符</p>
+<pre>var str1 = 'abc'
+var str2 = '123'
+var str3 = str1.concat(str2)
+var str4 = str1 + str2
+console.log(str3) // 'abc123'
+console.log(str4) // 'abc123'</pre>
+
+<h4>自定义操作</h4>
+我们可以为String.prototype添加自定义的方法来方便我们操作，如去掉字符串左右两边的空格
+<pre>var str = '    123   '
+console.log(str.length) // 10
+
+String.prototype.trim = function(){
+    return this.replace(/^\s*|\s*$/g, '');
+}
+console.log(str.trim().length) // 3</pre>
