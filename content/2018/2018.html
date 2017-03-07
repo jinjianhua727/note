@@ -1,27 +1,0 @@
-<h4>Reset与Normalize的作用</h4>
-<p>HTML元素在浏览器上有默认的样式（ user agent ），然而这些默认样式在不同浏览器上表现不一。Reset.css与Normalize.css 是解决这个问题的两种方案。</p>
-<h4>Reset.css vs Normalize.css</h4>
-<p>Reset.css顾名思义，重置样式，讲求跨浏览器的一致性，不管默认样式有用没用一律扼杀，比如去掉h系列标签的加粗效果。</p>
-<p>Reset.css优点是：</p>
-<p>1.	省心</p>
-<p>2.	方便设计师/程序员发挥，整个页面好似一张“白纸”，添加符合需求的样式。</p>
-<p>3.	便于发现前端代码的遗漏，比如页面中的一个列表有list-style的圈圈或者数字，显然是没有去掉list-style（如果list-style是不需要的）</p>
-<p>然而缺点也很明显：</p>
-<p>有些默认样式是我们的项目是需要的，比如输入框的padding，如果页面用到输出框时，我们还要把padding加上去，这样即浪费资源也不利于性能，而且开发者工具样式信息会非常杂乱，调试时需要理清关系。</p>
-<p>Normalize.css相对温和一些，Normalize的作者Nicolas是这样介绍Normalize的：</p>
-<p>Preserves useful defaults, unlike many CSS resets. - 保留了有用的浏览器默认样式而不是完全去掉它们.。</p>
-<p>Normalizes styles for a wide range of elements. - 为大部分HTML元素提供一般化的样式</p>
-<p>Corrects bugs and common browser inconsistencies. - 修复浏览器自身的bug并保证各浏览器的一致性</p>
-<p>Improves usability with subtle improvements. - 用一些小技巧优化CSS可用性</p>
-<p>Explains what code does using detailed comments. - 用注释和详细的文档来解释代码</p>
-<p>相比于Reset.css，Normalize.css的优势：</p>
-<p>1.Normalize.css 保护了有价值的默认值， 而Reset通过为几乎所有的元素施加默认样式，强行使得元素有相同的视觉效果。</p>
-<p>2. Normalize.css 修复了浏览器的bug 它修复了常见的桌面端和移动端浏览器的bug。这往往超出了Reset所能做到的范畴。 关于这一点，Normalize.css修复的问题包含了HTML5元素的显示设置、预格式化文字的font-size问题、在IE9中SVG的溢出、许多出现在各浏览器和操作系统中的与表单相关的bug。</p>
-<h4>选择Reset.css 还是Normalize.css</h4>
-<p>Reset.css关注跨浏览器一致性，Normalize.css更倾向于覆盖大部分浏览器异同的默认样式。比如Normalize会认为ul有左间距是正常的，如果你的项目中需要ul没有左间距，则需要把ul的左边距设置为0，而Reset已经把左边距去掉了。</p>
-
-<p>所以，尽管Normalize.css已经被用于Twitter Bootstrap等项目中，尽管更多的人推崇使用Normalize.css，但是最终使用Normalize还是Reset，还得看具体项目和个人喜好了。</p>
-
-
-
-
