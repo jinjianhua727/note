@@ -14,7 +14,7 @@ export default class PCIndex extends React.Component{
 		}
 	}
 	componentDidMount(){
-		$.get('../../data.json')
+		$.get('src/data.json')
 		.fail(function (e) {
 			console.log(e)
 		})

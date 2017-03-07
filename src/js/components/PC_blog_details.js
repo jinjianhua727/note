@@ -3,12 +3,12 @@ import $ from 'jquery';
 import {Router, Route, Link, browserHistory} from 'react-router'
 export default class PCBlogDetails extends React.Component{
 	componentDidMount(){
-		$.get('../../content/' + this.props.params.id + '/'+ this.props.params.id +'.html')
+		$.get('src/content/' + this.props.params.id + '/'+ this.props.params.id +'.html')
 		.fail(function (e) {
 			console.log(e)
 		})
 		.done(function (data) {
-			let htmlData = data.replace(/src="/g,'src="./content/'+this.props.params.id+'/')
+			let htmlData = data.replace(/src="/g,'src="./src/content/'+this.props.params.id+'/')
 			let articalDom = this.refs.detail_content_wrap;
 			articalDom.innerHTML = htmlData;
 
