@@ -1,4 +1,4 @@
-var notes = [
+[
 	{
 		"name":"获取注册来源",
 		"id" : "2001",
@@ -33,7 +33,7 @@ var notes = [
 		"origin" :"项目需求",
 		"description":"应用jquery实现电商页二级菜单栏的效果",
 		"time":"2016-9-30" ,
-		"tags":"jquery 菜单栏"
+		"tags":"jquery jquery应用"
 	},
 	{
 		"name":"应用transform实现翻转效果",
@@ -60,7 +60,7 @@ var notes = [
 		"origin" :"项目需求",
 		"description":"应用jquery实现一个可以设置水平垂直滚动的插件",
 		"time":"2016-11-31" ,
-		"tags":"jquery 全屏滚动 css3"
+		"tags":"jquery jquery应用 css3"
 	},
 	{
 		"name":"禁止和启动滚动条滚动",
@@ -69,7 +69,7 @@ var notes = [
 		"origin" :"项目需求",
 		"description":"解决弹窗遮罩层下面还能滚动，以及其他和滚动条相关的功能",
 		"time":"2016-12-14" ,
-		"tags":"js 滚动条"
+		"tags":"js js应用"
 	},
 	{
 		"name":"关于Reset.css和Normalize.css",
@@ -117,21 +117,23 @@ var notes = [
 		"tags":"jquery"
 	},
 	{
-		"name":"js 字符串",
+		"name":"js String",
 		"id" : "2023",
 		"type":"js",
 		"origin" :"工作需求",
 		"description":"介绍基本包装类型、常用操作、自定义操作",
 		"time":"2017-2-6" ,
+		"hot" : true,
 		"tags":"js"
 	},
 	{
-		"name":"js 数组",
+		"name":"js Array",
 		"id" : "2024",
 		"type":"js",
 		"origin" :"工作需求",
 		"description":"创建数组、数组属性方法、检测数组、自定义操作",
 		"time":"2017-2-7" ,
+		"hot" : true,
 		"tags":"js"
 	},
 	{
@@ -153,13 +155,13 @@ var notes = [
 		"tags":"jQuery"
 	},
 	{
-		"name":"Yeomen快速入门",
+		"name":"Yeoman快速入门",
 		"id" : "2028",
 		"type":"nodejs",
 		"origin" :"工作需求",
-		"description":"Yeomen简介、安装、使用、可能出现的错误、总结",
+		"description":"Yeoman简介、安装、使用、可能出现的错误、总结",
 		"time":"2017-2-9" ,
-		"tags":"Yeomen nodejs"
+		"tags":"Yeoman nodejs"
 	},
 	{
 		"name":"一个简单的雪花飘落效果",
@@ -168,7 +170,7 @@ var notes = [
 		"origin" :"工作需求",
 		"description":"雪花飘落制作流程及demo",
 		"time":"2017-2-9" ,
-		"tags":"jquery"
+		"tags":"jquery jquery应用 动画"
 	},
 	{
 		"name":"Canvas 绘制动态钟表",
@@ -177,7 +179,7 @@ var notes = [
 		"origin" :"工作需求",
 		"description":"canvas绘制钟表分析及代码",
 		"time":"2017-2-10" ,
-		"tags":"html5 canvas"
+		"tags":"canvas"
 	},
 	{
 		"name":"js Date对象",
@@ -186,6 +188,7 @@ var notes = [
 		"origin" :"工作需求",
 		"description":"创建Date对象、Date对象常用API、Date对象开发应用场景",
 		"time":"2017-2-9" ,
+		"hot" : true,
 		"tags":"js"
 	},
 	{
@@ -195,6 +198,7 @@ var notes = [
 		"origin" :"工作需求",
 		"description":"Math对象简介，常用属性与方法API及常用操作，包括：PI、三角函数、最值、舍入方法、随机数",
 		"time":"2017-2-9" ,
+		"hot" : true,
 		"tags":"js"
 	},
 	{
@@ -204,6 +208,7 @@ var notes = [
 		"origin" :"工作需求",
 		"description":"创建正则表达式、全局标志、特殊字符、属性、方法、开发场景",
 		"time":"2017-2-10" ,
+		"hot" : true,
 		"tags":"js"
 	},
 	{
@@ -242,6 +247,4 @@ var notes = [
 		"time":"2017-2-27" ,
 		"tags":"react"
 	}
-].sort(function (a,b) {
-	return parseInt(b.id) - parseInt(a.id);
-})
+]

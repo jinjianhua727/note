@@ -8,7 +8,7 @@ export default class PCHeader extends React.Component{
 
 		return (
 			<div className="header">
-				<CommonType ref='common_type' types={this.props.types}/>
+				<CommonType ref='common_type' switchTagByType={this.props.switchTagByType} switchBlog={this.props.switchBlog} types={this.props.types}/>
 			</div>
 		)
 	}
