@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		var plugin = (function () {
+			function Plugin() {
+			}
+			Plugin.prototype = {
+				constructor : Plugin,
+				initCount : 0,
+				count:function () {
+					this.initCount ++
+					return this.initCount
+				}
+			}
+			return Plugin
+		})()
+	</script>
+</body>
+</html>
