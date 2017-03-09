@@ -1,0 +1,39 @@
+<h4>环境配置</h4>
+<p><code>npm init</code></p>
+<p>生成package.json文件</p>
+<p><code>npm install webpack -g</code></p>
+<p>全局安装webpack</p>
+<p><code>npm install webpack --save-dev</code></p>
+<p>安装webpack依赖项</p>
+<p>创建以下目录及文件</p>
+<p><img src="1.png" alt=""></p>
+<p>src为打包源文件目录，dist为打包输出文件目录</p>
+<p>index.html</p>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+	&lt;meta charset=&quot;UTF-8&quot;&gt;
+	&lt;title&gt;webpack hello world&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;script src=&#x27;dist/js/bundle.js&#x27;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<p>hello.js</p>
+<pre>require('./world')
+function hello(){
+	alert('hello')
+}</pre>
+<p>world.js</p>
+<pre>function world() {
+	return {
+		
+	}
+}</pre>
+<p>执行<code>webpack src/script/hello.js dist/js/bundle.js</code></p>
+<p><img src="2.png" alt=""></p>
+<p>hello.js以及hello.js依赖的world.js都被打包进了dist/js/bundle.js中了，打开bundle.js，我可以找到源文件的代码</p>
+<p><img src="3.png" alt=""></p>
+<p>然后用浏览器打开index.html，也会弹出hello窗口</p>
+<h4>总结</h4>
+<p>只要把webpack安装到全局即可使用webpack打包方法</p>
