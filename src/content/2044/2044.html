@@ -1,0 +1,54 @@
+<p>初始化项目并安装webpack到依赖项</p>
+<p>在根目录新建webpack.config.js文件，通过配置webpack.config.js，执行<code>webpack</code>进行打包。</p>
+<p>按照下面目录结构，创建目录及文件</p>
+<p><img src="1.png" alt=""></p>
+<h4>输出单个文件（单页面）</h4>
+<p>webpack.config.js</p>
+<pre>module.exports = {
+	entry : './src/script/main.js',
+	output : {
+		path : './dist/js/',
+		filename : 'bundle.js'
+	}
+}</pre>
+<p>执行<code>webpack</code>，在./dist/js/输出了bundle.js</p>
+<p><img src="2.png" alt=""></p>
+<h4>输出多个文件（多页面）</h4>
+<p>webpack.config.js</p>
+<pre>module.exports = {
+	entry : {
+		main : 	'./src/script/main.js',
+		a : './src/script/a.js'
+	},
+	output : {
+		path : './dist/js/',
+		filename : '[name]-[chunkhash].js'
+	}
+}</pre>
+<p>执行<code>webpack</code>，在./dist/js/输出了 chunkname+chunkhash 的文件</p>
+<p><img src="3.png" alt=""></p>
+<h4>webpack参数</h4>
+<p>在终端中执行<code>webpack --help</code>可以看到webpack的参数及作用</p>
+<p><img src="4.png" alt=""></p>
+<p>我们可以看到<code>webpack --config</code>命令是指定配置文件，默认为webpack.config.js。</p>
+<p>如果我们想指定参数又不想每次都在终端输入繁琐参数命令，比如指定配置文件、打包进度--progress、打包信息不同字体颜色 --colors等。</p>
+<p>可以在package.json 中scripts中配置我们的命令。</p>
+<p>pageage.json</p>
+<pre>{
+  "name": "hello_world",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack":"webpack --config webpack.config.js --progress --colors"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^2.2.1"
+  }
+}
+</pre>
+<p>执行<code>npm run webpack</code>，可以进行打包</p>
+<p><img src="5.png" alt=""></p>

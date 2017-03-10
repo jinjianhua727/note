@@ -255,5 +255,14 @@
 		"description":"环境配置",
 		"time":"2017-3-9" ,
 		"tags":"react webpack"
+	},
+	{
+		"name":"webpack2（二）entry与output",
+		"id" : "2044",
+		"type":"react",
+		"origin" :"工作需求",
+		"description":"打包输出单个文件，打包输出多个文件，通过package.json配置webpack命令",
+		"time":"2017-3-10" ,
+		"tags":"react webpack"
 	}
 ]
