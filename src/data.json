@@ -248,7 +248,7 @@
 		"tags":"react"
 	},
 	{
-		"name":"webpack2（一）hello world",
+		"name":"webpack（一）hello world",
 		"id" : "2043",
 		"type":"react",
 		"origin" :"工作需求",
@@ -257,7 +257,7 @@
 		"tags":"react webpack"
 	},
 	{
-		"name":"webpack2（二）entry与output",
+		"name":"webpack（二）entry与output",
 		"id" : "2044",
 		"type":"react",
 		"origin" :"工作需求",
@@ -266,11 +266,20 @@
 		"tags":"react webpack"
 	},
 	{
-		"name":"webpack2（三）html-webpack-plugin",
+		"name":"webpack（三）html-webpack-plugin",
 		"id" : "2045",
 		"type":"react",
 		"origin" :"工作需求",
 		"description":"html-webpack-plugin安装、使用、功能介绍",
+		"time":"2017-3-10" ,
+		"tags":"react webpack"
+	},
+	{
+		"name":"webpack（四）loader",
+		"id" : "2046",
+		"type":"react",
+		"origin" :"工作需求",
+		"description":"babel-loader、css-loader、style-loader、postcss-loader、less-loader、html-loader、ejs-loader、jsx、file-loader、url-loader、image-webpack-loader",
 		"time":"2017-3-10" ,
 		"tags":"react webpack"
 	}

@@ -1,0 +1,854 @@
+<h4>初始化项目</h4>
+<p>npm install 安装依赖包</p>
+<p>package.json</p>
+<pre>{
+  "name": "3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "webpack --config webpack.config.js --progress --colors"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "html-webpack-plugin": "^2.28.0",
+    "webpack": "^2.2.1"
+  }
+}
+</pre>
+<p>根据下面截图新建目录和文件</p>
+<p>webpack.config.js</p>
+<pre>var htmlWebpackPlugin = require('html-webpack-plugin')
+module.exports = {
+	entry : './src/app.js',
+	output : {
+		path : './dist',
+		filename : 'js/[name]-bundle.js'
+	},
+	plugins : [
+		new htmlWebpackPlugin({
+			filename : 'index.html',
+			template : 'index.html',
+			inject: 'body'
+		})
+	]
+}</pre>
+<p>index.html</p>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+	&lt;meta charset=&quot;UTF-8&quot;&gt;
+	&lt;title&gt;webpack loader&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<p>app.js</p>
+<pre>import layer from './components/layer/layer.js'
+
+const App = ()=>{
+	console.log(layer)
+}
+
+new App()</pre>
+<p>layer.html</p>
+<pre>&lt;div class=&quot;layer&quot;&gt;
+	&lt;div&gt;this is a layer&lt;/div&gt;
+&lt;/div&gt;</pre>
+<p>layer.less</p>
+<pre>.layer{
+	width:600px;
+	height:200px;
+	background-color:green;
+
+	> div{
+		width:400px;
+		height:100px;
+		background-color:red;
+		display:flex;
+	}
+}</pre>
+<p>layer.js</p>
+<pre>function layer() {
+	return {
+		name : 'layer',
+		tpl : tpl
+	}
+}
+export default layer;</pre>
+<h4>初识loader</h4>
+<p>loader的作用是处理文件，返回处理后的文件</p>
+<p>loader使用方式有三种：命令行、require方式、配置文件</p>
+<p>这里只介绍配置文件使用</p>
+<h4>babel-loader</h4>
+<p>处理js文件等</p>
+<p>npm install babel-loader babel-core --save-dev</p>
+<p>babel-loader 的Preset插件可以处理es6，指定参数即可，要处理所有es6特性使用latest</p>
+<p>npm install babel-preset-latest --save-dev</p>
+<p>webpack.config.js修改如下</p>
+<pre>var htmlWebpackPlugin = require('html-webpack-plugin')
+module.exports = {
+	entry : './src/app.js',
+	output : {
+		path : './dist',
+		filename : 'js/[name]-bundle.js'
+	},
+	module : {
+		loaders : [
+			{
+				test : /\.js$/,
+				loader : 'babel-loader',
+				query : {
+					presets : ['latest']
+				}
+			}
+		]
+	},
+	plugins : [
+		new htmlWebpackPlugin({
+			filename : 'index.html',
+			template : 'index.html',
+			inject: 'body'
+		})
+	]
+}</pre>
+<p>执行 npm run webpack，结果如下</p>
+<p><img src="2.png" alt=""></p>
+<p>打包过程中耗时较大，因为babel-loader也一同处理了node_modules里的文件，后天面介绍如何优化。</p>
+<p>打开输出的index.html</p>
+<p><img src="3.png" alt=""></p>
+<h5>exclude与include</h5>
+<p>exclude指定不处理范围（需要用绝对路径，借助nodejs path模块），include指定处理范围</p>
+<p>webpack.config.js修改如下</p>
+<pre>var htmlWebpackPlugin = require('html-webpack-plugin')
+var path = require('path')
+module.exports = {
+	entry : './src/app.js',
+	output : {
+		path : './dist',
+		filename : 'js/[name]-bundle.js'
+	},
+	module : {
+		loaders : [
+			{
+				test : /\.js$/,
+				loader : 'babel-loader',
+				exclude : path.resolve(__dirname,'node_modules'),
+				query : {
+					presets : ['latest']
+				}
+			}
+		]
+	},
+	plugins : [
+		new htmlWebpackPlugin({
+			filename : 'index.html',
+			template : 'index.html',
+			inject: 'body'
+		})
+	]
+}</pre>
+<p>执行 npm run webpack，结果如下</p>
+<p><img src="4.png" alt=""></p>
+<h4>css-loader与style-loader</h4>
+<p>css-loader处理css文件，style-loader添加到style标签中</p>
+<p>npm install style-loader css-loader --save-dev</p>
+<p>新建src/css/common.css</p>
+<pre>html,
+body{
+	padding: 0;
+	margin: 0;
+	background-color: #ccc;
+}
+ul,
+li{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}</pre>
+<p>修改app.js，引用common.css</p>
+<pre>import layer from './components/layer/layer.js'
+import './css/common.css'
+const App = ()=>{
+	console.log(layer)
+}
+
+new App()</pre>
+<p>webpack.config.js修改如下</p>
+<pre>var htmlWebpackPlugin = require('html-webpack-plugin')
+var path = require('path')
+module.exports = {
+	entry : './src/app.js',
+	output : {
+		path : './dist',
+		filename : 'js/[name]-bundle.js'
+	},
+	module : {
+		loaders : [
+			{
+				test : /\.js$/,
+				loader : 'babel-loader',
+				exclude : path.resolve(__dirname,'node_modules'),
+				query : {
+					presets : ['latest']
+				}
+			},
+			{
+				test : /\.css$/,
+				loader : 'style-loader!css-loader'
+			}
+		]
+	},
+	plugins : [
+		new htmlWebpackPlugin({
+			filename : 'index.html',
+			template : 'index.html',
+			inject: 'body'
+		})
+	]
+}</pre>
+<p>loader是从右外左执行，上面是先用css-loader处理，在用style-loader处理</p>
+<p>执行 npm run webpack，打包成功后打开输出的index.html</p>
+<p><img src="5.png" alt=""></p>
+<h5>postcss</h5>
+<p>npm install postcss-loader --save-dev</p>
+<p>postcss的autoprefixer插件可以处理css3，自动添加前缀</p>
+<p>npm install autoprefixer --save-dev</p>
+<p>common.css修改如下</p>
+<pre>html,
+body{
+	padding: 0;
+	margin: 0;
+	background-color: #ccc;
+}
+ul,
+li{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.flex-div{
+	display: flex;
+}</pre>
+<p>webpack.config.js修改如下</p>
+<pre>var htmlWebpackPlugin = require('html-webpack-plugin')
+var path = require('path')
+module.exports = {
+	entry : './src/app.js',
+	output : {
+		path : './dist',
+		filename : 'js/[name]-bundle.js'
+	},
+	module : {
+		loaders : [
+			{
+				test : /\.js$/,
+				loader : 'babel-loader',
+				exclude : path.resolve(__dirname,'node_modules'),
+				query : {
+					presets : ['latest']
+				}
+			},
+			{
+				test : /\.css$/,
+				use : [
+					'style-loader',
+					'css-loader',
+					{
+						loader :'postcss-loader',
+						options : {
+							plugins :[require('autoprefixer')({
+								broswers:['last 5 versions']
+							})]
+						}
+					}
+				]
+			}
+		]
+	},
+
+	plugins : [
+		new htmlWebpackPlugin({
+			filename : 'index.html',
+			template : 'index.html',
+			inject: 'body'
+		})
+	]
+}</pre>
+<p>broswers:['last 5 versions']表示浏览器的最新5个版本,webpack1和webpack2用法方式不同，我用的是2</p>
+<p><a href="https://www.npmjs.com/package/postcss-loader" target="_blank">https://www.npmjs.com/package/postcss-loader</a></p>
+<p>执行 npm run webpack，打包成功后打开输出的index.html</p>
+<p><img src="6.png" alt=""></p>
+<p>当common.css @import的css文件中有css3，此时是不会为improt的css3加前缀，需要为css-loader加参数importLoaders，值为css-loader后面的loader数量，如此时后面只有一个postcss-loader，webpack1只需修改css-loader?importLoaders=1即可，webpack2需要新建一个 postcss.config.js 来解决，postcss的配置信息在这个配置文件里面来写。</p>
+
+<h4>less-loader </h4>
+<p>处理less文件</p>
+<p>npm install less-loader --save-dev less</p>
+<p>layer.js引入less文件</p>
+<pre>import './layer.less'
+
+function layer() {
+	return {
+		name : 'layer',
+		tpl : tpl
+	}
+}
+export default layer;</pre>
+<p>webpack.config.js修改如下</p>
+<pre>var htmlWebpackPlugin = require('html-webpack-plugin')
+var path = require('path')
+module.exports = {
+	entry : './src/app.js',
+	output : {
+		path : './dist',
+		filename : 'js/[name]-bundle.js'
+	},
+	module : {
+		loaders : [
+			{
+				test : /\.js$/,
+				loader : 'babel-loader',
+				exclude : path.resolve(__dirname,'node_modules'),
+				query : {
+					presets : ['latest']
+				}
+			},
+			{
+				test : /\.css$/,
+				use : [
+					'style-loader',
+					'css-loader',
+					{
+						loader :'postcss-loader',
+						options : {
+							plugins :[require('autoprefixer')({
+								broswers:['last 5 versions']
+							})]
+						}
+					}
+				]
+			},
+			{
+				test : /\.less$/,
+				use : [
+					'style-loader',
+					'css-loader',
+					{
+						loader :'postcss-loader',
+						options : {
+							plugins :[require('autoprefixer')({
+								broswers:['last 5 versions']
+							})]
+						}
+					},
+					'less-loader',
+				]
+			},
+		]
+	},
+
+	plugins : [
+		new htmlWebpackPlugin({
+			filename : 'index.html',
+			template : 'index.html',
+			inject: 'body'
+		})
+	]
+}</pre>
+<p>执行 npm run webpack，打包成功后打开输出的index.html</p>
+<p><img src="7.png" alt=""></p>
+<p>less与sass类似，sass-loader</p>
+<h4>模版文件loader</h4>
+<h5>html-loader</h5>
+<p>处理html文件</p>
+<p>npm install html-loader --save-dev</p>
+<p>layer.js 引入html模版</p>
+<pre>import './layer.less'
+import tpl from './layer.html'
+
+function layer() {
+	return {
+		name : 'layer',
+		tpl : tpl
+	}
+}
+export default layer;</pre>
+<p>app.js修改如下</p>
+<pre>import Layer from './components/layer/layer.js'
+import './css/common.css'
+const App = ()=>{
+	var layer = new Layer();
+	var body = document.getElementsByTagName('body')[0];
+	body.innerHTML = layer.tpl
+}
+
+new App()</pre>
+<p>webpack.config.js修改如下</p>
+<pre>var htmlWebpackPlugin = require('html-webpack-plugin')
+var path = require('path')
+module.exports = {
+	entry : './src/app.js',
+	output : {
+		path : './dist',
+		filename : 'js/[name]-bundle.js'
+	},
+	module : {
+		loaders : [
+			{
+				test : /\.js$/,
+				loader : 'babel-loader',
+				exclude : path.resolve(__dirname,'node_modules'),
+				query : {
+					presets : ['latest']
+				}
+			},
+			{
+				test : /\.html$/,
+				loader : 'html-loader'
+			},
+			{
+				test : /\.css$/,
+				use : [
+					'style-loader',
+					'css-loader',
+					{
+						loader :'postcss-loader',
+						options : {
+							plugins :[require('autoprefixer')({
+								broswers:['last 5 versions']
+							})]
+						}
+					}
+				]
+			},
+			{
+				test : /\.less$/,
+				use : [
+					'style-loader',
+					'css-loader',
+					{
+						loader :'postcss-loader',
+						options : {
+							plugins :[require('autoprefixer')({
+								broswers:['last 5 versions']
+							})]
+						}
+					},
+					'less-loader',
+				]
+			},
+		]
+	},
+
+	plugins : [
+		new htmlWebpackPlugin({
+			filename : 'index.html',
+			template : 'index.html',
+			inject: 'body'
+		})
+	]
+}</pre>
+<p>执行 npm run webpack，打包成功后打开输出的index.html</p>
+<p><img src="8.png" alt=""></p>
+<p></p>
+<h5>ejs-loader</h5>
+<p>处理ejs模版</p>
+<p>npm install ejs-loader --save-dev</p>
+<p>新建layer/layer.ejs</p>
+<pre>&lt;div class=&quot;layer&quot;&gt;
+	&lt;div&gt; this is &lt;%= name %&gt; layer&lt;/div&gt;
+	&lt;% for (var i = 0;i &lt; arr.length; i++){ %&gt;
+		&lt;%= arr[i] %&gt;
+	&lt;% } %&gt;
+&lt;/div&gt;</pre>
+<p>layer.js修改如下</p>
+<pre>import './layer.less'
+import tpl from './layer.ejs'
+
+function layer() {
+	return {
+		name : 'layer',
+		tpl : tpl
+	}
+}
+export default layer;</pre>
+<p>app.js修改如下</p>
+<pre>import Layer from './components/layer/layer.js'
+import './css/common.css'
+const App = ()=>{
+	var layer = new Layer();
+	var body = document.getElementsByTagName('body')[0];
+	body.innerHTML = layer.tpl({
+		name : 'john',
+		arr : ['react','node','webpack']
+	})
+}
+
+new App()</pre>
+<p>webpack.config.js修改如下</p>
+<pre>var htmlWebpackPlugin = require('html-webpack-plugin')
+var path = require('path')
+module.exports = {
+	entry : './src/app.js',
+	output : {
+		path : './dist',
+		filename : 'js/[name]-bundle.js'
+	},
+	module : {
+		loaders : [
+			{
+				test : /\.js$/,
+				loader : 'babel-loader',
+				exclude : path.resolve(__dirname,'node_modules'),
+				query : {
+					presets : ['latest']
+				}
+			},
+			{
+				test : /\.html$/,
+				loader : 'html-loader'
+			},
+			{
+				test : /\.ejs$/,
+				loader : 'ejs-loader'
+			},
+			{
+				test : /\.css$/,
+				use : [
+					'style-loader',
+					'css-loader',
+					{
+						loader :'postcss-loader',
+						options : {
+							plugins :[require('autoprefixer')({
+								broswers:['last 5 versions']
+							})]
+						}
+					}
+				]
+			},
+			{
+				test : /\.less$/,
+				use : [
+					'style-loader',
+					'css-loader',
+					{
+						loader :'postcss-loader',
+						options : {
+							plugins :[require('autoprefixer')({
+								broswers:['last 5 versions']
+							})]
+						}
+					},
+					'less-loader',
+				]
+			},
+		]
+	},
+
+	plugins : [
+		new htmlWebpackPlugin({
+			filename : 'index.html',
+			template : 'index.html',
+			inject: 'body'
+		})
+	]
+}</pre>
+<p>执行 npm run webpack，打包成功后打开输出的index.html</p>
+<p><img src="9.png" alt=""></p>
+<h5>jsx</h5>
+<p>处理jsx文件，babel默认有jsx的loader，所以不用配置</p>
+<h4>图片loader</h4>
+<h5>file-loader</h5>
+<p>处理文件</p>
+<p>npm install file-loader --save-dev</p>
+<p>添加一张图片src/assets/bg.jpg</p>
+<p>layer.less修改如下</p>
+<pre>.layer{
+	width:600px;
+	height:200px;
+	background-color:green;
+
+	> div{
+		width:400px;
+		height:100px;
+		background-color:red;
+		display:flex;
+		background:url('../../assets/bg.jpg')
+	}
+}</pre>
+<p>webpack.config.js修改如下</p>
+<pre>var htmlWebpackPlugin = require('html-webpack-plugin')
+var path = require('path')
+module.exports = {
+	entry : './src/app.js',
+	output : {
+		path : './dist',
+		filename : 'js/[name]-bundle.js'
+	},
+	module : {
+		loaders : [
+			{
+				test : /\.js$/,
+				loader : 'babel-loader',
+				exclude : path.resolve(__dirname,'node_modules'),
+				query : {
+					presets : ['latest']
+				}
+			},
+			{
+				test : /\.html$/,
+				loader : 'html-loader'
+			},
+			{
+				test : /\.ejs$/,
+				loader : 'ejs-loader'
+			},
+			{
+				test : /\.css$/,
+				use : [
+					'style-loader',
+					'css-loader',
+					{
+						loader :'postcss-loader',
+						options : {
+							plugins :[require('autoprefixer')({
+								broswers:['last 5 versions']
+							})]
+						}
+					}
+				]
+			},
+			{
+				test : /\.less$/,
+				use : [
+					'style-loader',
+					'css-loader',
+					{
+						loader :'postcss-loader',
+						options : {
+							plugins :[require('autoprefixer')({
+								broswers:['last 5 versions']
+							})]
+						}
+					},
+					'less-loader',
+				]
+			},
+			{
+				test : /\.(png|jpg|gif|svg)$/i,
+				loader : 'file-loader'
+			},
+		]
+	},
+
+	plugins : [
+		new htmlWebpackPlugin({
+			filename : 'index.html',
+			template : 'index.html',
+			inject: 'body'
+		})
+	]
+}</pre>
+<p>执行 npm run webpack，打包成功后打开输出的index.html</p>
+<p><img src="10.png" alt=""></p>
+<p>在index.html中引入图片的相对地址没有问题，打包后会替换成打包后的图片地址。但是如果在layer.ejs中引入图片的相对地址会出现问题，解决方法是通过${ require('../../assets/bg.png') }</p>
+<p>layer.ejs代码修改如下</p>
+<pre>&lt;div class=&quot;layer&quot;&gt;
+	&lt;img src=&quot;${ require(&#x27;../../assets/bg.jpg&#x27;) }&quot;&gt;
+	&lt;div&gt; this is &lt;%= name %&gt; layer&lt;/div&gt;
+	&lt;% for (var i = 0;i &lt; arr.length; i++){ %&gt;
+		&lt;%= arr[i] %&gt;
+	&lt;% } %&gt;
+&lt;/div&gt;</pre>
+<p>执行 npm run webpack，打包成功后打开输出的index.html</p>
+<p><img src="11.png" alt=""></p>
+<p>图片打包后的名字可以自己定制</p>
+<p>webpack.config.js修改如下</p>
+<pre>{
+	test : /\.(png|jpg|gif|svg)$/i,
+	loader : 'file-loader',
+	query : {
+		name : 'assets/[name]-[hash:5].[ext]'
+	}
+},</pre>
+<p>执行 npm run webpack</p>
+<p><img src="12.png" alt=""></p>
+<h5>url-loader</h5>
+<p>处理url</p>
+<p>npm install url-loader --save-dev</p>
+<p>功能同file-loader，但是可以指定参数limit，当文件或图片小于limit指定的值时，转base64编码，优点是减少请求，缺点是html体积变大，没有浏览器缓存。</p>
+<p>bg.jpg大小在3k左右，webpack.config.js修改如下</p>
+<pre>var htmlWebpackPlugin = require('html-webpack-plugin')
+var path = require('path')
+module.exports = {
+	entry : './src/app.js',
+	output : {
+		path : './dist',
+		filename : 'js/[name]-bundle.js'
+	},
+	module : {
+		loaders : [
+			{
+				test : /\.js$/,
+				loader : 'babel-loader',
+				exclude : path.resolve(__dirname,'node_modules'),
+				query : {
+					presets : ['latest']
+				}
+			},
+			{
+				test : /\.html$/,
+				loader : 'html-loader'
+			},
+			{
+				test : /\.ejs$/,
+				loader : 'ejs-loader'
+			},
+			{
+				test : /\.css$/,
+				use : [
+					'style-loader',
+					'css-loader',
+					{
+						loader :'postcss-loader',
+						options : {
+							plugins :[require('autoprefixer')({
+								broswers:['last 5 versions']
+							})]
+						}
+					}
+				]
+			},
+			{
+				test : /\.less$/,
+				use : [
+					'style-loader',
+					'css-loader',
+					{
+						loader :'postcss-loader',
+						options : {
+							plugins :[require('autoprefixer')({
+								broswers:['last 5 versions']
+							})]
+						}
+					},
+					'less-loader',
+				]
+			},
+			{
+				test : /\.(png|jpg|gif|svg)$/i,
+				loader : 'url-loader',
+				query : {
+					limit : 10000,
+					name : 'assets/[name]-[hash:5].[ext]'
+				}
+			},
+		]
+	},
+
+	plugins : [
+		new htmlWebpackPlugin({
+			filename : 'index.html',
+			template : 'index.html',
+			inject: 'body'
+		})
+	]
+}</pre>
+<p>执行 npm run webpack，打包成功后打开输出的index.html</p>
+<p><img src="13.png" alt=""></p>
+<h5>image-webpack-loader</h5>
+<p>压缩图片，最好和file或url一起使用</p>
+<p>npm image-webpack-loader --save-dev</p>
+<p>webpack.config.js修改如下</p>
+<pre>var htmlWebpackPlugin = require('html-webpack-plugin')
+var path = require('path')
+module.exports = {
+	entry : './src/app.js',
+	output : {
+		path : './dist',
+		filename : 'js/[name]-bundle.js'
+	},
+	module : {
+		loaders : [
+			{
+				test : /\.js$/,
+				loader : 'babel-loader',
+				exclude : path.resolve(__dirname,'node_modules'),
+				query : {
+					presets : ['latest']
+				}
+			},
+			{
+				test : /\.html$/,
+				loader : 'html-loader'
+			},
+			{
+				test : /\.ejs$/,
+				loader : 'ejs-loader'
+			},
+			{
+				test : /\.css$/,
+				use : [
+					'style-loader',
+					'css-loader',
+					{
+						loader :'postcss-loader',
+						options : {
+							plugins :[require('autoprefixer')({
+								broswers:['last 5 versions']
+							})]
+						}
+					}
+				]
+			},
+			{
+				test : /\.less$/,
+				use : [
+					'style-loader',
+					'css-loader',
+					{
+						loader :'postcss-loader',
+						options : {
+							plugins :[require('autoprefixer')({
+								broswers:['last 5 versions']
+							})]
+						}
+					},
+					'less-loader',
+				]
+			},
+			{
+				test : /\.(png|jpg|gif|svg)$/i,
+				use : [
+					{
+						loader : 'url-loader',
+						options : {
+							limit : 1000,
+							name : 'assets/[name]-[hash:5].[ext]'
+						}
+					},
+					'image-webpack-loader'
+				]
+			}
+		]
+	},
+
+	plugins : [
+		new htmlWebpackPlugin({
+			filename : 'index.html',
+			template : 'index.html',
+			inject: 'body'
+		})
+	]
+}</pre>
+<p>执行 npm run webpack,由原来的2.7k压缩到现在的2.3k</p>
+<p><img src="14.png" alt=""></p>
+
+
+
+
