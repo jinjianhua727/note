@@ -1,0 +1,327 @@
+
+<h4>初始化项目</h4>
+<p>初始化项目，安装webpack到依赖项目</p>
+<p>按照截图新建目录及文件</p>
+<p><img src="1.png" alt=""></p>
+<p>webpack.config.js</p>
+<pre>module.exports = {
+	entry : {
+		main : 	'./src/script/main.js',
+		a : './src/script/a.js'
+	},
+	output : {
+		path : './dist/js/',
+		filename : '[name]-[chunkhash].js'
+	}
+}</pre>
+<p>package.json</p>
+<pre>{
+  "name": "3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "webpack --config webpack.config.js --progress --colors"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^2.2.1"
+  }
+}</pre>
+<p>index.html</p>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+	&lt;meta charset=&quot;UTF-8&quot;&gt;
+	&lt;title&gt;webpack index&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<h4>初识 html-webpack-plugin</h4>
+<p>前面的示例打包后名字包含hash值，如果手动写很麻烦，html-webpack-plugin可以帮我们解决这个问题</p>
+<p>安装html-webpack-plugin到依赖项，<code>npm install html-webpack-plugin --save-dev</code></p>
+<p>修改webpack.config.js如下</p>
+<pre>var htmlWebpackPlugin = require('html-webpack-plugin')
+module.exports = {
+	entry : {
+		main : 	'./src/script/main.js',
+		a : './src/script/a.js'
+	},
+	output : {
+		path : './dist',
+		filename : 'js/[name]-[chunkhash].js'
+	},
+	plugins : [
+		new htmlWebpackPlugin({
+			filename:'index-[hash].html',
+			template : 'index.html',
+			inject : 'body'
+		})
+	]
+}</pre>
+<p>filename为输出的html的名字，template为模版的名字，inject插入的位置</p>
+<p>执行 <code>npm run webpack</code>，结果如下图所示,输出的html文件有打包后的js文件引用。</p>
+<p><img src="2.png" alt=""></p>
+<h4>html-webpack-plugin 自定义参数</h4>
+<p>我们可以在创建插件实例时传入自定义的参数，在html后可以获取到该参数</p>
+<p>修改webpack.config.js如下</p>
+<pre>var htmlWebpackPlugin = require('html-webpack-plugin')
+module.exports = {
+	entry : {
+		main : 	'./src/script/main.js',
+		a : './src/script/a.js'
+	},
+	output : {
+		path : './dist',
+		filename : 'js/[name]-[chunkhash].js'
+	},
+	plugins : [
+		new htmlWebpackPlugin({
+			filename:'index-[hash].html',
+			template : 'index.html',
+			inject : 'body',
+			title : 'my title'
+		})
+	]
+}</pre>
+<p>index.html修改如下</p>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+	&lt;meta charset=&quot;UTF-8&quot;&gt;
+	&lt;title&gt;webpack index&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;%= htmlWebpackPlugin.options.title %&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<p>执行 <code>npm run webpack</code>，结果如下图所示</p>
+<p><img src="3.png" alt=""></p>
+<h4>html-webpack-plugin 默认参数</h4>
+<p>插件实例有files和options属性，遍历这两个属性</p>
+<p>index.html修改如下</p>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+	&lt;meta charset=&quot;UTF-8&quot;&gt;
+	&lt;title&gt;webpack index&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;% for (var key in htmlWebpackPlugin.files){ %&gt;
+		&lt;%= key %&gt; : &lt;%= JSON.stringify(htmlWebpackPlugin.files[key]) %&gt;
+	&lt;% } %&gt;
+	&lt;hr&gt;
+	&lt;% for (var key in htmlWebpackPlugin.options){ %&gt;
+		&lt;%= key %&gt; : &lt;%= JSON.stringify(htmlWebpackPlugin.options[key]) %&gt;
+	&lt;% } %&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<p>执行 <code>npm run webpack</code>，结果如下图所示</p>
+<p><img src="4.png" alt=""></p>
+<h4>html-webpack-plugin 按需引入js文件</h4>
+<p>我们可以通过chunks属性，为html引入我们想要的js文件，比如index.html需要引入打包后的main.js</p>
+<p>修改webpack.config.js如下</p>
+<pre>var htmlWebpackPlugin = require('html-webpack-plugin')
+module.exports = {
+	entry : {
+		main : 	'./src/script/main.js',
+		a : './src/script/a.js'
+	},
+	output : {
+		path : './dist',
+		filename : 'js/[name]-[chunkhash].js'
+	},
+	plugins : [
+		new htmlWebpackPlugin({
+			filename:'index-[hash].html',
+			template : 'index.html',
+			inject : false,
+			title : 'my title'
+		})
+	]
+}</pre>
+<p>index.html修改如下</p>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+	&lt;meta charset=&quot;UTF-8&quot;&gt;
+	&lt;title&gt;webpack index&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;script src=&quot;&lt;%= htmlWebpackPlugin.files.chunks.main.entry %&gt;&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<p>执行 <code>npm run webpack</code>，结果如下图所示</p>
+<p><img src="5.png" alt=""></p>
+<p>我们同样可以在webpack.config.js中配置chunks，为html引入想要的js文件</p>
+<p>修改webpack.config.js如下</p>
+<pre>var htmlWebpackPlugin = require('html-webpack-plugin')
+module.exports = {
+	entry : {
+		main : 	'./src/script/main.js',
+		a : './src/script/a.js'
+	},
+	output : {
+		path : './dist',
+		filename : 'js/[name]-[chunkhash].js'
+	},
+	plugins : [
+		new htmlWebpackPlugin({
+			filename:'index-[hash].html',
+			template : 'index.html',
+			title : 'my title',
+			chunks : ['main']
+		})
+	]
+}</pre>
+<p>chunks为一个数组，数组元素为要引入的chunk，上面为在html页面那种引入main.js打包后的文件。除此之外excludeChunks功能与chunks类似，不同的是excludeChunks是存放不引入chunk的数组。</p>
+<p>index.html修改如下</p>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+	&lt;meta charset=&quot;UTF-8&quot;&gt;
+	&lt;title&gt;webpack index&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<p>执行 <code>npm run webpack</code>，结果如下图所示</p>
+<p><img src="7.png" alt=""></p>
+<h4>html-webpack-plugin 多页面按需引入</h4>
+<p>假如我们应用一个模版生成多个html文件，或者应用多个模版生成多个html文件。</p>
+<p>比如应用index.html模版生成index-a.html(引用main和a)、index-b.html(引用main)、index-c.html(引用a)</p>
+<p>修改webpack.config.js如下</p>
+<pre>var htmlWebpackPlugin = require('html-webpack-plugin')
+module.exports = {
+	entry : {
+		main : 	'./src/script/main.js',
+		a : './src/script/a.js'
+	},
+	output : {
+		path : './dist',
+		filename : 'js/[name]-[chunkhash].js'
+	},
+	plugins : [
+		new htmlWebpackPlugin({
+			filename:'index-a.html',
+			template : 'index.html',
+			title : 'index-a title',
+			chunks : ['main','a']
+		}),
+		new htmlWebpackPlugin({
+			filename:'index-b.html',
+			template : 'index.html',
+			title : 'index-b title',
+			chunks : ['main']
+		}),
+		new htmlWebpackPlugin({
+			filename:'index-c.html',
+			template : 'index.html',
+			title : 'index-c title',
+			chunks : ['a']
+		})
+	]
+}</pre>
+<p>index.html修改如下</p>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+	&lt;meta charset=&quot;UTF-8&quot;&gt;
+	&lt;title&gt;&lt;%= htmlWebpackPlugin.options.title %&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<p>执行 <code>npm run webpack</code>，结果如下图所示</p>
+<p><img src="8.png" alt=""></p>
+<h4>html-webpack-plugin script标签内引入与script外链引入</h4>
+<p>假如需要把某个js代码放在script标签中，其他通过外链引入</p>
+<p>修改webpack.config.js如下</p>
+<pre>var htmlWebpackPlugin = require('html-webpack-plugin')
+module.exports = {
+	entry : {
+		main : 	'./src/script/main.js',
+		a : './src/script/a.js'
+	},
+	output : {
+		path : './dist',
+		filename : 'js/[name]-[chunkhash].js'
+	},
+	plugins : [
+		new htmlWebpackPlugin({
+			filename:'index-a.html',
+			template : 'index.html',
+			inject: false,
+			title : 'index-a title'
+		})
+	]
+}</pre>
+<p>index.html修改如下</p>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+	&lt;meta charset=&quot;UTF-8&quot;&gt;
+	&lt;title&gt;&lt;%= htmlWebpackPlugin.options.title %&gt;&lt;/title&gt;
+	&lt;script&gt;
+		&lt;%= compilation.assets[htmlWebpackPlugin.files.chunks.main.entry.substr(htmlWebpackPlugin.files.publicPath)].source() %&gt;
+	&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	
+	&lt;% for (var k in htmlWebpackPlugin.files.chunks) { %&gt;
+		&lt;% if (k !== &#x27;main&#x27;) { %&gt;
+			&lt;script src=&quot;&lt;%= htmlWebpackPlugin.files.chunks[k].entry %&gt;&quot;&gt;&lt;/script&gt;
+		&lt;% } %&gt;
+	&lt;% } %&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<p>执行 <code>npm run webpack</code>，结果如下图所示</p>
+<p><img src="9.png" alt=""></p>
+<h4>html-webpack-plugin 公共路径与压缩</h4>
+<p>假如的项目要上线，js引用的是cdn，而且html要压缩</p>
+<p>修改webpack.config.js如下</p>
+<pre>var htmlWebpackPlugin = require('html-webpack-plugin')
+module.exports = {
+	entry : {
+		main : 	'./src/script/main.js',
+		a : './src/script/a.js'
+	},
+	output : {
+		path : './dist',
+		filename : 'js/[name]-[chunkhash].js',
+		publicPath : 'http://cdn.com/'
+	},
+	plugins : [
+		new htmlWebpackPlugin({
+			filename:'index-[hash].html',
+			template : 'index.html',
+			inject : false,
+			title : 'my title',
+			minify:{
+				removeComments : true,
+				collapseWhitespace:true
+			}
+		})
+	]
+}</pre>
+<p>publicPath为cdn地址，minify为压缩去除注释和空格</p>
+<p>index.html修改如下</p>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+	&lt;meta charset=&quot;UTF-8&quot;&gt;
+	&lt;title&gt;webpack index&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;!-- 这是一条注释 --&gt;
+	&lt;script src=&quot;&lt;%= htmlWebpackPlugin.files.chunks.main.entry %&gt;&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+<p>执行 <code>npm run webpack</code>，结果如下图所示</p>
+<p><img src="6.png" alt=""></p>
