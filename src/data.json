@@ -248,6 +248,15 @@
 		"tags":"react"
 	},
 	{
+		"name":"雅虎军规",
+		"id" : "2040",
+		"type":"性能",
+		"origin" :"转载",
+		"description":"性能优化工具、雅虎军规、雅虎军规详细介绍",
+		"time":"2017-2-27" ,
+		"tags":"性能优化"
+	},
+	{
 		"name":"webpack（一）hello world",
 		"id" : "2043",
 		"type":"react",
@@ -280,7 +289,7 @@
 		"type":"react",
 		"origin" :"工作需求",
 		"description":"babel-loader、css-loader、style-loader、postcss-loader、less-loader、html-loader、ejs-loader、jsx、file-loader、url-loader、image-webpack-loader",
-		"time":"2017-3-10" ,
+		"time":"2017-3-11" ,
 		"tags":"react webpack"
 	}
 ]
