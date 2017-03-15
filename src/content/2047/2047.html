@@ -1,0 +1,68 @@
+设计和交互图解读
+1.思考页面的整体布局，页面结构的划分，css的规划
+2.页面的API设计、前端组件的规划
+3.业务流程优化
+4.技术选型（js框架，模块化管理框架）
+项目目录基本框架搭建
+static
+--css
+----module
+------dialog.css
+------form.css
+----include
+------header.css
+------footer.css
+----img
+----release
+----package.json
+--js
+----widget
+------dialog.js
+------confirm.js
+------login.js
+----common.js
+----release
+----package.json
+release发布目录，放打包压缩的文件。package.json打包的配置文件
+页面层次的架构搭建
+静态页面制作
+本地服务器环境搭建
+模版拆分，根据把可复用的代码抽象出来。模版目录可以参考如下
+view
+--include
+----header.ftl
+----footer.ftl
+--user
+----user_base.ftl
+----user_nav.ftl
+...
+--index.ftl
+以拆分主页为例，可以拆分为header、footer、index。
+把footer.css、header.css、reset.css放进css/include/，index.css放进css/。
+把footer.ftl、header.ftl放进view/include/，把index.ftl放进view/中。
+此时index.ftl内容如下
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+	&lt;meta charset=&quot;UTF-8&quot;&gt;
+	&lt;title&gt;主页&lt;/title&gt;
+	&lt;link rel=&quot;stylesheet&quot; href=&quot;css/include/reset.css&quot;&gt;
+	&lt;link rel=&quot;stylesheet&quot; href=&quot;css/include/footer.css&quot;&gt;
+	&lt;link rel=&quot;stylesheet&quot; href=&quot;css/include/header.css&quot;&gt;
+	&lt;link rel=&quot;stylesheet&quot; href=&quot;css/index.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;#include &quot;include/header.ftl&quot; &gt;
+	&lt;h1&gt;主页&lt;/h1&gt;
+	&lt;#include &quot;include/footer.ftl&quot; &gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+我们也可以把组件依赖的css文件放进组件中引用，一次性引入，后面通过自动化工具把link放到head中。
+前端架构的搭建过程
+根据服务端传过来的数据，应用模版语言把数据转化成html。
+业务逻辑处理已登录/注册弹窗为例，login.js继承自dialog.js，应用require.js。
+在login.js中，根据接口判断是否登录，没有则new Dialog(options)生成弹窗。
+自动化实现思路
+提升性能，开发有好。
+引用很多租价你的css和js，对开发友好，对性能不好。发布时需要打包，根据一定规则配置package.json文件，进行打包
+
