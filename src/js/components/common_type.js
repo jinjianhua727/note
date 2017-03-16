@@ -17,7 +17,7 @@ export default class CommonType extends React.Component{
 		
 	}
 	getTypes(types){
-		console.log('getTypes')
+		// console.log('getTypes')
 		this.setState({
 			types : types
 		})
@@ -46,7 +46,7 @@ export default class CommonType extends React.Component{
 		?
 		types.map(function (value,index) {
 			let className = this.state.activeType.indexOf(value) >=0 ? 'type-btn active' :'type-btn'
-			return <button onClick={this.changeType.bind(this)} data-type={value} className={className}>{value}</button>
+			return <button  key={index} onClick={this.changeType.bind(this)} data-type={value} className={className}>{value}</button>
 		}.bind(this))
 		:
 		'正在加载中'

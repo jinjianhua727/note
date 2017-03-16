@@ -11,7 +11,7 @@ export default class PCBlogList extends React.Component{
 		
 	}
 	getNotes(notes){
-		console.log('getNotes')
+		// console.log('getNotes')
 		this.setState({
 			notes : notes
 		})
@@ -21,7 +21,7 @@ export default class PCBlogList extends React.Component{
 			activeById : [],
 			active:activeType
 		})
-		console.log('activeType')
+		// console.log('activeType')
 	}
 	switchNotesByTag(activeTag){
 		let activeById = []
@@ -48,7 +48,7 @@ export default class PCBlogList extends React.Component{
 			}else {
 				className = (this.state.active.indexOf(value.type) >= 0 || this.state.active[0] === 'all') ? 'active' :''
 			}
-			return <li data-type={value.type} data-id={value.id} data-tags={value.tags} className={className}>
+			return <li key={index} data-type={value.type} data-id={value.id} data-tags={value.tags} className={className}>
 				<h3 className='blog-title'>
 					<Link to={`details/${value.id}`}>
 						{value.name}

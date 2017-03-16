@@ -17,7 +17,7 @@ export default class CommonTag extends React.Component{
 		
 	}
 	getTags(tags){
-		console.log('getTags')
+		// console.log('getTags')
 		this.setState({
 			tags : tags
 		})
@@ -48,7 +48,7 @@ export default class CommonTag extends React.Component{
 		?
 		tags.map(function (value,index) {
 			let className = this.state.activeTag.indexOf(value) >=0 ? 'tag-btn active' :'tag-btn'
-			return <button onClick={this.changeTag.bind(this)} data-tag={value} className={className}>{value}</button>
+			return <button  key={index} onClick={this.changeTag.bind(this)} data-tag={value} className={className}>{value}</button>
 			
 		}.bind(this))
 		:
