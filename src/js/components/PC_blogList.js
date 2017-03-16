@@ -27,7 +27,7 @@ export default class PCBlogList extends React.Component{
 		let activeById = []
 		this.state.notes.forEach((value,index)=>{
 			var tags = value.tags.toLowerCase()
-			if (tags.indexOf(activeTag) >= 0) {
+			if (tags.split(' ').indexOf(activeTag) >= 0) {
 				var id = value.id
 				activeById.push(id)
 				this.setState({

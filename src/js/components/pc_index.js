@@ -167,10 +167,11 @@ export default class PCIndex extends React.Component{
 			<div className="index-root">
 				<PCHeader ref='pc_header' switchTagByType={this.switchTagByType.bind(this)} switchBlog={this.switchBlog.bind(this)} types={this.state.types}/>
 				<div className='pc_content'>
-					<PCBlogList ref='blog_list' notes={this.state.notes} />
-					<CommonTag ref='common_tag' switchTypeActiveTag={this.switchTypeActiveTag.bind(this)} switchNotesByTag={this.switchNotesByTag.bind(this)} />
+					<div className='content'>
+						<PCBlogList ref='blog_list' notes={this.state.notes} />
+					</div>
 				</div>
-				
+				<CommonTag ref='common_tag' switchTypeActiveTag={this.switchTypeActiveTag.bind(this)} switchNotesByTag={this.switchNotesByTag.bind(this)} />
 			</div>
 		)
 	}
