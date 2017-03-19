@@ -17,7 +17,7 @@ export const getSuccess = (json) => {
 
 function fetchPosts() {
     return dispatch => {
-        return fetch('data.json')
+        return fetch('https://jinjianhua727.github.io/note/data.json')
             .then((res) => { 
                 // console.log(res.status); 
                 return res.json() 
