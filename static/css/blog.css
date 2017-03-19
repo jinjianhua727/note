@@ -148,12 +148,12 @@ ul{
 .pc_content{
     height: 100%;
     width: 100%;
-    overflow: auto;
+    /*overflow: auto;*/
 }
 .content{
     width: 1180px;
     margin: 0 auto;
-    height: 100%;
+    /*height: 100%;*/
     padding: 62px 0 20px 0; 
 }
 .blog-list-wrap{
@@ -187,11 +187,12 @@ ul{
 /* common-type --end */
 /*header --start*/
 .header{
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 42px;
     left: 0;
     top: 0;
+    background-color: #f5f5d5;
 }
 /*header --end*/
 /* blog-list --start */
@@ -199,12 +200,12 @@ ul{
 	width: 80%;
 	max-width: 800px;
 }
-.blog-list>li {
+.blog-list li {
     border-bottom: 1px solid #ddd;
     padding: 10px 20px;
     display: none;
 }
-.blog-list>li.active{
+.blog-list li.active{
 	display: block;
 }
 .blog-title>a {
@@ -226,7 +227,7 @@ ul{
 /* common-tag --start */
 .tag-wrap{
     padding-top: 30px;
-    position: absolute;
+    position: fixed;
     top: 62px;
     left: 50%;
     margin-left: 259px;

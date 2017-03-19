@@ -3,8 +3,8 @@ var extractTextPlugin = require("extract-text-webpack-plugin");
 var path = require('path');
 
 module.exports = {
-	context: __dirname + '/src',
-	entry: "./js/root.js",
+	// context: __dirname + '/src',
+	entry: "./index.js",
 	module: {
 		loaders: [
 			{
@@ -35,7 +35,6 @@ module.exports = {
              NODE_ENV: JSON.stringify(process.env.NODE_ENV)
          }
          
-       }),
-	    new extractTextPlugin("bundle.css")
+       })
 	]
 }
