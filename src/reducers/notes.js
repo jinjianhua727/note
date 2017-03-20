@@ -10,6 +10,17 @@ const notes = (state={}, action) =>{
 			let tagArr = [];
 			let activeTypes=[];
 			let activeTags=[];
+			notes = notes.sort(function (a,b) {
+				return parseInt(b.id) - parseInt(a.id);
+			})
+			notes.forEach((value,index)=>{
+				value.type = value.type.toLowerCase()
+				value.tags = value.tags.toLowerCase()
+				if (value.hot) {
+					notes.splice(index,1)
+					notes.unshift(value)
+				}
+			})
 			activeNotes.forEach(function (value) {
 				if (typeArr.indexOf(value.type.toLowerCase())<0) {
 					typeArr.push(value.type.toLowerCase())
