@@ -300,5 +300,14 @@
 		"description":"设计稿与交互图解读，项目目录基本框架搭建，页面层次的架构搭建，前端架构的搭建过程，自动化实现思路",
 		"time":"2017-3-10" ,
 		"tags":"require.js 架构"
+	},
+	{
+		"name":"react 组件生命周期（附演示demo）",
+		"id" : "2048",
+		"type":"react",
+		"origin" :"工作需求",
+		"description":"组件从创建到消失的过程，可以分为三个节点：Mounted、Update、Unmount...",
+		"time":"2017-3-23" ,
+		"tags":"react"
 	}
 ]
