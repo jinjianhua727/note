@@ -96,7 +96,7 @@ xhr.send(null);</pre>
             }
         }
     }
-    xhr.open(&quot;get&quot;, &quot;./example.json&quot;, true);
+    xhr.open(&quot;get&quot;, &quot;static/content/2049/example.json&quot;, true);
     xhr.send(null);
     &lt;/script&gt;
 &lt;/body&gt;
@@ -123,35 +123,35 @@ var Tool = (function () {
         var setting = {
             url: window.location.pathname, //默认ajax请求地址
             async: true, //true。默认设置下，所有请求均为异步请求。如果需要发送同步请求，请将此选项设置为 false
-            type: 'GET', //请求的方式
+            type: &#x27;GET&#x27;, //请求的方式
             data: {}, //发给服务器的数据
-            dataType: 'json',
+            dataType: &#x27;json&#x27;,
             success: function (text) { }, //请求成功执行方法
             error: function () { } //请求失败执行方法
         };
 
 
         var aData = []; //存储数据
-        var sData = ''; //拼接数据
+        var sData = &#x27;&#x27;; //拼接数据
         //属性覆盖
         for (var attr in mySetting) {
             setting[attr] = mySetting[attr];
         }
         for (var attr in setting.data) {
-            aData.push(attr + '=' + filter(setting.data[attr]));
+            aData.push(attr + &#x27;=&#x27; + filter(setting.data[attr]));
         }
-        sData = aData.join('&');
+        sData = aData.join(&#x27;&amp;&#x27;);
         setting.type = setting.type.toUpperCase();
 
         var xhr = new XMLHttpRequest();
         try {
-            if (setting.type == 'GET') { //get方式请求
-                sData = setting.url + '?' + sData;
-                xhr.open(setting.type, sData + '&' + new Date().getTime(), setting.async);
+            if (setting.type == &#x27;GET&#x27;) { //get方式请求
+                sData = setting.url + &#x27;?&#x27; + sData;
+                xhr.open(setting.type, sData + &#x27;&amp;&#x27; + new Date().getTime(), setting.async);
                 xhr.send();
             } else { //post方式请求
                 xhr.open(setting.type, setting.url, setting.async);
-                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.setRequestHeader(&quot;Content-type&quot;, &quot;application/x-www-form-urlencoded&quot;);
                 xhr.send(sData);
             }
         } catch (e) {
@@ -159,7 +159,7 @@ var Tool = (function () {
         }
 
         if (setting.async) {
-            xhr.addEventListener('readystatechange', httpEnd, false);
+            xhr.addEventListener(&#x27;readystatechange&#x27;, httpEnd, false);
         } else {
             httpEnd();
         }
@@ -170,7 +170,7 @@ var Tool = (function () {
                 var response = xhr.responseText;
                 //将服务器返回的数据，转换成json
 
-                if (/application\/json/.test(head) || setting.dataType === 'json' && /^(\{|\[)([\s\S])*?(\]|\})$/.test(response)) {
+                if (/application\/json/.test(head) || setting.dataType === &#x27;json&#x27; &amp;&amp; /^(\{|\[)([\s\S])*?(\]|\})$/.test(response)) {
                     response = JSON.parse(response);
                 }
 
@@ -182,19 +182,19 @@ var Tool = (function () {
             }
         }
         xhr.end = function () {
-            xhr.removeEventListener('readystatechange', httpEnd, false);
+            xhr.removeEventListener(&#x27;readystatechange&#x27;, httpEnd, false);
         }
 
         function filter(str) { //特殊字符转义
-            str += ''; //隐式转换
-            str = str.replace(/%/g, '%25');
-            str = str.replace(/\+/g, '%2B');
-            str = str.replace(/ /g, '%20');
-            str = str.replace(/\//g, '%2F');
-            str = str.replace(/\?/g, '%3F');
-            str = str.replace(/&/g, '%26');
-            str = str.replace(/\=/g, '%3D');
-            str = str.replace(/#/g, '%23');
+            str += &#x27;&#x27;; //隐式转换
+            str = str.replace(/%/g, &#x27;%25&#x27;);
+            str = str.replace(/\+/g, &#x27;%2B&#x27;);
+            str = str.replace(/ /g, &#x27;%20&#x27;);
+            str = str.replace(/\//g, &#x27;%2F&#x27;);
+            str = str.replace(/\?/g, &#x27;%3F&#x27;);
+            str = str.replace(/&amp;/g, &#x27;%26&#x27;);
+            str = str.replace(/\=/g, &#x27;%3D&#x27;);
+            str = str.replace(/#/g, &#x27;%23&#x27;);
             return str;
         }
         return xhr;
@@ -209,7 +209,7 @@ var Tool = (function () {
     var post = function (pathname, data, success, error) {
         var setting = {
             url: pathname, //默认ajax请求地址
-            type: 'POST', //请求的方式
+            type: &#x27;POST&#x27;, //请求的方式
             data: data, //发给服务器的数据
             success: success || function () { }, //请求成功执行方法
             error: error || function () { } //请求失败执行方法
@@ -226,7 +226,7 @@ var Tool = (function () {
     var get = function (pathname, data, success, error) {
         var setting = {
             url: pathname, //默认ajax请求地址
-            type: 'GET', //请求的方式
+            type: &#x27;GET&#x27;, //请求的方式
             data: data, //发给服务器的数据
             success: success || function () { }, //请求成功执行方法
             error: error || function () { } //请求失败执行方法
@@ -234,19 +234,19 @@ var Tool = (function () {
         return ajax(setting);
     };
     var serialize = function (form){
-        var len=form.elements.length;//表单字段长度;表单字段包括<input><select><button>等
+        var len=form.elements.length;//表单字段长度;表单字段包括&lt;input&gt;&lt;select&gt;&lt;button&gt;等
         var field=null;//用来存储每一条表单字段
         var parts=[];//保存字符串将要创建的各个部分
         var opLen,//select中option的个数
             opValue;//select中option的值
         //遍历每一个表单字段
-        for(var i=0;i<len;i++){
+        for(var i=0;i&lt;len;i++){
             field=form.elements[i];
             /*检测每一个表单字段的类型，做出不同的处理：
             *1.最麻烦的就是select：它可能是单选框也可能是多选框，这里的代码适合于这两种框。在找到一个选中的项之后，需要确
             *定使用什么值。如果不存在value特性或者虽然存在但是值为空字符串，都要使用选项的文本来代替。为查这个属性，在DOM兼
             *容的浏览器中使用hasAttribute()方法，在IE中需要使用特性的specified属性。
-            *2.表单中如果包括<fieldset>
+            *2.表单中如果包括&lt;fieldset&gt;
             *元素，则该元素会出现在表单集合中但是没有type属性。因此，如果type属性未定义，则不必对其进行序列化；同样，对于
             *各种按钮以及文件输入字段都是如此。
             *3.对于单选按钮和复选框，要检查其checked属性是否被设置为false,如果是则退出switch语句，如果checked属性为true
@@ -254,44 +254,44 @@ var Tool = (function () {
             *个字符串，也就是用和好来分隔每一个表单字段
             */
             switch(field.type){
-                case"select-one":
-                case"select-multiple":
+                case&quot;select-one&quot;:
+                case&quot;select-multiple&quot;:
                                 if(field.name.length){
-                                    for(var j=0,opLen=filed.options.length;j<opLen;j++){
+                                    for(var j=0,opLen=filed.options.length;j&lt;opLen;j++){
                                         option=field.options[j];
                                         if(option.selected){
-                                            opValue='';
+                                            opValue=&#x27;&#x27;;
                                             if(option.hasAttribute){
-                                                opValue=(option.hasAttribute('value')?option.value:option.text);
+                                                opValue=(option.hasAttribute(&#x27;value&#x27;)?option.value:option.text);
                                             }else{
-                                                opValue=(option.hasAttribute['value'].specified?option.value:option.text);//IE下
+                                                opValue=(option.hasAttribute[&#x27;value&#x27;].specified?option.value:option.text);//IE下
                                             }
-                                            parts.push(encodeURIComponent(field.name)+'='+encodeURIComponent(opValue));
+                                            parts.push(encodeURIComponent(field.name)+&#x27;=&#x27;+encodeURIComponent(opValue));
                                         }
 
                                     }
                                 }
                                 break;
                 case undefined:
-                case"file":
-                case"submit":
-                case"reset":
-                case"button":
+                case&quot;file&quot;:
+                case&quot;submit&quot;:
+                case&quot;reset&quot;:
+                case&quot;button&quot;:
                                 break;
-                case"radio":
-                case"checkbox":
+                case&quot;radio&quot;:
+                case&quot;checkbox&quot;:
                     if(!field.checked){
                         break;
                     }
                 default:
                     if(field.name.length){
-                        parts.push(encodeURIComponent(field.name)+'='+encodeURIComponent(opValue));
+                        parts.push(encodeURIComponent(field.name)+&#x27;=&#x27;+encodeURIComponent(opValue));
 
                     }
                                 break;
             }
         }
-        return parts.join("&");
+        return parts.join(&quot;&amp;&quot;);
     }
     return {
         ajax : ajax,
@@ -316,14 +316,14 @@ var Tool = (function () {
 			&lt;input type=&quot;text&quot; name=&quot;userName&quot; id=&quot;userName&quot;&gt;
 			&lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt;
 		&lt;/form&gt;
-		&lt;script src=&quot;tool.js&quot;&gt;&lt;/script&gt;
+		&lt;script src=&quot;static/content/2049/tool.js&quot;&gt;&lt;/script&gt;
 		&lt;script&gt;
 		var content = document.getElementById(&quot;content&quot;);
 		var form = document.getElementById(&#x27;form&#x27;)
 		var userName = document.getElementById(&#x27;userName&#x27;)
 		
 		// get方式从服务器获取数据，把数据插入到对应节点
-		Tool.get(&#x27;example.json&#x27;,&#x27;&#x27;,function (data) {
+		Tool.get(&#x27;static/content/2049/example.json&#x27;,&#x27;&#x27;,function (data) {
 				console.log(data)
 				content.innerHTML = data.text
 			},function (e) {
@@ -335,7 +335,7 @@ var Tool = (function () {
 		form.addEventListener(&#x27;submit&#x27;,function (e) {
 			e.preventDefault()
 			var data = Tool.serialize(form)
-			Tool.get(&#x27;example.json&#x27;,data,function (data) {
+			Tool.get(&#x27;static/content/2049/example.json&#x27;,data,function (data) {
 					userName.value = data.name
 				},function (e) {
 					alert(&#x27;加载数据失败&#x27;)
