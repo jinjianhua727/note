@@ -1,0 +1,352 @@
+<h4>Ajax简介</h4>
+<p>Ajax是Asynchronous JavaScript and XML（异步的JavaScript和XML）的简写，它是一项无须刷新页面就可以从服务器取得数据的技术，虽然名字中包含了XML，但不一定是XML数据。</p>
+<h4>Ajax基本知识</h4>
+<p><b>XMLHttpRequest（简称XHR）</b></p>
+<p>Ajax核心技术就是XMLHttpRequest，IE7+、Firefox、Opear、Chrome、Safari都支持原生的XHR对象，可以使用构造函数的方式创建一个XHR对象。</p>
+<pre>var xhr = new XMLHttpRequest();</pre>
+<p><b>XHR对象的用法</b></p>
+<p>1.open()</p>
+<pre>xhr.open(method,url[,async=true])</pre>
+<p>open方法接受三个参数，分别是：请求的类型（"get"、"post"等）、请求的url、是否异步（默认为true即异步）。open方法并不会发送请求，而只是启动一个请求以备发送。</p
+<pre>var xhr = new XMLHttpRequest();
+xhr.open("get","example.json",true);</pre>
+<p>2.setRequestHeader()</p>
+<pre>xhr.setRequestHeader(header,value);</pre>
+<p>该方法接受两个参数，即HTTP头部字段的名称和值。</p>
+<p>HTTP请求和响应都会带有相应的头部信息，如：</p>
+<p>User-Agent：浏览器的用户代理字符串</p>
+<p>在发送XHR请求时，还会发送默认的头部信息，这些头部信息对开发人员来讲有的有用，有的没什么用，setRequestHeader可以自定义请求头部信息。</p>
+<p>当然我们可以自定义设置头部信息，也可以使用默认的头部信息。如果要自定义头部信息，该方法要在open()方法之后，send()方法之前。</p>
+<pre>var xhr = new XMLHttpRequest();
+xhr.open("get","example.json",true);
+xhr.setRequestHeader("myHeader","myValue");
+xhr.send(null);</pre>
+<p>3.send()</p>
+<pre>xhr.send([data]);</pre>
+<p>send()方法接受一个参数，即作为请求主体发送的数据，如果不需要通过请求主体发送数据，则必须传入null，因为这个参数对有些浏览器是必须的。</p>
+<p>调用send方法后，请求就会被分派到服务器。</p>
+<p>比如我们发送一个表单编码的post请求</p>
+<pre>var xhr = new XMLHttpRequest();
+xhr.open("post","example.php",true);
+xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+var form = document.getElementByID("user");
+xhr.send(serialize(form));</pre>
+<p>我们需要把Content-Type头部信息设置为application/x-www-form-urlencoded，也就是表单提交时的内容类型，表单的数据进行序列化后即serialize(form)，在发送到服务器。</p>
+<p><b>响应</b></p>
+<p>调用send方法之后，服务器会对请求做出响应，响应的数据自动填充到XHR对象的属性：</p>
+<p>response：作为响应主体返回ArrayBuffer, Blob, Document, JavaScript object, or a DOMString，依赖于xhr.responseType</p>
+<p>responseText：作为响应主体返回的DOMString 。</p>
+<p>responseXML：如果响应的内容类型是"text/xml"或"application/xml"，这个属性将保存包含着数据的XML DOM文档，否则值为null。</p>
+<p>status：响应的HTTP状态。</p>
+<p>statusText：HTTP状态的说明。</p>
+<p>一般来说，可以将HTTP状态码200作为成功的标志；状态码304表示请求的资源并没有修改，可以直接使用浏览器中缓存的版本，这也意味着响应是有效的。我们可以用以下代码判断响应是否成功。</p>
+<pre>var xhr = new XMLHttpRequest();
+xhr.open("get","example.json",false);
+xhr.setRequestHeader("myHeader","myValue");
+xhr.send(null);
+if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304){
+alert(xhr.responseText)
+} else {
+alert("request is unsucessfal" + xhr.status)
+}</pre>
+<p><b>readyState</b></p>
+<p>上面的代码中open的第三个参数设置为false，即同步请求，如果设置异步请求也要求同样效果，可以检测xhr的readyState属性，该属性表示请求/响应过程中的当前活动阶段。这个属性可取的值如下：</p>
+<p>0：未初始化，为调用</p>
+<p>1：启动。已经调用open()，未调用</p>
+<p>2：发送。已调用send，未收到数据</p>
+<p>3：接受。已接收部分数据</p>
+<p>4：完成。已接收全部数据</p>
+<p>readyState的值由一个值变到另外一个值，都会触发一次readystatechange事件。通常我们只关心readyState等于4的状态。readystatechange必须在open之前指定，如下</p>
+<pre>var xhr = new XMLHttpRequest();
+xhr.onreadystatechange = function(){
+	if(xhr.readyState == 4){
+		if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304){
+			alert(xhr.responseText)
+		} else {
+			alert("request is unsucessfal" + xhr.status)
+		}
+	}
+}
+xhr.open("get","example.json",true);
+xhr.setRequestHeader("myHeader","myValue");
+xhr.send(null);</pre>
+<textarea class="demo">
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Ajax&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;h1 id=&quot;content&quot;&gt;&lt;/h1&gt;
+    &lt;script&gt;
+    var content = document.getElementById(&quot;content&quot;);
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+            if ((xhr.status &gt;= 200 &amp;&amp; xhr.status &lt; 300) || xhr.status == 304) {
+                console.log(typeof xhr.responseText) // string
+                var data = JSON.parse(xhr.responseText)
+                console.log(typeof data) // object
+                content.innerHTML = data.text;
+            } else {
+                alert(&quot;request is unsucessfal&quot; + xhr.status)
+            }
+        }
+    }
+    xhr.open(&quot;get&quot;, &quot;./example.json&quot;, true);
+    xhr.send(null);
+    &lt;/script&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</textarea>
+<p>上面example.json里面的内容</p>
+<pre>{
+	"name":"example",
+	"text":"我是example.json里面的内容"
+}</pre>
+<p>如果要把text插入进dom节点中，需要把json转成js object</p>
+<p>JSON.parse()：用于将一个 JSON 字符串转换为 JavaScript 对象。</p>
+<p>JSON.stringify()：用于将 JavaScript 值转换为 JSON 字符串。</p>
+<h4>封装ajax组件</h4>
+<p>在真实开发中我们经常把ajax封装成组件，下面是一个封装好的组件，以及应用组件做的demo</p>
+<pre>// tool.js
+var Tool = (function () {
+    /**
+     * 发送ajax请求和服务器交互
+     * @param {object} mySetting 配置ajax的配置
+     */
+    var ajax = function (mySetting) {
+        var setting = {
+            url: window.location.pathname, //默认ajax请求地址
+            async: true, //true。默认设置下，所有请求均为异步请求。如果需要发送同步请求，请将此选项设置为 false
+            type: 'GET', //请求的方式
+            data: {}, //发给服务器的数据
+            dataType: 'json',
+            success: function (text) { }, //请求成功执行方法
+            error: function () { } //请求失败执行方法
+        };
+
+
+        var aData = []; //存储数据
+        var sData = ''; //拼接数据
+        //属性覆盖
+        for (var attr in mySetting) {
+            setting[attr] = mySetting[attr];
+        }
+        for (var attr in setting.data) {
+            aData.push(attr + '=' + filter(setting.data[attr]));
+        }
+        sData = aData.join('&');
+        setting.type = setting.type.toUpperCase();
+
+        var xhr = new XMLHttpRequest();
+        try {
+            if (setting.type == 'GET') { //get方式请求
+                sData = setting.url + '?' + sData;
+                xhr.open(setting.type, sData + '&' + new Date().getTime(), setting.async);
+                xhr.send();
+            } else { //post方式请求
+                xhr.open(setting.type, setting.url, setting.async);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.send(sData);
+            }
+        } catch (e) {
+            return httpEnd();
+        }
+
+        if (setting.async) {
+            xhr.addEventListener('readystatechange', httpEnd, false);
+        } else {
+            httpEnd();
+        }
+
+        function httpEnd() {
+            if (xhr.readyState == 4) {
+                var head = xhr.getAllResponseHeaders();
+                var response = xhr.responseText;
+                //将服务器返回的数据，转换成json
+
+                if (/application\/json/.test(head) || setting.dataType === 'json' && /^(\{|\[)([\s\S])*?(\]|\})$/.test(response)) {
+                    response = JSON.parse(response);
+                }
+
+                if (xhr.status == 200) {
+                    setting.success(response, setting, xhr);
+                } else {
+                    setting.error(setting, xhr);
+                }
+            }
+        }
+        xhr.end = function () {
+            xhr.removeEventListener('readystatechange', httpEnd, false);
+        }
+
+        function filter(str) { //特殊字符转义
+            str += ''; //隐式转换
+            str = str.replace(/%/g, '%25');
+            str = str.replace(/\+/g, '%2B');
+            str = str.replace(/ /g, '%20');
+            str = str.replace(/\//g, '%2F');
+            str = str.replace(/\?/g, '%3F');
+            str = str.replace(/&/g, '%26');
+            str = str.replace(/\=/g, '%3D');
+            str = str.replace(/#/g, '%23');
+            return str;
+        }
+        return xhr;
+    };
+    /**
+     * 封装ajax post请求
+     * @param {string} pathname 服务器请求地址
+     * @param {object} data     发送给服务器的数据
+     * @param {function} success  请求成功执行方法
+     * @param {function} error    请求失败执行方法
+     */
+    var post = function (pathname, data, success, error) {
+        var setting = {
+            url: pathname, //默认ajax请求地址
+            type: 'POST', //请求的方式
+            data: data, //发给服务器的数据
+            success: success || function () { }, //请求成功执行方法
+            error: error || function () { } //请求失败执行方法
+        };
+        return ajax(setting);
+    };
+    /**
+     * 封装ajax get请求
+     * @param {string} pathname 服务器请求地址
+     * @param {object} data     发送给服务器的数据
+     * @param {function} success  请求成功执行方法
+     * @param {function} error    请求失败执行方法
+     */
+    var get = function (pathname, data, success, error) {
+        var setting = {
+            url: pathname, //默认ajax请求地址
+            type: 'GET', //请求的方式
+            data: data, //发给服务器的数据
+            success: success || function () { }, //请求成功执行方法
+            error: error || function () { } //请求失败执行方法
+        };
+        return ajax(setting);
+    };
+    var serialize = function (form){
+        var len=form.elements.length;//表单字段长度;表单字段包括<input><select><button>等
+        var field=null;//用来存储每一条表单字段
+        var parts=[];//保存字符串将要创建的各个部分
+        var opLen,//select中option的个数
+            opValue;//select中option的值
+        //遍历每一个表单字段
+        for(var i=0;i<len;i++){
+            field=form.elements[i];
+            /*检测每一个表单字段的类型，做出不同的处理：
+            *1.最麻烦的就是select：它可能是单选框也可能是多选框，这里的代码适合于这两种框。在找到一个选中的项之后，需要确
+            *定使用什么值。如果不存在value特性或者虽然存在但是值为空字符串，都要使用选项的文本来代替。为查这个属性，在DOM兼
+            *容的浏览器中使用hasAttribute()方法，在IE中需要使用特性的specified属性。
+            *2.表单中如果包括<fieldset>
+            *元素，则该元素会出现在表单集合中但是没有type属性。因此，如果type属性未定义，则不必对其进行序列化；同样，对于
+            *各种按钮以及文件输入字段都是如此。
+            *3.对于单选按钮和复选框，要检查其checked属性是否被设置为false,如果是则退出switch语句，如果checked属性为true
+            *则继续进行default内容，即将当前的名称和值进行编码，然后添加到parts数组中。函数的最后一步就是使用join格式化整
+            *个字符串，也就是用和好来分隔每一个表单字段
+            */
+            switch(field.type){
+                case"select-one":
+                case"select-multiple":
+                                if(field.name.length){
+                                    for(var j=0,opLen=filed.options.length;j<opLen;j++){
+                                        option=field.options[j];
+                                        if(option.selected){
+                                            opValue='';
+                                            if(option.hasAttribute){
+                                                opValue=(option.hasAttribute('value')?option.value:option.text);
+                                            }else{
+                                                opValue=(option.hasAttribute['value'].specified?option.value:option.text);//IE下
+                                            }
+                                            parts.push(encodeURIComponent(field.name)+'='+encodeURIComponent(opValue));
+                                        }
+
+                                    }
+                                }
+                                break;
+                case undefined:
+                case"file":
+                case"submit":
+                case"reset":
+                case"button":
+                                break;
+                case"radio":
+                case"checkbox":
+                    if(!field.checked){
+                        break;
+                    }
+                default:
+                    if(field.name.length){
+                        parts.push(encodeURIComponent(field.name)+'='+encodeURIComponent(opValue));
+
+                    }
+                                break;
+            }
+        }
+        return parts.join("&");
+    }
+    return {
+        ajax : ajax,
+        post : post,
+        get : get,
+        serialize : serialize
+    }
+})()</pre>
+<h4>示例</h4>
+<textarea class="demo">
+	&lt;!DOCTYPE html&gt;
+	&lt;html lang=&quot;en&quot;&gt;
+	&lt;head&gt;
+		&lt;meta charset=&quot;UTF-8&quot;&gt;
+		&lt;title&gt;Document&lt;/title&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;h1 id=&quot;content&quot;&gt;&lt;/h1&gt;
+		&lt;form id=&quot;form&quot;&gt;
+			&lt;input type=&quot;text&quot; value=&quot;1&quot; name=&quot;cid&quot;&gt;
+			&lt;input type=&quot;text&quot; value=&quot;20&quot; name=&quot;age&quot;&gt;
+			&lt;input type=&quot;text&quot; name=&quot;userName&quot; id=&quot;userName&quot;&gt;
+			&lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt;
+		&lt;/form&gt;
+		&lt;script src=&quot;tool.js&quot;&gt;&lt;/script&gt;
+		&lt;script&gt;
+		var content = document.getElementById(&quot;content&quot;);
+		var form = document.getElementById(&#x27;form&#x27;)
+		var userName = document.getElementById(&#x27;userName&#x27;)
+		
+		// get方式从服务器获取数据，把数据插入到对应节点
+		Tool.get(&#x27;example.json&#x27;,&#x27;&#x27;,function (data) {
+				console.log(data)
+				content.innerHTML = data.text
+			},function (e) {
+				alert(&#x27;加载数据失败&#x27;)
+			}
+		)
+
+		// post方式提交表单，把返回的数据插入到对应节点
+		form.addEventListener(&#x27;submit&#x27;,function (e) {
+			e.preventDefault()
+			var data = Tool.serialize(form)
+			Tool.get(&#x27;example.json&#x27;,data,function (data) {
+					userName.value = data.name
+				},function (e) {
+					alert(&#x27;加载数据失败&#x27;)
+				}
+			)
+		})
+		&lt;/script&gt;
+	&lt;/body&gt;
+	&lt;/html&gt;
+</textarea>
+<h4>jquery的ajax方法</h4>
+<p>待补充</p>
+<h4>fetch</h4>
+<p>待补充</p>
