@@ -347,6 +347,26 @@ var Tool = (function () {
 	&lt;/html&gt;
 </textarea>
 <h4>jquery的ajax方法</h4>
-<p>待补充</p>
-<h4>fetch</h4>
-<p>待补充</p>
+<h5>$(selector).load(URL,data,callback)</h5>
+<p>加载数据，把返回的数据放入selector中，适合加载文本或者html模板等场景。</p>
+<p>必需的 URL：载的 URL。</p>
+<p>可选的 data： 与请求一同发送的查询字符串键/值对集合。</p>
+<p>可选的 callback： 完成后所执行的函数名称。</p>
+<h5>$.get(URL,callback)</h5>
+<p>通过 HTTP GET 请求从服务器上请求数据</p>
+<p>必需的 URL：请求的 URL。</p>
+<p>可选的 callback ：请求成功后所执行的函数名。</p>
+<h5>$.post(URL,data,callback)</h5>
+<p>通过 HTTP POST 请求从服务器上请求数据</p>
+<p>必需的 URL ：请求的 URL。</p>
+<p>可选的 data ：连同请求发送的数据。</p>
+<p>可选的 callback ：请求成功后所执行的函数名。</p>
+<h5>$.ajax([settings])</h5>
+<p>通过 HTTP 请求加载远程数据</p>
+<p>可选的settings，用于配置 Ajax 请求的键值对集合，可配置的参数很多，如：</p>
+<p>url：请求的地址</p>
+<p>async：是否异步</p>
+<p>data：发送道服务器的数据</p>
+<p>dataType：服务器返回的数据类型</p>
+<p>success：加载成功后的回调</p>
+<p>error：加载失败执行的回调函数</p>
