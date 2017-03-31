@@ -1,0 +1,76 @@
+<h4>浅拷贝</h4>
+<p>浅拷贝有一个问题是如果源对象的属性时数组或者对象，那拷贝的是这个属性的内存地址，改变这个属性，也会一起改变目标对象。</p>
+<p>1，ES6通过Object.assign实现浅拷贝</p>
+<pre>var obj = {
+	name : 'jian',
+	like : ['nba'],
+	score : {
+		chinese : 88
+	}
+}
+var result = Object.assign({},obj)
+// {"name":"jian","like":["nba"],"score":{"chinese":88}}
+console.log(JSON.stringify(obj))
+// {"name":"jian","like":["nba"],"score":{"chinese":88}}
+console.log(JSON.stringify(result))
+obj.like.push('eat')
+// {"name":"jian","like":["nba","eat"],"score":{"chinese":88}}
+console.log(JSON.stringify(obj))
+// {"name":"jian","like":["nba","eat"],"score":{"chinese":88}}
+console.log(JSON.stringify(result))</pre>
+<p>2，通过for in实现浅拷贝</p>
+<pre>var obj = {
+	name : 'jian',
+	like : ['nba'],
+	score : {
+		chinese : 88
+	}
+}
+var result = extendCopy(obj)
+// {"name":"jian","like":["nba"],"score":{"chinese":88}}
+console.log(JSON.stringify(obj))
+// {"name":"jian","like":["nba"],"score":{"chinese":88}}
+console.log(JSON.stringify(result))
+obj.like.push('eat')
+// {"name":"jian","like":["nba","eat"],"score":{"chinese":88}}
+console.log(JSON.stringify(obj))
+// {"name":"jian","like":["nba","eat"],"score":{"chinese":88}}
+console.log(JSON.stringify(result))
+function extendCopy(obj) {
+	var result = {}
+	for(var key in obj){
+		result[key] = obj[key]
+	}
+	return result
+}</pre>
+<h4>深拷贝</h4>
+<p>深拷贝可以解决浅拷贝的问题，可以通过for in实现，如果遍历到的属性时一个数组或对象，继续遍历这个属性。</p>
+<pre>var obj = {
+	name : 'jian',
+	like : ['nba'],
+	score : {
+		chinese : 88
+	}
+}
+var result = deepCopy({},obj)
+// {"name":"jian","like":["nba"],"score":{"chinese":88}}
+console.log(JSON.stringify(obj))
+// {"name":"jian","like":["nba"],"score":{"chinese":88}}
+console.log(JSON.stringify(result))
+obj.like.push('eat')
+// {"name":"jian","like":["nba","eat"],"score":{"chinese":88}}
+console.log(JSON.stringify(obj))
+// {"name":"jian","like":["nba"],"score":{"chinese":88}}
+console.log(JSON.stringify(result))
+function deepCopy(target,source) {
+	var target = target || {}
+	for (var key in source){
+		if (typeof source[key] === 'object') {
+			target[key] = (source[key].constructor === Array) ? [] : {}
+　　　　　　　　	deepCopy(target[key], source[key])
+		}else{
+			target[key] = source[key]
+		}
+	}
+	return target
+}</pre>

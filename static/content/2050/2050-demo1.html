@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		// var obj = {
+		// 	name : 'jian',
+		// 	like : ['nba'],
+		// 	score : {
+		// 		chinese : 88
+		// 	}
+		// }
+		// var result = Object.assign({},obj)
+		// // {"name":"jian","like":["nba"],"score":{"chinese":88}}
+		// console.log(JSON.stringify(obj))
+		// // {"name":"jian","like":["nba"],"score":{"chinese":88}}
+		// console.log(JSON.stringify(result))
+		// obj.like.push('eat')
+		// // {"name":"jian","like":["nba","eat"],"score":{"chinese":88}}
+		// console.log(JSON.stringify(obj))
+		// // {"name":"jian","like":["nba","eat"],"score":{"chinese":88}}
+		// console.log(JSON.stringify(result))
+	</script>
+	<script>
+		// var obj = {
+		// 	name : 'jian',
+		// 	like : ['nba'],
+		// 	score : {
+		// 		chinese : 88
+		// 	}
+		// }
+		// var result = extendCopy(obj)
+		// // {"name":"jian","like":["nba"],"score":{"chinese":88}}
+		// console.log(JSON.stringify(obj))
+		// // {"name":"jian","like":["nba"],"score":{"chinese":88}}
+		// console.log(JSON.stringify(result))
+		// obj.like.push('eat')
+		// // {"name":"jian","like":["nba","eat"],"score":{"chinese":88}}
+		// console.log(JSON.stringify(obj))
+		// // {"name":"jian","like":["nba","eat"],"score":{"chinese":88}}
+		// console.log(JSON.stringify(result))
+		// function extendCopy(obj) {
+		// 	var result = {}
+		// 	for(var key in obj){
+		// 		result[key] = obj[key]
+		// 	}
+		// 	return result
+		// }
+	</script>
+	<script>
+		var obj = {
+			name : 'jian',
+			like : ['nba'],
+			score : {
+				chinese : 88
+			}
+		}
+		var result = deepCopy({},obj)
+		// {"name":"jian","like":["nba"],"score":{"chinese":88}}
+		console.log(JSON.stringify(obj))
+		// {"name":"jian","like":["nba"],"score":{"chinese":88}}
+		console.log(JSON.stringify(result))
+		obj.like.push('eat')
+		// {"name":"jian","like":["nba","eat"],"score":{"chinese":88}}
+		console.log(JSON.stringify(obj))
+		// {"name":"jian","like":["nba"],"score":{"chinese":88}}
+		console.log(JSON.stringify(result))
+		function deepCopy(target,source) {
+			var target = target || {}
+			for (var key in source){
+				if (typeof source[key] === 'object') {
+					target[key] = (source[key].constructor === Array) ? [] : {}
+　　　　　　　　	deepCopy(target[key], source[key])
+				}else{
+					target[key] = source[key]
+				}
+			}
+			return target
+		}
+	</script>
+</body>
+</html>
